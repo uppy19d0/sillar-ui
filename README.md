@@ -11,7 +11,7 @@ Accessible React components and design tokens for consistent product interfaces.
 ## Install
 
 ```bash
-npm install git+https://github.com/uppy19d0/sillar-ui.git#v0.1.1
+npm install git+https://github.com/uppy19d0/sillar-ui.git#v0.2.0
 ```
 
 The package is prepared for a future npm release; the versioned GitHub install is available now.
@@ -44,12 +44,16 @@ export function Example() {
 
 ## Components
 
-- Button with six visual variants, four sizes, and `asChild` composition
+- Button with loading state, six visual variants, seven sizes, and `asChild` composition
+- IconButton with a required accessible label
 - Badge with status and neutral variants
-- Card primitives for flexible content structure
-- Input and Textarea with consistent focus and invalid states
+- Card primitives with default, elevated, subtle, and outline surfaces
+- Input, Textarea, and Field composition with help and error states
+- Accessible Dialog primitives with focus trapping, Escape handling, and scroll locking
+- Callout for information, success, warning, and error messages
 - Separator with decorative and semantic modes
 - Section primitives for product and marketing pages
+- SkipLink and VisuallyHidden accessibility utilities
 - `cn` utility for predictable class composition
 
 ## Theming

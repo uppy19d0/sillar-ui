@@ -17,7 +17,9 @@ export const buttonVariants = cva('slr-button', {
       default: 'slr-button--md',
       sm: 'slr-button--sm',
       lg: 'slr-button--lg',
+      iconSm: 'slr-button--icon-sm',
       icon: 'slr-button--icon',
+      iconLg: 'slr-button--icon-lg',
     },
   },
   defaultVariants: {
@@ -30,20 +32,29 @@ export interface ButtonProps
   extends React.ComponentPropsWithoutRef<'button'>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  loading?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, type, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, type, loading = false, disabled, children, ...props }, ref) => {
     const Component = asChild ? Slot : 'button';
+    const isDisabled = disabled || loading;
 
     return (
       <Component
         ref={ref}
         data-slot="button"
+        data-loading={loading || undefined}
         className={cn(buttonVariants({ variant, size }), className)}
         type={asChild ? undefined : type ?? 'button'}
+        disabled={asChild ? undefined : isDisabled}
+        aria-busy={loading || undefined}
+        aria-disabled={asChild && isDisabled ? true : undefined}
         {...props}
-      />
+      >
+        {loading ? <span className="slr-spinner" aria-hidden="true" /> : null}
+        {children}
+      </Component>
     );
   },
 );

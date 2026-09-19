@@ -1,8 +1,25 @@
 import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from './utils';
 
-export function Card({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
-  return <div data-slot="card" className={cn('slr-card', className)} {...props} />;
+export const cardVariants = cva('slr-card', {
+  variants: {
+    variant: {
+      default: 'slr-card--default',
+      elevated: 'slr-card--elevated',
+      subtle: 'slr-card--subtle',
+      outline: 'slr-card--outline',
+    },
+  },
+  defaultVariants: { variant: 'default' },
+});
+
+export interface CardProps
+  extends React.ComponentPropsWithoutRef<'div'>,
+    VariantProps<typeof cardVariants> {}
+
+export function Card({ className, variant, ...props }: CardProps) {
+  return <div data-slot="card" className={cn(cardVariants({ variant }), className)} {...props} />;
 }
 
 export function CardHeader({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {

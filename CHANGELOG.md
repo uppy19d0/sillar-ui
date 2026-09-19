@@ -2,6 +2,14 @@
 
 All notable changes to Sillar UI are documented here.
 
+## 0.2.0 — 2026-09-19
+
+- Add accessible Dialog primitives powered by Radix UI.
+- Add IconButton, Callout, Field, SkipLink, and VisuallyHidden components.
+- Add Button loading states and three icon sizes.
+- Add four Card surface variants and stronger invalid field states.
+- Expand dark-mode tokens, motion preferences, and component tests.
+
 ## 0.1.1 — 2026-09-19
 
 - Clarify versioned installation from the public GitHub repository.
