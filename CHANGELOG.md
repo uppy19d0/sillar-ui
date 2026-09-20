@@ -2,6 +2,13 @@
 
 All notable changes to Sillar UI are documented here.
 
+## 0.3.0 — 2026-09-20
+
+- Refine component surfaces with clearer hierarchy, layered shadows, and more consistent radii.
+- Improve button depth, hover feedback, outlines, and compact sizing.
+- Improve cards, fields, badges, callouts, and dialogs in light and dark themes.
+- Add more legible typography and calmer focus and border treatments.
+
 ## 0.2.1 — 2026-09-20
 
 - Prevent disabled or loading polymorphic buttons from following links.
