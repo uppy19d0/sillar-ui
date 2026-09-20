@@ -2,6 +2,12 @@
 
 All notable changes to Sillar UI are documented here.
 
+## 0.2.1 — 2026-09-20
+
+- Prevent disabled or loading polymorphic buttons from following links.
+- Preserve the single-child contract when `asChild` is used.
+- Prepare the package for installation from the npm registry.
+
 ## 0.2.0 — 2026-09-19
 
 - Add accessible Dialog primitives powered by Radix UI.

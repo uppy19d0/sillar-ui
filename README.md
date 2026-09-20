@@ -11,7 +11,7 @@ Accessible React components and design tokens for consistent product interfaces.
 ## Install
 
 ```bash
-npm install git+https://github.com/uppy19d0/sillar-ui.git#v0.2.0
+npm install sillar-ui
 ```
 
 The package is prepared for a future npm release; the versioned GitHub install is available now.

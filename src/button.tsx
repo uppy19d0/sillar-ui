@@ -36,9 +36,18 @@ export interface ButtonProps
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, type, loading = false, disabled, children, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, type, loading = false, disabled, children, onClick, tabIndex, ...props }, ref) => {
     const Component = asChild ? Slot : 'button';
     const isDisabled = disabled || loading;
+
+    const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+      if (isDisabled) {
+        event.preventDefault();
+        return;
+      }
+
+      onClick?.(event);
+    };
 
     return (
       <Component
@@ -50,10 +59,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={asChild ? undefined : isDisabled}
         aria-busy={loading || undefined}
         aria-disabled={asChild && isDisabled ? true : undefined}
+        tabIndex={asChild && isDisabled ? -1 : tabIndex}
+        onClick={handleClick}
         {...props}
       >
-        {loading ? <span className="slr-spinner" aria-hidden="true" /> : null}
-        {children}
+        {asChild ? children : (
+          <>
+            {loading ? <span className="slr-spinner" aria-hidden="true" /> : null}
+            {children}
+          </>
+        )}
       </Component>
     );
   },

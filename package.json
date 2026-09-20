@@ -1,6 +1,6 @@
 {
   "name": "sillar-ui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Accessible, typed React primitives and design tokens for consistent product interfaces.",
   "license": "MIT",
   "type": "module",

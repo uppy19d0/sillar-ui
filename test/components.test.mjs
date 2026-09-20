@@ -44,6 +44,20 @@ test('IconButton requires and renders an accessible label', () => {
   assert.match(html, /slr-button--icon-lg/);
 });
 
+test('polymorphic loading buttons preserve a single child', () => {
+  const html = renderToStaticMarkup(
+    React.createElement(
+      Button,
+      { asChild: true, loading: true },
+      React.createElement('a', { href: '/next' }, 'Continue'),
+    ),
+  );
+
+  assert.match(html, /aria-disabled="true"/);
+  assert.match(html, /tabindex="-1"/);
+  assert.doesNotMatch(html, /slr-spinner/);
+});
+
 test('Badge and card primitives render semantic content', () => {
   const html = renderToStaticMarkup(
     React.createElement(

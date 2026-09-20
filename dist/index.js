@@ -1,20 +1,20 @@
-import { jsx as e, jsxs as u } from "react/jsx-runtime";
-import { Slot as f } from "@radix-ui/react-slot";
-import { clsx as D } from "clsx";
-import { twMerge as C } from "tailwind-merge";
-import { cva as d } from "class-variance-authority";
+import { jsx as e, jsxs as m, Fragment as x } from "react/jsx-runtime";
+import { Slot as p } from "@radix-ui/react-slot";
+import { clsx as R } from "clsx";
+import { twMerge as S } from "tailwind-merge";
+import { cva as u } from "class-variance-authority";
 import * as o from "react";
 import * as n from "@radix-ui/react-dialog";
-function l(...a) {
-  return C(D(a));
+function r(...a) {
+  return S(R(a));
 }
-function E({ asChild: a = !1, className: t, ...r }) {
-  return /* @__PURE__ */ e(a ? f : "span", { className: l("slr-visually-hidden", t), ...r });
+function J({ asChild: a = !1, className: t, ...l }) {
+  return /* @__PURE__ */ e(a ? p : "span", { className: r("slr-visually-hidden", t), ...l });
 }
-function M({ className: a, ...t }) {
-  return /* @__PURE__ */ e("a", { className: l("slr-skip-link", a), ...t });
+function K({ className: a, ...t }) {
+  return /* @__PURE__ */ e("a", { className: r("slr-skip-link", a), ...t });
 }
-const h = d("slr-badge", {
+const T = u("slr-badge", {
   variants: {
     variant: {
       default: "slr-badge--default",
@@ -28,17 +28,17 @@ const h = d("slr-badge", {
     variant: "default"
   }
 });
-function q({ className: a, variant: t, asChild: r = !1, ...s }) {
+function Q({ className: a, variant: t, asChild: l = !1, ...s }) {
   return /* @__PURE__ */ e(
-    r ? f : "span",
+    l ? p : "span",
     {
       "data-slot": "badge",
-      className: l(h({ variant: t }), a),
+      className: r(T({ variant: t }), a),
       ...s
     }
   );
 }
-const w = d("slr-button", {
+const V = u("slr-button", {
   variants: {
     variant: {
       default: "slr-button--default",
@@ -61,31 +61,39 @@ const w = d("slr-button", {
     variant: "default",
     size: "default"
   }
-}), p = o.forwardRef(
-  ({ className: a, variant: t, size: r, asChild: s = !1, type: i, loading: c = !1, disabled: v, children: N, ...b }, _) => {
-    const y = s ? f : "button", m = v || c;
-    return /* @__PURE__ */ u(
-      y,
+}), N = o.forwardRef(
+  ({ className: a, variant: t, size: l, asChild: s = !1, type: i, loading: c = !1, disabled: _, children: g, onClick: f, tabIndex: D, ...y }, h) => {
+    const C = s ? p : "button", d = _ || c, w = (v) => {
+      if (d) {
+        v.preventDefault();
+        return;
+      }
+      f == null || f(v);
+    };
+    return /* @__PURE__ */ e(
+      C,
       {
-        ref: _,
+        ref: h,
         "data-slot": "button",
         "data-loading": c || void 0,
-        className: l(w({ variant: t, size: r }), a),
+        className: r(V({ variant: t, size: l }), a),
         type: s ? void 0 : i ?? "button",
-        disabled: s ? void 0 : m,
+        disabled: s ? void 0 : d,
         "aria-busy": c || void 0,
-        "aria-disabled": s && m ? !0 : void 0,
-        ...b,
-        children: [
+        "aria-disabled": s && d ? !0 : void 0,
+        tabIndex: s && d ? -1 : D,
+        onClick: w,
+        ...y,
+        children: s ? g : /* @__PURE__ */ m(x, { children: [
           c ? /* @__PURE__ */ e("span", { className: "slr-spinner", "aria-hidden": "true" }) : null,
-          N
-        ]
+          g
+        ] })
       }
     );
   }
 );
-p.displayName = "Button";
-const R = d("slr-callout", {
+N.displayName = "Button";
+const F = u("slr-callout", {
   variants: {
     variant: {
       info: "slr-callout--info",
@@ -96,27 +104,27 @@ const R = d("slr-callout", {
   },
   defaultVariants: { variant: "info" }
 });
-function A({ className: a, variant: t, ...r }) {
+function U({ className: a, variant: t, ...l }) {
   return /* @__PURE__ */ e(
     "div",
     {
       "data-slot": "callout",
       role: t === "danger" ? "alert" : void 0,
-      className: l(R({ variant: t }), a),
-      ...r
+      className: r(F({ variant: t }), a),
+      ...l
     }
   );
 }
-function G({ className: a, ...t }) {
-  return /* @__PURE__ */ e("span", { "data-slot": "callout-icon", className: l("slr-callout__icon", a), ...t });
+function W({ className: a, ...t }) {
+  return /* @__PURE__ */ e("span", { "data-slot": "callout-icon", className: r("slr-callout__icon", a), ...t });
 }
-function J({ className: a, ...t }) {
-  return /* @__PURE__ */ e("h3", { "data-slot": "callout-title", className: l("slr-callout__title", a), ...t });
+function X({ className: a, ...t }) {
+  return /* @__PURE__ */ e("h3", { "data-slot": "callout-title", className: r("slr-callout__title", a), ...t });
 }
-function K({ className: a, ...t }) {
-  return /* @__PURE__ */ e("div", { "data-slot": "callout-description", className: l("slr-callout__description", a), ...t });
+function Y({ className: a, ...t }) {
+  return /* @__PURE__ */ e("div", { "data-slot": "callout-description", className: r("slr-callout__description", a), ...t });
 }
-const S = d("slr-card", {
+const I = u("slr-card", {
   variants: {
     variant: {
       default: "slr-card--default",
@@ -127,88 +135,88 @@ const S = d("slr-card", {
   },
   defaultVariants: { variant: "default" }
 });
-function Q({ className: a, variant: t, ...r }) {
-  return /* @__PURE__ */ e("div", { "data-slot": "card", className: l(S({ variant: t }), a), ...r });
-}
-function U({ className: a, ...t }) {
-  return /* @__PURE__ */ e("div", { "data-slot": "card-header", className: l("slr-card__header", a), ...t });
-}
-function W({ className: a, ...t }) {
-  return /* @__PURE__ */ e("h3", { "data-slot": "card-title", className: l("slr-card__title", a), ...t });
-}
-function X({ className: a, ...t }) {
-  return /* @__PURE__ */ e("p", { "data-slot": "card-description", className: l("slr-card__description", a), ...t });
-}
-function Y({ className: a, ...t }) {
-  return /* @__PURE__ */ e("div", { "data-slot": "card-action", className: l("slr-card__action", a), ...t });
-}
-function Z({ className: a, ...t }) {
-  return /* @__PURE__ */ e("div", { "data-slot": "card-content", className: l("slr-card__content", a), ...t });
+function Z({ className: a, variant: t, ...l }) {
+  return /* @__PURE__ */ e("div", { "data-slot": "card", className: r(I({ variant: t }), a), ...l });
 }
 function $({ className: a, ...t }) {
-  return /* @__PURE__ */ e("div", { "data-slot": "card-footer", className: l("slr-card__footer", a), ...t });
+  return /* @__PURE__ */ e("div", { "data-slot": "card-header", className: r("slr-card__header", a), ...t });
 }
-const aa = n.Root, ta = n.Trigger, T = n.Portal, ea = n.Close, g = o.forwardRef(({ className: a, ...t }, r) => /* @__PURE__ */ e(
+function aa({ className: a, ...t }) {
+  return /* @__PURE__ */ e("h3", { "data-slot": "card-title", className: r("slr-card__title", a), ...t });
+}
+function ta({ className: a, ...t }) {
+  return /* @__PURE__ */ e("p", { "data-slot": "card-description", className: r("slr-card__description", a), ...t });
+}
+function ea({ className: a, ...t }) {
+  return /* @__PURE__ */ e("div", { "data-slot": "card-action", className: r("slr-card__action", a), ...t });
+}
+function ra({ className: a, ...t }) {
+  return /* @__PURE__ */ e("div", { "data-slot": "card-content", className: r("slr-card__content", a), ...t });
+}
+function la({ className: a, ...t }) {
+  return /* @__PURE__ */ e("div", { "data-slot": "card-footer", className: r("slr-card__footer", a), ...t });
+}
+const sa = n.Root, oa = n.Trigger, z = n.Portal, na = n.Close, b = o.forwardRef(({ className: a, ...t }, l) => /* @__PURE__ */ e(
   n.Overlay,
   {
-    ref: r,
+    ref: l,
     "data-slot": "dialog-overlay",
-    className: l("slr-dialog__overlay", a),
+    className: r("slr-dialog__overlay", a),
     ...t
   }
 ));
-g.displayName = "DialogOverlay";
-const x = o.forwardRef(({ className: a, overlayClassName: t, children: r, ...s }, i) => /* @__PURE__ */ u(T, { children: [
-  /* @__PURE__ */ e(g, { className: t }),
+b.displayName = "DialogOverlay";
+const B = o.forwardRef(({ className: a, overlayClassName: t, children: l, ...s }, i) => /* @__PURE__ */ m(z, { children: [
+  /* @__PURE__ */ e(b, { className: t }),
   /* @__PURE__ */ e(
     n.Content,
     {
       ref: i,
       "data-slot": "dialog-content",
-      className: l("slr-dialog__content", a),
+      className: r("slr-dialog__content", a),
       ...s,
-      children: r
+      children: l
     }
   )
 ] }));
-x.displayName = "DialogContent";
-const la = ({ className: a, ...t }) => /* @__PURE__ */ e("div", { "data-slot": "dialog-header", className: l("slr-dialog__header", a), ...t }), ra = ({ className: a, ...t }) => /* @__PURE__ */ e("div", { "data-slot": "dialog-footer", className: l("slr-dialog__footer", a), ...t }), V = o.forwardRef(({ className: a, ...t }, r) => /* @__PURE__ */ e(n.Title, { ref: r, className: l("slr-dialog__title", a), ...t }));
-V.displayName = "DialogTitle";
-const k = o.forwardRef(({ className: a, ...t }, r) => /* @__PURE__ */ e(n.Description, { ref: r, className: l("slr-dialog__description", a), ...t }));
-k.displayName = "DialogDescription";
-function sa({ className: a, invalid: t = !1, ...r }) {
+B.displayName = "DialogContent";
+const ia = ({ className: a, ...t }) => /* @__PURE__ */ e("div", { "data-slot": "dialog-header", className: r("slr-dialog__header", a), ...t }), ca = ({ className: a, ...t }) => /* @__PURE__ */ e("div", { "data-slot": "dialog-footer", className: r("slr-dialog__footer", a), ...t }), k = o.forwardRef(({ className: a, ...t }, l) => /* @__PURE__ */ e(n.Title, { ref: l, className: r("slr-dialog__title", a), ...t }));
+k.displayName = "DialogTitle";
+const H = o.forwardRef(({ className: a, ...t }, l) => /* @__PURE__ */ e(n.Description, { ref: l, className: r("slr-dialog__description", a), ...t }));
+H.displayName = "DialogDescription";
+function da({ className: a, invalid: t = !1, ...l }) {
   return /* @__PURE__ */ e(
     "div",
     {
       "data-slot": "field",
       "data-invalid": t || void 0,
-      className: l("slr-field-group", a),
-      ...r
+      className: r("slr-field-group", a),
+      ...l
     }
   );
 }
-function oa({ className: a, required: t = !1, children: r, ...s }) {
-  return /* @__PURE__ */ u("label", { "data-slot": "field-label", className: l("slr-field-label", a), ...s, children: [
-    r,
+function ua({ className: a, required: t = !1, children: l, ...s }) {
+  return /* @__PURE__ */ m("label", { "data-slot": "field-label", className: r("slr-field-label", a), ...s, children: [
+    l,
     t ? /* @__PURE__ */ e("span", { className: "slr-field-required", "aria-hidden": "true", children: "*" }) : null
   ] });
 }
-function na({ className: a, ...t }) {
-  return /* @__PURE__ */ e("p", { "data-slot": "field-description", className: l("slr-field-description", a), ...t });
+function fa({ className: a, ...t }) {
+  return /* @__PURE__ */ e("p", { "data-slot": "field-description", className: r("slr-field-description", a), ...t });
 }
-function ia({ className: a, ...t }) {
-  return /* @__PURE__ */ e("p", { "data-slot": "field-error", role: "alert", className: l("slr-field-error", a), ...t });
+function ma({ className: a, ...t }) {
+  return /* @__PURE__ */ e("p", { "data-slot": "field-error", role: "alert", className: r("slr-field-error", a), ...t });
 }
-const F = {
+const L = {
   sm: "iconSm",
   default: "icon",
   lg: "iconLg"
-}, z = o.forwardRef(
-  ({ label: a, tooltip: t, size: r = "default", children: s, ...i }, c) => /* @__PURE__ */ e(
-    p,
+}, O = o.forwardRef(
+  ({ label: a, tooltip: t, size: l = "default", children: s, ...i }, c) => /* @__PURE__ */ e(
+    N,
     {
       ref: c,
-      size: F[r],
+      size: L[l],
       "aria-label": a,
       title: t,
       ...i,
@@ -216,39 +224,39 @@ const F = {
     }
   )
 );
-z.displayName = "IconButton";
-const B = o.forwardRef(
-  ({ className: a, type: t, ...r }, s) => /* @__PURE__ */ e(
+O.displayName = "IconButton";
+const P = o.forwardRef(
+  ({ className: a, type: t, ...l }, s) => /* @__PURE__ */ e(
     "input",
     {
       ref: s,
       type: t,
       "data-slot": "input",
-      className: l("slr-field slr-input", a),
-      ...r
+      className: r("slr-field slr-input", a),
+      ...l
     }
   )
 );
-B.displayName = "Input";
-function ca({ className: a, containerClassName: t, children: r, ...s }) {
-  return /* @__PURE__ */ e("section", { className: l("slr-section", a), ...s, children: /* @__PURE__ */ e("div", { className: l("slr-container", t), children: r }) });
+P.displayName = "Input";
+function pa({ className: a, containerClassName: t, children: l, ...s }) {
+  return /* @__PURE__ */ e("section", { className: r("slr-section", a), ...s, children: /* @__PURE__ */ e("div", { className: r("slr-container", t), children: l }) });
 }
-function da({ className: a, ...t }) {
-  return /* @__PURE__ */ e("header", { className: l("slr-section-header", a), ...t });
+function ga({ className: a, ...t }) {
+  return /* @__PURE__ */ e("header", { className: r("slr-section-header", a), ...t });
 }
-function ua({ className: a, ...t }) {
-  return /* @__PURE__ */ e("span", { className: l("slr-eyebrow", a), ...t });
+function va({ className: a, ...t }) {
+  return /* @__PURE__ */ e("span", { className: r("slr-eyebrow", a), ...t });
 }
-function fa({ className: a, ...t }) {
-  return /* @__PURE__ */ e("h2", { className: l("slr-section-title", a), ...t });
+function Na({ className: a, ...t }) {
+  return /* @__PURE__ */ e("h2", { className: r("slr-section-title", a), ...t });
 }
-function ma({ className: a, ...t }) {
-  return /* @__PURE__ */ e("p", { className: l("slr-section-description", a), ...t });
+function ba({ className: a, ...t }) {
+  return /* @__PURE__ */ e("p", { className: r("slr-section-description", a), ...t });
 }
-function pa({
+function _a({
   className: a,
   orientation: t = "horizontal",
-  decorative: r = !0,
+  decorative: l = !0,
   ...s
 }) {
   return /* @__PURE__ */ e(
@@ -256,68 +264,68 @@ function pa({
     {
       "data-slot": "separator",
       "data-orientation": t,
-      role: r ? "none" : "separator",
-      "aria-orientation": r ? void 0 : t,
-      className: l("slr-separator", a),
+      role: l ? "none" : "separator",
+      "aria-orientation": l ? void 0 : t,
+      className: r("slr-separator", a),
       ...s
     }
   );
 }
-const I = o.forwardRef(
-  ({ className: a, ...t }, r) => /* @__PURE__ */ e(
+const j = o.forwardRef(
+  ({ className: a, ...t }, l) => /* @__PURE__ */ e(
     "textarea",
     {
-      ref: r,
+      ref: l,
       "data-slot": "textarea",
-      className: l("slr-field slr-textarea", a),
+      className: r("slr-field slr-textarea", a),
       ...t
     }
   )
 );
-I.displayName = "Textarea";
+j.displayName = "Textarea";
 export {
-  q as Badge,
-  p as Button,
-  A as Callout,
-  K as CalloutDescription,
-  G as CalloutIcon,
-  J as CalloutTitle,
-  Q as Card,
-  Y as CardAction,
-  Z as CardContent,
-  X as CardDescription,
-  $ as CardFooter,
-  U as CardHeader,
-  W as CardTitle,
-  aa as Dialog,
-  ea as DialogClose,
-  x as DialogContent,
-  k as DialogDescription,
-  ra as DialogFooter,
-  la as DialogHeader,
-  g as DialogOverlay,
-  T as DialogPortal,
-  V as DialogTitle,
-  ta as DialogTrigger,
-  sa as Field,
-  na as FieldDescription,
-  ia as FieldError,
-  oa as FieldLabel,
-  z as IconButton,
-  B as Input,
-  ca as Section,
-  ma as SectionDescription,
-  ua as SectionEyebrow,
-  da as SectionHeader,
-  fa as SectionTitle,
-  pa as Separator,
-  M as SkipLink,
-  I as Textarea,
-  E as VisuallyHidden,
-  h as badgeVariants,
-  w as buttonVariants,
-  R as calloutVariants,
-  S as cardVariants,
-  l as cn
+  Q as Badge,
+  N as Button,
+  U as Callout,
+  Y as CalloutDescription,
+  W as CalloutIcon,
+  X as CalloutTitle,
+  Z as Card,
+  ea as CardAction,
+  ra as CardContent,
+  ta as CardDescription,
+  la as CardFooter,
+  $ as CardHeader,
+  aa as CardTitle,
+  sa as Dialog,
+  na as DialogClose,
+  B as DialogContent,
+  H as DialogDescription,
+  ca as DialogFooter,
+  ia as DialogHeader,
+  b as DialogOverlay,
+  z as DialogPortal,
+  k as DialogTitle,
+  oa as DialogTrigger,
+  da as Field,
+  fa as FieldDescription,
+  ma as FieldError,
+  ua as FieldLabel,
+  O as IconButton,
+  P as Input,
+  pa as Section,
+  ba as SectionDescription,
+  va as SectionEyebrow,
+  ga as SectionHeader,
+  Na as SectionTitle,
+  _a as Separator,
+  K as SkipLink,
+  j as Textarea,
+  J as VisuallyHidden,
+  T as badgeVariants,
+  V as buttonVariants,
+  F as calloutVariants,
+  I as cardVariants,
+  r as cn
 };
 //# sourceMappingURL=index.js.map
