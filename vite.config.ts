@@ -15,8 +15,6 @@ export default defineConfig({
         'react',
         'react-dom',
         'react/jsx-runtime',
-        '@radix-ui/react-dialog',
-        '@radix-ui/react-slot',
         'class-variance-authority',
         'clsx',
         'tailwind-merge',

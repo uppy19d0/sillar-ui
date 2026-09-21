@@ -6,15 +6,13 @@
 
 <p align="center">Accessible React building blocks for consistent product interfaces.</p>
 
-Accessible React components and design tokens for consistent product interfaces. The package is small, typed, themeable with CSS custom properties, and works without a Tailwind runtime.
+Accessible React components and design tokens for consistent product interfaces. The package is small, typed, themeable with CSS custom properties, and works without a Tailwind runtime. Its interactive primitives are implemented by Sillar UI and do not depend on Radix UI.
 
 ## Install
 
 ```bash
 npm install sillar-ui
 ```
-
-The package is prepared for a future npm release; the versioned GitHub install is available now.
 
 Import the stylesheet once at the application entry point:
 
@@ -50,6 +48,9 @@ export function Example() {
 - Card primitives with default, elevated, subtle, and outline surfaces
 - Input, Textarea, and Field composition with help and error states
 - Accessible Dialog primitives with focus trapping, Escape handling, and scroll locking
+- DropdownMenu with positioning, outside-click dismissal, and full keyboard navigation
+- Native Select, Label, and accessible controlled or uncontrolled Switch
+- Slot for polymorphic composition without a third-party primitive layer
 - Callout for information, success, warning, and error messages
 - Separator with decorative and semantic modes
 - Section primitives for product and marketing pages
@@ -77,7 +78,7 @@ npm install
 npm run check
 ```
 
-Contributions are welcome through issues and pull requests. Please keep public APIs typed and preserve keyboard focus behavior.
+Contributions are welcome through issues and pull requests. Please keep public APIs typed and preserve keyboard focus behavior. `npm run check` also verifies that the published runtime stays free of Radix dependencies.
 
 The component source lives in `src/`, declarations and distributable assets are generated in `dist/`, and smoke tests verify the public build exactly as consumers import it.
 

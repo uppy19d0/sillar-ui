@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Slot } from '@radix-ui/react-slot';
+import { Slot } from './slot';
 import { cn } from './utils';
 
 export interface VisuallyHiddenProps extends React.ComponentPropsWithoutRef<'span'> {

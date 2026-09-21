@@ -33,7 +33,23 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  type DialogContentProps,
+  type DialogPortalProps,
+  type DialogProps,
 } from './dialog';
+export {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  type DropdownMenuContentProps,
+  type DropdownMenuItemProps,
+  type DropdownMenuProps,
+} from './dropdown-menu';
 export {
   Field,
   FieldDescription,
@@ -44,6 +60,8 @@ export {
 } from './field';
 export { IconButton, type IconButtonProps } from './icon-button';
 export { Input } from './input';
+export { Label } from './label';
+export { Select, type SelectProps } from './select';
 export {
   Section,
   SectionDescription,
@@ -53,5 +71,7 @@ export {
   type SectionProps,
 } from './section';
 export { Separator, type SeparatorProps } from './separator';
+export { Slot, type SlotProps } from './slot';
+export { Switch, type SwitchProps } from './switch';
 export { Textarea } from './textarea';
 export { cn } from './utils';

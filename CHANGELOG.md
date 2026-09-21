@@ -2,6 +2,13 @@
 
 All notable changes to Sillar UI are documented here.
 
+## 0.4.0 — 2026-09-20
+
+- Replace Radix Slot and Dialog with Sillar-owned accessible primitives.
+- Add Sillar-owned DropdownMenu, Select, Switch, Label, and Slot components.
+- Add focus trapping, Escape handling, focus restoration, scroll locking, and keyboard menu navigation.
+- Remove all `@radix-ui/*` runtime dependencies.
+
 ## 0.3.0 — 2026-09-20
 
 - Refine component surfaces with clearer hierarchy, layered shadows, and more consistent radii.

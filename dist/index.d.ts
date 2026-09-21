@@ -4,12 +4,17 @@ export { Badge, badgeVariants, type BadgeProps } from './badge';
 export { Button, buttonVariants, type ButtonProps } from './button';
 export { Callout, CalloutDescription, CalloutIcon, CalloutTitle, calloutVariants, type CalloutProps, } from './callout';
 export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, cardVariants, type CardProps, } from './card';
-export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, } from './dialog';
+export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, type DialogContentProps, type DialogPortalProps, type DialogProps, } from './dialog';
+export { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuTrigger, type DropdownMenuContentProps, type DropdownMenuItemProps, type DropdownMenuProps, } from './dropdown-menu';
 export { Field, FieldDescription, FieldError, FieldLabel, type FieldLabelProps, type FieldProps, } from './field';
 export { IconButton, type IconButtonProps } from './icon-button';
 export { Input } from './input';
+export { Label } from './label';
+export { Select, type SelectProps } from './select';
 export { Section, SectionDescription, SectionEyebrow, SectionHeader, SectionTitle, type SectionProps, } from './section';
 export { Separator, type SeparatorProps } from './separator';
+export { Slot, type SlotProps } from './slot';
+export { Switch, type SwitchProps } from './switch';
 export { Textarea } from './textarea';
 export { cn } from './utils';
 //# sourceMappingURL=index.d.ts.map

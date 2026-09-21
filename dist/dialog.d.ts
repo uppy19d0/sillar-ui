@@ -1,15 +1,30 @@
 import * as React from 'react';
-import * as DialogPrimitive from '@radix-ui/react-dialog';
-export declare const Dialog: React.FC<DialogPrimitive.DialogProps>;
-export declare const DialogTrigger: React.ForwardRefExoticComponent<DialogPrimitive.DialogTriggerProps & React.RefAttributes<HTMLButtonElement>>;
-export declare const DialogPortal: React.FC<DialogPrimitive.DialogPortalProps>;
-export declare const DialogClose: React.ForwardRefExoticComponent<DialogPrimitive.DialogCloseProps & React.RefAttributes<HTMLButtonElement>>;
-export declare const DialogOverlay: React.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogOverlayProps & React.RefAttributes<HTMLDivElement>, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export declare const DialogContent: React.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogContentProps & React.RefAttributes<HTMLDivElement>, "ref"> & {
+export interface DialogProps {
+    open?: boolean;
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    children: React.ReactNode;
+}
+export declare function Dialog({ open, defaultOpen, onOpenChange, children }: DialogProps): React.JSX.Element;
+interface DialogActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    asChild?: boolean;
+}
+export declare const DialogTrigger: React.ForwardRefExoticComponent<DialogActionProps & React.RefAttributes<HTMLButtonElement>>;
+export declare const DialogClose: React.ForwardRefExoticComponent<DialogActionProps & React.RefAttributes<HTMLButtonElement>>;
+export interface DialogPortalProps {
+    children: React.ReactNode;
+    container?: Element | DocumentFragment | null;
+}
+export declare function DialogPortal({ children, container }: DialogPortalProps): React.ReactPortal | null;
+export declare const DialogOverlay: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>>;
+export interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
     overlayClassName?: string;
-} & React.RefAttributes<HTMLDivElement>>;
-export declare const DialogHeader: ({ className, ...props }: React.ComponentPropsWithoutRef<"div">) => React.JSX.Element;
-export declare const DialogFooter: ({ className, ...props }: React.ComponentPropsWithoutRef<"div">) => React.JSX.Element;
-export declare const DialogTitle: React.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogTitleProps & React.RefAttributes<HTMLHeadingElement>, "ref"> & React.RefAttributes<HTMLHeadingElement>>;
-export declare const DialogDescription: React.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogDescriptionProps & React.RefAttributes<HTMLParagraphElement>, "ref"> & React.RefAttributes<HTMLParagraphElement>>;
+    onEscapeKeyDown?: (event: KeyboardEvent) => void;
+}
+export declare const DialogContent: React.ForwardRefExoticComponent<DialogContentProps & React.RefAttributes<HTMLDivElement>>;
+export declare const DialogHeader: ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => React.JSX.Element;
+export declare const DialogFooter: ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => React.JSX.Element;
+export declare const DialogTitle: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLHeadingElement> & React.RefAttributes<HTMLHeadingElement>>;
+export declare const DialogDescription: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLParagraphElement> & React.RefAttributes<HTMLParagraphElement>>;
+export {};
 //# sourceMappingURL=dialog.d.ts.map

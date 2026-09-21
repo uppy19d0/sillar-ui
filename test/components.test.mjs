@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -8,10 +9,17 @@ import {
   Callout,
   Card,
   CardTitle,
+  Dialog,
+  DialogTrigger,
+  DropdownMenu,
+  DropdownMenuTrigger,
   FieldLabel,
   IconButton,
+  Label,
+  Select,
   Separator,
   SkipLink,
+  Switch,
 } from '../dist/index.js';
 
 test('Button includes its variant, size, and safe default type', () => {
@@ -102,4 +110,48 @@ test('Separator can opt into semantic separator behavior', () => {
 
   assert.match(html, /role="separator"/);
   assert.match(html, /aria-orientation="vertical"/);
+});
+
+test('form primitives render native accessible controls', () => {
+  const html = renderToStaticMarkup(
+    React.createElement(
+      React.Fragment,
+      null,
+      React.createElement(Label, { htmlFor: 'role' }, 'Role'),
+      React.createElement(
+        Select,
+        { id: 'role', defaultValue: 'developer' },
+        React.createElement('option', { value: 'developer' }, 'Developer'),
+      ),
+      React.createElement(Switch, { defaultChecked: true, 'aria-label': 'Available for work' }),
+    ),
+  );
+
+  assert.match(html, /<label[^>]*for="role"/);
+  assert.match(html, /<select[^>]*id="role"/);
+  assert.match(html, /role="switch"/);
+  assert.match(html, /aria-checked="true"/);
+});
+
+test('dialog and menu triggers expose their state to assistive technology', () => {
+  const dialog = renderToStaticMarkup(
+    React.createElement(Dialog, null, React.createElement(DialogTrigger, null, 'Open dialog')),
+  );
+  const menu = renderToStaticMarkup(
+    React.createElement(DropdownMenu, null, React.createElement(DropdownMenuTrigger, null, 'Open menu')),
+  );
+
+  assert.match(dialog, /aria-haspopup="dialog"/);
+  assert.match(dialog, /aria-expanded="false"/);
+  assert.match(menu, /aria-haspopup="menu"/);
+  assert.match(menu, /aria-expanded="false"/);
+});
+
+test('published package and bundle have no Radix runtime dependency', async () => {
+  const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
+  const bundle = await readFile(new URL('../dist/index.js', import.meta.url), 'utf8');
+  const dependencies = Object.keys(packageJson.dependencies ?? {});
+
+  assert.equal(dependencies.some((dependency) => dependency.startsWith('@radix-ui/')), false);
+  assert.doesNotMatch(bundle, /@radix-ui\//);
 });
