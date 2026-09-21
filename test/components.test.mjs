@@ -149,9 +149,12 @@ test('dialog and menu triggers expose their state to assistive technology', () =
 
 test('published package and bundle have no Radix runtime dependency', async () => {
   const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
+  const packageLock = JSON.parse(await readFile(new URL('../package-lock.json', import.meta.url), 'utf8'));
   const bundle = await readFile(new URL('../dist/index.js', import.meta.url), 'utf8');
   const dependencies = Object.keys(packageJson.dependencies ?? {});
+  const lockedPackages = Object.keys(packageLock.packages ?? {});
 
   assert.equal(dependencies.some((dependency) => dependency.startsWith('@radix-ui/')), false);
+  assert.equal(lockedPackages.some((packagePath) => packagePath.includes('node_modules/@radix-ui/')), false);
   assert.doesNotMatch(bundle, /@radix-ui\//);
 });
