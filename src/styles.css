@@ -306,7 +306,10 @@
   font-family: var(--slr-font-sans);
   box-shadow: var(--slr-shadow-dialog);
   animation: slr-menu-in 140ms ease-out;
+  transform-origin: var(--slr-dropdown-transform-origin, top center);
 }
+
+.slr-dropdown__content[data-side="top"] { --slr-dropdown-transform-origin: bottom center; }
 
 .slr-dropdown__item {
   display: flex;
@@ -337,19 +340,25 @@
 .slr-dropdown__label { padding: 0.5rem 0.65rem; color: var(--slr-color-muted); font-size: 0.75rem; font-weight: 760; }
 .slr-dropdown__separator { height: 1px; margin: 0.3rem -0.05rem; border: 0; background: var(--slr-color-border); }
 
-.slr-dialog__overlay {
+.slr-dialog__portal {
   position: fixed;
   inset: 0;
   z-index: 80;
+  pointer-events: none;
+}
+
+.slr-dialog__overlay {
+  position: fixed;
+  inset: 0;
   background: rgba(2, 6, 23, 0.68);
   backdrop-filter: blur(10px) saturate(0.9);
   animation: slr-fade-in 180ms ease-out;
+  pointer-events: auto;
 }
 .slr-dialog__content {
   position: fixed;
   top: 50%;
   left: 50%;
-  z-index: 81;
   width: min(calc(100vw - 2rem), 34rem);
   max-height: calc(100dvh - 2rem);
   overflow: auto;
@@ -361,11 +370,65 @@
   padding: 1.5rem;
   box-shadow: var(--slr-shadow-dialog);
   animation: slr-dialog-in 200ms ease-out;
+  pointer-events: auto;
 }
 .slr-dialog__header { display: grid; gap: 0.5rem; }
 .slr-dialog__footer { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; }
 .slr-dialog__title { margin: 0; color: var(--slr-color-text); font-family: var(--slr-font-sans); font-size: 1.15rem; font-weight: 750; line-height: 1.35; }
 .slr-dialog__description { margin: 0; color: var(--slr-color-muted); font-family: var(--slr-font-sans); font-size: 0.9rem; line-height: 1.6; }
+
+.slr-tabs { display: grid; gap: 1rem; min-width: 0; }
+.slr-tabs__list {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  gap: 0.25rem;
+  overflow-x: auto;
+  border: 1px solid var(--slr-color-border);
+  border-radius: var(--slr-radius-sm);
+  background: var(--slr-color-secondary);
+  padding: 0.25rem;
+  scrollbar-width: thin;
+}
+.slr-tabs__list[data-orientation="vertical"] {
+  flex-direction: column;
+  align-items: stretch;
+  overflow: visible;
+}
+.slr-tabs__trigger {
+  display: inline-flex;
+  min-height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--slr-color-muted);
+  padding: 0.45rem 0.8rem;
+  font-family: var(--slr-font-sans);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+.slr-tabs__trigger:hover:not(:disabled) { color: var(--slr-color-text); }
+.slr-tabs__trigger[data-state="active"] {
+  border-color: color-mix(in srgb, var(--slr-color-border) 72%, transparent);
+  background: var(--slr-color-surface);
+  color: var(--slr-color-text);
+  box-shadow: var(--slr-shadow-xs);
+}
+.slr-tabs__trigger:focus-visible { outline: none; box-shadow: var(--slr-shadow-focus); }
+.slr-tabs__trigger:disabled { cursor: not-allowed; opacity: 0.5; }
+.slr-tabs__content {
+  min-width: 0;
+  color: var(--slr-color-text);
+  font-family: var(--slr-font-sans);
+}
+.slr-tabs__content:focus-visible { outline: none; border-radius: var(--slr-radius-sm); box-shadow: var(--slr-shadow-focus); }
 
 .slr-visually-hidden {
   position: absolute !important;
@@ -403,7 +466,7 @@
 @keyframes slr-menu-in { from { opacity: 0; transform: translateY(-0.25rem) scale(0.98); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .slr-button, .slr-card, .slr-skip-link, .slr-switch, .slr-switch__thumb { transition: none; }
+  .slr-button, .slr-card, .slr-skip-link, .slr-switch, .slr-switch__thumb, .slr-tabs__trigger { transition: none; }
   .slr-button:hover:not(:disabled) { transform: none; }
   .slr-spinner, .slr-dialog__overlay, .slr-dialog__content, .slr-dropdown__content { animation: none; }
 }

@@ -1,6 +1,6 @@
 {
   "name": "sillar-ui",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Accessible, typed React primitives and design tokens for consistent product interfaces.",
   "license": "MIT",
   "type": "module",
@@ -11,7 +11,9 @@
     "assets",
     "dist",
     "CHANGELOG.md",
+    "QUALITY.md",
     "README.md",
+    "SECURITY.md",
     "LICENSE"
   ],
   "main": "./dist/index.js",
@@ -26,9 +28,10 @@
   },
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json",
+    "size": "node scripts/check-size.mjs",
     "test": "node --test test/*.test.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "check": "npm run typecheck && npm run build && npm test",
+    "check": "npm run typecheck && npm run build && npm run size && npm test",
     "prepublishOnly": "npm run check"
   },
   "peerDependencies": {
@@ -44,6 +47,8 @@
     "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^3.10.2",
+    "axe-core": "^4.13.0",
+    "jsdom": "^26.1.0",
     "typescript": "^5.9.3",
     "vite": "6.4.3"
   },

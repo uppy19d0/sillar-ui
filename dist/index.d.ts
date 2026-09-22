@@ -5,7 +5,7 @@ export { Button, buttonVariants, type ButtonProps } from './button';
 export { Callout, CalloutDescription, CalloutIcon, CalloutTitle, calloutVariants, type CalloutProps, } from './callout';
 export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, cardVariants, type CardProps, } from './card';
 export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, type DialogContentProps, type DialogPortalProps, type DialogProps, } from './dialog';
-export { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuTrigger, type DropdownMenuContentProps, type DropdownMenuItemProps, type DropdownMenuProps, } from './dropdown-menu';
+export { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuTrigger, type DropdownMenuContentProps, type DropdownMenuItemProps, type DropdownMenuPortalProps, type DropdownMenuProps, } from './dropdown-menu';
 export { Field, FieldDescription, FieldError, FieldLabel, type FieldLabelProps, type FieldProps, } from './field';
 export { IconButton, type IconButtonProps } from './icon-button';
 export { Input } from './input';
@@ -15,6 +15,7 @@ export { Section, SectionDescription, SectionEyebrow, SectionHeader, SectionTitl
 export { Separator, type SeparatorProps } from './separator';
 export { Slot, type SlotProps } from './slot';
 export { Switch, type SwitchProps } from './switch';
+export { Tabs, TabsContent, TabsList, TabsTrigger, type TabsContentProps, type TabsProps, type TabsTriggerProps, } from './tabs';
 export { Textarea } from './textarea';
 export { cn } from './utils';
 //# sourceMappingURL=index.d.ts.map

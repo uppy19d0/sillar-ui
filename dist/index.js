@@ -1,50 +1,50 @@
-import { jsx as o, jsxs as I, Fragment as V } from "react/jsx-runtime";
-import * as a from "react";
-import { clsx as q } from "clsx";
-import { twMerge as z } from "tailwind-merge";
-import { cva as S } from "class-variance-authority";
-import { createPortal as T } from "react-dom";
-function s(...t) {
-  return z(q(t));
+import { jsx as i, jsxs as z, Fragment as ot } from "react/jsx-runtime";
+import * as s from "react";
+import { clsx as st } from "clsx";
+import { twMerge as it } from "tailwind-merge";
+import { cva as q } from "class-variance-authority";
+import { createPortal as G } from "react-dom";
+function d(...e) {
+  return it(st(e));
 }
-function x(...t) {
-  return (e) => {
-    t.forEach((r) => {
-      typeof r == "function" ? r(e) : r && (r.current = e);
+function P(...e) {
+  return (t) => {
+    e.forEach((r) => {
+      typeof r == "function" ? r(t) : r && (r.current = t);
     });
   };
 }
-function B(t, e) {
+function lt(e, t) {
   return (r) => {
-    t == null || t(r), r.defaultPrevented || e == null || e(r);
+    e == null || e(r), r.defaultPrevented || t == null || t(r);
   };
 }
-const R = a.forwardRef(
-  ({ children: t, ...e }, r) => {
-    if (!a.isValidElement(t))
+const V = s.forwardRef(
+  ({ children: e, ...t }, r) => {
+    if (!s.isValidElement(e))
       throw new Error("Sillar UI Slot expects exactly one valid React element.");
-    const n = t.props, c = { ...e, ...n };
-    Object.keys(e).forEach((i) => {
-      /^on[A-Z]/.test(i) && typeof e[i] == "function" && (c[i] = B(
-        n[i],
-        e[i]
+    const n = e.props, o = { ...t, ...n };
+    Object.keys(t).forEach((l) => {
+      /^on[A-Z]/.test(l) && typeof t[l] == "function" && (o[l] = lt(
+        n[l],
+        t[l]
       ));
-    }), c.className = s(e.className, n.className), c.style = {
-      ...e.style,
+    }), o.className = d(t.className, n.className), o.style = {
+      ...t.style,
       ...n.style
     };
-    const d = n.ref ?? t.ref;
-    return c.ref = x(r, d), a.cloneElement(t, c);
+    const a = n.ref ?? e.ref;
+    return o.ref = P(r, a), s.cloneElement(e, o);
   }
 );
-R.displayName = "Slot";
-function fe({ asChild: t = !1, className: e, ...r }) {
-  return /* @__PURE__ */ o(t ? R : "span", { className: s("slr-visually-hidden", e), ...r });
+V.displayName = "Slot";
+function qt({ asChild: e = !1, className: t, ...r }) {
+  return /* @__PURE__ */ i(e ? V : "span", { className: d("slr-visually-hidden", t), ...r });
 }
-function pe({ className: t, ...e }) {
-  return /* @__PURE__ */ o("a", { className: s("slr-skip-link", t), ...e });
+function Ht({ className: e, ...t }) {
+  return /* @__PURE__ */ i("a", { className: d("slr-skip-link", e), ...t });
 }
-const C = S("slr-badge", {
+const ct = q("slr-badge", {
   variants: {
     variant: {
       default: "slr-badge--default",
@@ -58,17 +58,17 @@ const C = S("slr-badge", {
     variant: "default"
   }
 });
-function me({ className: t, variant: e, asChild: r = !1, ...n }) {
-  return /* @__PURE__ */ o(
-    r ? R : "span",
+function Ut({ className: e, variant: t, asChild: r = !1, ...n }) {
+  return /* @__PURE__ */ i(
+    r ? V : "span",
     {
       "data-slot": "badge",
-      className: s(C({ variant: e }), t),
+      className: d(ct({ variant: t }), e),
       ...n
     }
   );
 }
-const j = S("slr-button", {
+const dt = q("slr-button", {
   variants: {
     variant: {
       default: "slr-button--default",
@@ -91,39 +91,39 @@ const j = S("slr-button", {
     variant: "default",
     size: "default"
   }
-}), P = a.forwardRef(
-  ({ className: t, variant: e, size: r, asChild: n = !1, type: c, loading: d = !1, disabled: i, children: m, onClick: l, tabIndex: g, ...w }, D) => {
-    const y = n ? R : "button", u = i || d, b = (f) => {
-      if (u) {
-        f.preventDefault();
+}), X = s.forwardRef(
+  ({ className: e, variant: t, size: r, asChild: n = !1, type: o, loading: a = !1, disabled: l, children: b, onClick: w, tabIndex: c, ...y }, f) => {
+    const m = n ? V : "button", g = l || a, T = (x) => {
+      if (g) {
+        x.preventDefault();
         return;
       }
-      l == null || l(f);
+      w == null || w(x);
     };
-    return /* @__PURE__ */ o(
-      y,
+    return /* @__PURE__ */ i(
+      m,
       {
-        ref: D,
+        ref: f,
         "data-slot": "button",
-        "data-loading": d || void 0,
-        className: s(j({ variant: e, size: r }), t),
-        type: n ? void 0 : c ?? "button",
-        disabled: n ? void 0 : u,
-        "aria-busy": d || void 0,
-        "aria-disabled": n && u ? !0 : void 0,
-        tabIndex: n && u ? -1 : g,
-        onClick: b,
-        ...w,
-        children: n ? m : /* @__PURE__ */ I(V, { children: [
-          d ? /* @__PURE__ */ o("span", { className: "slr-spinner", "aria-hidden": "true" }) : null,
-          m
+        "data-loading": a || void 0,
+        className: d(dt({ variant: t, size: r }), e),
+        type: n ? void 0 : o ?? "button",
+        disabled: n ? void 0 : g,
+        "aria-busy": a || void 0,
+        "aria-disabled": n && g ? !0 : void 0,
+        tabIndex: n && g ? -1 : c,
+        onClick: T,
+        ...y,
+        children: n ? b : /* @__PURE__ */ z(ot, { children: [
+          a ? /* @__PURE__ */ i("span", { className: "slr-spinner", "aria-hidden": "true" }) : null,
+          b
         ] })
       }
     );
   }
 );
-P.displayName = "Button";
-const k = S("slr-callout", {
+X.displayName = "Button";
+const ut = q("slr-callout", {
   variants: {
     variant: {
       info: "slr-callout--info",
@@ -134,27 +134,27 @@ const k = S("slr-callout", {
   },
   defaultVariants: { variant: "info" }
 });
-function ge({ className: t, variant: e, ...r }) {
-  return /* @__PURE__ */ o(
+function jt({ className: e, variant: t, ...r }) {
+  return /* @__PURE__ */ i(
     "div",
     {
       "data-slot": "callout",
-      role: e === "danger" ? "alert" : void 0,
-      className: s(k({ variant: e }), t),
+      role: t === "danger" ? "alert" : void 0,
+      className: d(ut({ variant: t }), e),
       ...r
     }
   );
 }
-function be({ className: t, ...e }) {
-  return /* @__PURE__ */ o("span", { "data-slot": "callout-icon", className: s("slr-callout__icon", t), ...e });
+function Wt({ className: e, ...t }) {
+  return /* @__PURE__ */ i("span", { "data-slot": "callout-icon", className: d("slr-callout__icon", e), ...t });
 }
-function we({ className: t, ...e }) {
-  return /* @__PURE__ */ o("h3", { "data-slot": "callout-title", className: s("slr-callout__title", t), ...e });
+function Gt({ className: e, ...t }) {
+  return /* @__PURE__ */ i("h3", { "data-slot": "callout-title", className: d("slr-callout__title", e), ...t });
 }
-function ve({ className: t, ...e }) {
-  return /* @__PURE__ */ o("div", { "data-slot": "callout-description", className: s("slr-callout__description", t), ...e });
+function Yt({ className: e, ...t }) {
+  return /* @__PURE__ */ i("div", { "data-slot": "callout-description", className: d("slr-callout__description", e), ...t });
 }
-const W = S("slr-card", {
+const ft = q("slr-card", {
   variants: {
     variant: {
       default: "slr-card--default",
@@ -165,509 +165,791 @@ const W = S("slr-card", {
   },
   defaultVariants: { variant: "default" }
 });
-function ye({ className: t, variant: e, ...r }) {
-  return /* @__PURE__ */ o("div", { "data-slot": "card", className: s(W({ variant: e }), t), ...r });
+function Zt({ className: e, variant: t, ...r }) {
+  return /* @__PURE__ */ i("div", { "data-slot": "card", className: d(ft({ variant: t }), e), ...r });
 }
-function Ne({ className: t, ...e }) {
-  return /* @__PURE__ */ o("div", { "data-slot": "card-header", className: s("slr-card__header", t), ...e });
+function Jt({ className: e, ...t }) {
+  return /* @__PURE__ */ i("div", { "data-slot": "card-header", className: d("slr-card__header", e), ...t });
 }
-function De({ className: t, ...e }) {
-  return /* @__PURE__ */ o("h3", { "data-slot": "card-title", className: s("slr-card__title", t), ...e });
+function Qt({ className: e, ...t }) {
+  return /* @__PURE__ */ i("h3", { "data-slot": "card-title", className: d("slr-card__title", e), ...t });
 }
-function Re({ className: t, ...e }) {
-  return /* @__PURE__ */ o("p", { "data-slot": "card-description", className: s("slr-card__description", t), ...e });
+function Xt({ className: e, ...t }) {
+  return /* @__PURE__ */ i("p", { "data-slot": "card-description", className: d("slr-card__description", e), ...t });
 }
-function _e({ className: t, ...e }) {
-  return /* @__PURE__ */ o("div", { "data-slot": "card-action", className: s("slr-card__action", t), ...e });
+function Kt({ className: e, ...t }) {
+  return /* @__PURE__ */ i("div", { "data-slot": "card-action", className: d("slr-card__action", e), ...t });
 }
-function he({ className: t, ...e }) {
-  return /* @__PURE__ */ o("div", { "data-slot": "card-content", className: s("slr-card__content", t), ...e });
+function te({ className: e, ...t }) {
+  return /* @__PURE__ */ i("div", { "data-slot": "card-content", className: d("slr-card__content", e), ...t });
 }
-function xe({ className: t, ...e }) {
-  return /* @__PURE__ */ o("div", { "data-slot": "card-footer", className: s("slr-card__footer", t), ...e });
+function ee({ className: e, ...t }) {
+  return /* @__PURE__ */ i("div", { "data-slot": "card-footer", className: d("slr-card__footer", e), ...t });
 }
-const O = a.createContext(null);
-function _(t) {
-  const e = a.useContext(O);
-  if (!e) throw new Error(`${t} must be rendered inside Dialog.`);
-  return e;
+const Y = typeof window > "u" ? s.useEffect : s.useLayoutEffect;
+function H({
+  value: e,
+  defaultValue: t,
+  onChange: r
+}) {
+  const [n, o] = s.useState(t), a = e !== void 0, l = a ? e : n, b = s.useRef(l), w = s.useRef(a), c = s.useRef(r);
+  b.current = l, w.current = a, c.current = r;
+  const y = s.useCallback((f) => {
+    var g;
+    const m = typeof f == "function" ? f(b.current) : f;
+    Object.is(m, b.current) || (b.current = m, w.current || o(m), (g = c.current) == null || g.call(c, m));
+  }, []);
+  return [l, y];
 }
-function Ee({ open: t, defaultOpen: e = !1, onOpenChange: r, children: n }) {
-  const [c, d] = a.useState(e), i = a.useRef(null), m = a.useId(), l = a.useId(), g = t !== void 0, w = g ? t : c, D = a.useCallback((u) => {
-    g || d(u), r == null || r(u);
-  }, [g, r]), y = a.useMemo(() => ({
-    open: w,
-    setOpen: D,
-    triggerRef: i,
-    titleId: m,
-    descriptionId: l
-  }), [l, w, D, m]);
-  return /* @__PURE__ */ o(O.Provider, { value: y, children: n });
-}
-const U = a.forwardRef(
-  ({ asChild: t = !1, onClick: e, type: r, ...n }, c) => {
-    const d = _("DialogTrigger");
-    return /* @__PURE__ */ o(
-      t ? R : "button",
-      {
-        ...n,
-        ref: x(c, d.triggerRef),
-        type: t ? void 0 : r ?? "button",
-        "aria-haspopup": "dialog",
-        "aria-expanded": d.open,
-        "data-state": d.open ? "open" : "closed",
-        onClick: (m) => {
-          e == null || e(m), m.defaultPrevented || d.setOpen(!0);
-        }
-      }
-    );
-  }
-);
-U.displayName = "DialogTrigger";
-const $ = a.forwardRef(
-  ({ asChild: t = !1, onClick: e, type: r, ...n }, c) => {
-    const d = _("DialogClose");
-    return /* @__PURE__ */ o(
-      t ? R : "button",
-      {
-        ...n,
-        ref: c,
-        type: t ? void 0 : r ?? "button",
-        onClick: (m) => {
-          e == null || e(m), m.defaultPrevented || d.setOpen(!1);
-        }
-      }
-    );
-  }
-);
-$.displayName = "DialogClose";
-function G({ children: t, container: e }) {
-  const { open: r } = _("DialogPortal");
-  return !r || typeof document > "u" ? null : T(t, e ?? document.body);
-}
-const A = a.forwardRef(
-  ({ className: t, onMouseDown: e, ...r }, n) => {
-    const c = _("DialogOverlay");
-    return /* @__PURE__ */ o(
-      "div",
-      {
-        ...r,
-        ref: n,
-        "data-slot": "dialog-overlay",
-        "data-state": c.open ? "open" : "closed",
-        className: s("slr-dialog__overlay", t),
-        onMouseDown: (d) => {
-          e == null || e(d), !d.defaultPrevented && d.target === d.currentTarget && c.setOpen(!1);
-        }
-      }
-    );
-  }
-);
-A.displayName = "DialogOverlay";
-const L = [
+const pt = [
   "a[href]",
   "button:not([disabled])",
   "input:not([disabled])",
   "select:not([disabled])",
   "textarea:not([disabled])",
   '[tabindex]:not([tabindex="-1"])'
-].join(","), Z = a.forwardRef(
-  ({ className: t, overlayClassName: e, children: r, onEscapeKeyDown: n, ...c }, d) => {
-    const i = _("DialogContent"), m = a.useRef(null), l = a.useRef(i.setOpen), g = a.useRef(n);
-    return l.current = i.setOpen, g.current = n, a.useEffect(() => {
-      if (!i.open) return;
-      const w = document.activeElement, D = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      const y = window.requestAnimationFrame(() => {
-        const f = m.current;
-        if (!f || f.contains(document.activeElement)) return;
-        (f.querySelector(L) ?? f).focus();
-      }), u = (f) => {
-        var E;
-        if (f.key === "Escape") {
-          (E = g.current) == null || E.call(g, f), f.defaultPrevented || l.current(!1);
+].join(",");
+function W(e) {
+  return Array.from(e.querySelectorAll(pt)).filter((t) => !t.hidden && t.getAttribute("aria-hidden") !== "true");
+}
+const K = s.createContext(null), B = /* @__PURE__ */ new Map(), $ = [];
+let F = 0, J = "";
+function O(e) {
+  const t = s.useContext(K);
+  if (!t) throw new Error(`${e} must be rendered inside Dialog.`);
+  return t;
+}
+function mt() {
+  return F === 0 && (J = document.body.style.overflow, document.body.style.overflow = "hidden"), F += 1, () => {
+    F = Math.max(0, F - 1), F === 0 && (document.body.style.overflow = J);
+  };
+}
+function gt(e) {
+  const t = /* @__PURE__ */ new Set();
+  let r = e, n = r.parentElement;
+  for (; n; ) {
+    for (const a of n.children)
+      a instanceof HTMLElement && a !== r && !["SCRIPT", "STYLE", "LINK"].includes(a.tagName) && t.add(a);
+    if (n === document.body) break;
+    r = n, n = r.parentElement;
+  }
+  const o = [...t];
+  return o.forEach((a) => {
+    const l = B.get(a);
+    if (l) {
+      l.count += 1;
+      return;
+    }
+    B.set(a, {
+      count: 1,
+      inert: a.inert === !0,
+      ariaHidden: a.getAttribute("aria-hidden")
+    }), a.inert = !0, a.setAttribute("aria-hidden", "true");
+  }), () => {
+    o.forEach((a) => {
+      const l = B.get(a);
+      l && (l.count -= 1, !(l.count > 0) && (a.inert = l.inert, l.ariaHidden === null ? a.removeAttribute("aria-hidden") : a.setAttribute("aria-hidden", l.ariaHidden), B.delete(a)));
+    });
+  };
+}
+function re({ open: e, defaultOpen: t = !1, onOpenChange: r, children: n }) {
+  const [o, a] = H({
+    value: e,
+    defaultValue: t,
+    onChange: r
+  }), l = s.useRef(null), b = s.useId(), w = s.useId(), [c, y] = s.useState(0), [f, m] = s.useState(0), g = s.useCallback(() => (y((R) => R + 1), () => y((R) => Math.max(0, R - 1))), []), T = s.useCallback(() => (m((R) => R + 1), () => m((R) => Math.max(0, R - 1))), []), x = s.useMemo(() => ({
+    open: o,
+    setOpen: a,
+    triggerRef: l,
+    titleId: b,
+    descriptionId: w,
+    hasTitle: c > 0,
+    hasDescription: f > 0,
+    registerTitle: g,
+    registerDescription: T
+  }), [
+    f,
+    w,
+    T,
+    g,
+    o,
+    a,
+    c,
+    b
+  ]);
+  return /* @__PURE__ */ i(K.Provider, { value: x, children: n });
+}
+const bt = s.forwardRef(
+  ({ asChild: e = !1, onClick: t, type: r, ...n }, o) => {
+    const a = O("DialogTrigger");
+    return /* @__PURE__ */ i(
+      e ? V : "button",
+      {
+        ...n,
+        ref: P(o, a.triggerRef),
+        type: e ? void 0 : r ?? "button",
+        "aria-haspopup": "dialog",
+        "aria-expanded": a.open,
+        "data-state": a.open ? "open" : "closed",
+        onClick: (b) => {
+          t == null || t(b), b.defaultPrevented || a.setOpen(!0);
+        }
+      }
+    );
+  }
+);
+bt.displayName = "DialogTrigger";
+const wt = s.forwardRef(
+  ({ asChild: e = !1, onClick: t, type: r, ...n }, o) => {
+    const a = O("DialogClose");
+    return /* @__PURE__ */ i(
+      e ? V : "button",
+      {
+        ...n,
+        ref: o,
+        type: e ? void 0 : r ?? "button",
+        onClick: (b) => {
+          t == null || t(b), b.defaultPrevented || a.setOpen(!1);
+        }
+      }
+    );
+  }
+);
+wt.displayName = "DialogClose";
+function yt({ children: e, container: t, className: r, ...n }) {
+  const { open: o } = O("DialogPortal");
+  return !o || typeof document > "u" ? null : G(
+    /* @__PURE__ */ i("div", { ...n, "data-slot": "dialog-portal", className: d("slr-dialog__portal", r), children: e }),
+    t ?? document.body
+  );
+}
+const tt = s.forwardRef(
+  ({ className: e, onPointerDown: t, ...r }, n) => {
+    const o = O("DialogOverlay");
+    return /* @__PURE__ */ i(
+      "div",
+      {
+        ...r,
+        ref: n,
+        "data-slot": "dialog-overlay",
+        "data-state": o.open ? "open" : "closed",
+        className: d("slr-dialog__overlay", e),
+        onPointerDown: (a) => {
+          t == null || t(a), !a.defaultPrevented && a.target === a.currentTarget && o.setOpen(!1);
+        }
+      }
+    );
+  }
+);
+tt.displayName = "DialogOverlay";
+const ht = s.forwardRef(
+  ({
+    className: e,
+    overlayClassName: t,
+    children: r,
+    portalContainer: n,
+    initialFocusRef: o,
+    finalFocusRef: a,
+    onEscapeKeyDown: l,
+    role: b = "dialog",
+    "aria-label": w,
+    "aria-labelledby": c,
+    "aria-describedby": y,
+    ...f
+  }, m) => {
+    const g = O("DialogContent"), T = s.useRef(null), x = s.useRef(g.setOpen), R = s.useRef(l), M = s.useRef(o), u = s.useRef(a);
+    return x.current = g.setOpen, R.current = l, M.current = o, u.current = a, s.useEffect(() => {
+      if (!g.open) return;
+      const p = T.current;
+      if (!p) return;
+      const I = document.activeElement, D = p.closest('[data-slot="dialog-portal"]'), h = mt(), _ = D ? gt(D) : () => {
+      };
+      $.push(p);
+      const A = window.requestAnimationFrame(() => {
+        var N;
+        if (p.contains(document.activeElement)) return;
+        (((N = M.current) == null ? void 0 : N.current) ?? W(p)[0] ?? p).focus({ preventScroll: !0 });
+      }), C = () => $.at(-1) === p, L = (v) => {
+        var j;
+        if (!C()) return;
+        if (v.key === "Escape") {
+          (j = R.current) == null || j.call(R, v), v.defaultPrevented || x.current(!1);
           return;
         }
-        if (f.key !== "Tab") return;
-        const p = m.current;
-        if (!p) return;
-        const v = Array.from(p.querySelectorAll(L));
-        if (v.length === 0) {
-          f.preventDefault(), p.focus();
+        if (v.key !== "Tab") return;
+        const N = W(p);
+        if (N.length === 0) {
+          v.preventDefault(), p.focus();
           return;
         }
-        const N = v[0], h = v[v.length - 1];
-        f.shiftKey && (document.activeElement === N || !p.contains(document.activeElement)) ? (f.preventDefault(), h.focus()) : !f.shiftKey && document.activeElement === h && (f.preventDefault(), N.focus());
-      }, b = (f) => {
-        const p = m.current;
-        !p || p.contains(f.target) || (p.querySelector(L) ?? p).focus();
+        const S = N[0], E = N[N.length - 1];
+        v.shiftKey && (document.activeElement === S || !p.contains(document.activeElement)) ? (v.preventDefault(), E.focus()) : !v.shiftKey && document.activeElement === E && (v.preventDefault(), S.focus());
+      }, k = (v) => {
+        var N;
+        !C() || p.contains(v.target) || (((N = M.current) == null ? void 0 : N.current) ?? W(p)[0] ?? p).focus();
       };
-      return document.addEventListener("keydown", u), document.addEventListener("focusin", b), () => {
-        var f, p, v;
-        window.cancelAnimationFrame(y), document.removeEventListener("keydown", u), document.removeEventListener("focusin", b), document.body.style.overflow = D, (p = (f = i.triggerRef.current) == null ? void 0 : f.focus) == null || p.call(f), i.triggerRef.current || (v = w == null ? void 0 : w.focus) == null || v.call(w);
+      return document.addEventListener("keydown", L), document.addEventListener("focusin", k), () => {
+        var S, E;
+        window.cancelAnimationFrame(A), document.removeEventListener("keydown", L), document.removeEventListener("focusin", k);
+        const v = $.lastIndexOf(p);
+        v >= 0 && $.splice(v, 1), _(), h();
+        const N = ((S = u.current) == null ? void 0 : S.current) ?? g.triggerRef.current ?? I;
+        (E = N == null ? void 0 : N.focus) == null || E.call(N, { preventScroll: !0 });
       };
-    }, [i.open, i.triggerRef]), /* @__PURE__ */ I(G, { children: [
-      /* @__PURE__ */ o(A, { className: e }),
-      /* @__PURE__ */ o(
+    }, [g.open, g.triggerRef]), /* @__PURE__ */ z(yt, { container: n, children: [
+      /* @__PURE__ */ i(tt, { className: t }),
+      /* @__PURE__ */ i(
         "div",
         {
-          ...c,
-          ref: x(m, d),
+          ...f,
+          ref: P(T, m),
           "data-slot": "dialog-content",
-          "data-state": i.open ? "open" : "closed",
-          role: "dialog",
+          "data-state": g.open ? "open" : "closed",
+          role: b,
           "aria-modal": "true",
-          "aria-labelledby": i.titleId,
-          "aria-describedby": i.descriptionId,
+          "aria-label": w,
+          "aria-labelledby": c ?? (!w && g.hasTitle ? g.titleId : void 0),
+          "aria-describedby": y ?? (g.hasDescription ? g.descriptionId : void 0),
           tabIndex: -1,
-          className: s("slr-dialog__content", t),
+          className: d("slr-dialog__content", e),
           children: r
         }
       )
     ] });
   }
 );
-Z.displayName = "DialogContent";
-const Ie = ({ className: t, ...e }) => /* @__PURE__ */ o("div", { "data-slot": "dialog-header", className: s("slr-dialog__header", t), ...e }), Se = ({ className: t, ...e }) => /* @__PURE__ */ o("div", { "data-slot": "dialog-footer", className: s("slr-dialog__footer", t), ...e }), J = a.forwardRef(
-  ({ className: t, ...e }, r) => {
-    const { titleId: n } = _("DialogTitle");
-    return /* @__PURE__ */ o("h2", { ...e, ref: r, id: n, className: s("slr-dialog__title", t) });
+ht.displayName = "DialogContent";
+const ne = ({ className: e, ...t }) => /* @__PURE__ */ i("div", { "data-slot": "dialog-header", className: d("slr-dialog__header", e), ...t }), ae = ({ className: e, ...t }) => /* @__PURE__ */ i("div", { "data-slot": "dialog-footer", className: d("slr-dialog__footer", e), ...t }), vt = s.forwardRef(
+  ({ className: e, ...t }, r) => {
+    const { titleId: n, registerTitle: o } = O("DialogTitle");
+    return Y(() => o(), [o]), /* @__PURE__ */ i("h2", { ...t, ref: r, id: n, className: d("slr-dialog__title", e) });
   }
 );
-J.displayName = "DialogTitle";
-const Q = a.forwardRef(
-  ({ className: t, ...e }, r) => {
-    const { descriptionId: n } = _("DialogDescription");
-    return /* @__PURE__ */ o("p", { ...e, ref: r, id: n, className: s("slr-dialog__description", t) });
+vt.displayName = "DialogTitle";
+const Nt = s.forwardRef(
+  ({ className: e, ...t }, r) => {
+    const { descriptionId: n, registerDescription: o } = O("DialogDescription");
+    return Y(() => o(), [o]), /* @__PURE__ */ i("p", { ...t, ref: r, id: n, className: d("slr-dialog__description", e) });
   }
 );
-Q.displayName = "DialogDescription";
-const F = a.createContext(null), X = typeof window > "u" ? a.useEffect : a.useLayoutEffect;
-function M(t) {
-  const e = a.useContext(F);
-  if (!e) throw new Error(`${t} must be rendered inside DropdownMenu.`);
-  return e;
+Nt.displayName = "DialogDescription";
+const et = s.createContext(null), Rt = '[role="menuitem"]:not([disabled]):not([aria-disabled="true"])';
+function U(e) {
+  const t = s.useContext(et);
+  if (!t) throw new Error(`${e} must be rendered inside DropdownMenu.`);
+  return t;
 }
-function Me({ open: t, defaultOpen: e = !1, onOpenChange: r, children: n }) {
-  const [c, d] = a.useState(e), i = a.useRef(null), m = a.useId(), l = t !== void 0, g = l ? t : c, w = a.useCallback((y) => {
-    l || d(y), r == null || r(y);
-  }, [l, r]), D = a.useMemo(
-    () => ({ open: g, setOpen: w, triggerRef: i, contentId: m }),
-    [m, g, w]
+function Q(e) {
+  return Array.from(e.querySelectorAll(Rt));
+}
+function oe({ open: e, defaultOpen: t = !1, onOpenChange: r, children: n }) {
+  const [o, a] = H({
+    value: e,
+    defaultValue: t,
+    onChange: r
+  }), [l, b] = s.useState("first"), w = s.useRef(null), c = s.useId(), y = s.useMemo(
+    () => ({ open: o, setOpen: a, triggerRef: w, contentId: c, focusIntent: l, setFocusIntent: b }),
+    [c, l, o, a]
   );
-  return /* @__PURE__ */ o(F.Provider, { value: D, children: n });
+  return /* @__PURE__ */ i(et.Provider, { value: y, children: n });
 }
-const Y = a.forwardRef(
-  ({ asChild: t = !1, onClick: e, onKeyDown: r, type: n, ...c }, d) => {
-    const i = M("DropdownMenuTrigger");
-    return /* @__PURE__ */ o(
-      t ? R : "button",
+const xt = s.forwardRef(
+  ({ asChild: e = !1, onClick: t, onKeyDown: r, type: n, ...o }, a) => {
+    const l = U("DropdownMenuTrigger"), b = e ? V : "button", w = (c) => {
+      l.setFocusIntent(c), l.setOpen(!0);
+    };
+    return /* @__PURE__ */ i(
+      b,
       {
-        ...c,
-        ref: x(d, i.triggerRef),
-        type: t ? void 0 : n ?? "button",
+        ...o,
+        ref: P(a, l.triggerRef),
+        type: e ? void 0 : n ?? "button",
         "aria-haspopup": "menu",
-        "aria-expanded": i.open,
-        "aria-controls": i.open ? i.contentId : void 0,
-        "data-state": i.open ? "open" : "closed",
-        onClick: (l) => {
-          e == null || e(l), l.defaultPrevented || i.setOpen(!i.open);
+        "aria-expanded": l.open,
+        "aria-controls": l.open ? l.contentId : void 0,
+        "data-state": l.open ? "open" : "closed",
+        onClick: (c) => {
+          t == null || t(c), !c.defaultPrevented && (l.open || l.setFocusIntent("first"), l.setOpen(!l.open));
         },
-        onKeyDown: (l) => {
-          r == null || r(l), !l.defaultPrevented && ["ArrowDown", "Enter", " "].includes(l.key) && (l.preventDefault(), i.setOpen(!0));
+        onKeyDown: (c) => {
+          r == null || r(c), !c.defaultPrevented && (c.key === "ArrowDown" || c.key === "Enter" || c.key === " " ? (c.preventDefault(), w("first")) : c.key === "ArrowUp" && (c.preventDefault(), w("last")));
         }
       }
     );
   }
 );
-Y.displayName = "DropdownMenuTrigger";
-function Le({ children: t }) {
-  const { open: e } = M("DropdownMenuPortal");
-  return !e || typeof document > "u" ? null : T(t, document.body);
+xt.displayName = "DropdownMenuTrigger";
+function se({ children: e, container: t }) {
+  const { open: r } = U("DropdownMenuPortal");
+  return !r || typeof document > "u" ? null : G(e, t ?? document.body);
 }
-const H = a.forwardRef(
-  ({ className: t, align: e = "start", sideOffset: r = 6, style: n, onKeyDown: c, children: d, ...i }, m) => {
-    const l = M("DropdownMenuContent"), g = a.useRef(null), w = a.useRef(l.setOpen), [D, y] = a.useState({ visibility: "hidden" });
-    return w.current = l.setOpen, X(() => {
-      if (!l.open) return;
+const Dt = s.forwardRef(
+  ({
+    className: e,
+    align: t = "start",
+    side: r = "bottom",
+    sideOffset: n = 6,
+    collisionPadding: o = 8,
+    avoidCollisions: a = !0,
+    portalContainer: l,
+    style: b,
+    onKeyDown: w,
+    children: c,
+    ...y
+  }, f) => {
+    const m = U("DropdownMenuContent"), g = s.useRef(null), T = s.useRef(m.setOpen), x = s.useRef({ value: "", time: 0 }), [R, M] = s.useState({ side: r, style: { visibility: "hidden" } });
+    return T.current = m.setOpen, Y(() => {
+      if (!m.open) return;
       const u = () => {
-        const b = l.triggerRef.current, f = g.current;
-        if (!b || !f) return;
-        const p = b.getBoundingClientRect(), v = f.offsetWidth;
-        let N = p.left;
-        e === "center" && (N = p.left + (p.width - v) / 2), e === "end" && (N = p.right - v), N = Math.max(8, Math.min(N, window.innerWidth - v - 8)), y({ position: "fixed", top: p.bottom + r, left: N, minWidth: p.width, visibility: "visible" });
+        const I = m.triggerRef.current, D = g.current;
+        if (!I || !D) return;
+        const h = I.getBoundingClientRect(), _ = D.offsetWidth, A = D.offsetHeight, C = window.getComputedStyle(I).direction, L = h.top - o, k = window.innerHeight - h.bottom - o;
+        let v = r;
+        a && (r === "bottom" && A > k && L > k && (v = "top"), r === "top" && A > L && k > L && (v = "bottom"));
+        let N = C === "rtl" ? h.right - _ : h.left;
+        t === "center" && (N = h.left + (h.width - _) / 2), t === "end" && (N = C === "rtl" ? h.left : h.right - _), N = Math.max(o, Math.min(N, window.innerWidth - _ - o));
+        const S = v === "bottom" ? h.bottom + n : h.top - A - n, E = a ? Math.max(o, Math.min(S, window.innerHeight - A - o)) : S;
+        M({
+          side: v,
+          style: {
+            position: "fixed",
+            top: E,
+            left: N,
+            minWidth: h.width,
+            visibility: "visible"
+          }
+        });
       };
-      return u(), window.addEventListener("resize", u), window.addEventListener("scroll", u, !0), () => {
-        window.removeEventListener("resize", u), window.removeEventListener("scroll", u, !0);
+      u();
+      const p = typeof ResizeObserver > "u" ? null : new ResizeObserver(u);
+      return g.current && (p == null || p.observe(g.current)), m.triggerRef.current && (p == null || p.observe(m.triggerRef.current)), window.addEventListener("resize", u), window.addEventListener("scroll", u, !0), () => {
+        p == null || p.disconnect(), window.removeEventListener("resize", u), window.removeEventListener("scroll", u, !0);
       };
-    }, [e, l.open, l.triggerRef, r]), a.useEffect(() => {
-      if (!l.open) return;
+    }, [t, a, o, m.open, m.triggerRef, r, n]), s.useEffect(() => {
+      if (!m.open) return;
       const u = window.requestAnimationFrame(() => {
-        var f, p;
-        (p = (f = g.current) == null ? void 0 : f.querySelector('[role="menuitem"]:not([disabled])')) == null || p.focus();
-      }), b = (f) => {
-        var v, N;
-        const p = f.target;
-        !((v = g.current) != null && v.contains(p)) && !((N = l.triggerRef.current) != null && N.contains(p)) && w.current(!1);
+        const I = g.current;
+        if (!I) return;
+        const D = Q(I), h = m.focusIntent === "last" ? D.at(-1) : D[0];
+        h == null || h.focus({ preventScroll: !0 });
+      }), p = (I) => {
+        var h, _;
+        const D = I.target;
+        !((h = g.current) != null && h.contains(D)) && !((_ = m.triggerRef.current) != null && _.contains(D)) && T.current(!1);
       };
-      return document.addEventListener("pointerdown", b), () => {
-        window.cancelAnimationFrame(u), document.removeEventListener("pointerdown", b);
+      return document.addEventListener("pointerdown", p), () => {
+        window.cancelAnimationFrame(u), document.removeEventListener("pointerdown", p), x.current = { value: "", time: 0 };
       };
-    }, [l.open, l.triggerRef]), !l.open || typeof document > "u" ? null : T(
-      /* @__PURE__ */ o(
+    }, [m.focusIntent, m.open, m.triggerRef]), !m.open || typeof document > "u" ? null : G(
+      /* @__PURE__ */ i(
         "div",
         {
-          ...i,
-          ref: x(g, m),
-          id: l.contentId,
+          ...y,
+          ref: P(g, f),
+          id: m.contentId,
           role: "menu",
           "data-slot": "dropdown-menu-content",
           "data-state": "open",
-          className: s("slr-dropdown__content", t),
-          style: { ...D, ...n },
+          "data-side": R.side,
+          className: d("slr-dropdown__content", e),
+          style: { ...R.style, ...b },
           onKeyDown: (u) => {
-            var p, v, N, h;
-            if (c == null || c(u), u.defaultPrevented) return;
-            const b = Array.from(u.currentTarget.querySelectorAll('[role="menuitem"]:not([disabled])')), f = b.indexOf(document.activeElement);
+            var D, h, _, A;
+            if (w == null || w(u), u.defaultPrevented) return;
+            const p = Q(u.currentTarget), I = p.indexOf(document.activeElement);
             if (u.key === "Escape")
-              u.preventDefault(), l.setOpen(!1), (p = l.triggerRef.current) == null || p.focus();
+              u.preventDefault(), m.setOpen(!1), (D = m.triggerRef.current) == null || D.focus({ preventScroll: !0 });
             else if (u.key === "ArrowDown" || u.key === "ArrowUp") {
-              u.preventDefault();
-              const E = u.key === "ArrowDown" ? 1 : -1;
-              (v = b[(f + E + b.length) % b.length]) == null || v.focus();
-            } else u.key === "Home" ? (u.preventDefault(), (N = b[0]) == null || N.focus()) : u.key === "End" ? (u.preventDefault(), (h = b.at(-1)) == null || h.focus()) : u.key === "Tab" && l.setOpen(!1);
+              if (u.preventDefault(), p.length === 0) return;
+              const C = u.key === "ArrowDown" ? 1 : -1;
+              (h = p[(I + C + p.length) % p.length]) == null || h.focus();
+            } else if (u.key === "Home")
+              u.preventDefault(), (_ = p[0]) == null || _.focus();
+            else if (u.key === "End")
+              u.preventDefault(), (A = p.at(-1)) == null || A.focus();
+            else if (u.key === "Tab")
+              m.setOpen(!1);
+            else if (u.key.length === 1 && u.key !== " " && !u.ctrlKey && !u.metaKey && !u.altKey) {
+              const C = Date.now(), L = C - x.current.time < 700 ? x.current.value : "", v = L.length > 0 && L.split("").every((E) => E === u.key.toLowerCase()) ? u.key.toLowerCase() : `${L}${u.key.toLowerCase()}`;
+              x.current = { value: v, time: C };
+              const S = [...p.slice(I + 1), ...p.slice(0, I + 1)].find((E) => (E.dataset.textValue ?? E.textContent ?? "").trim().toLocaleLowerCase().startsWith(v));
+              S && (u.preventDefault(), S.focus());
+            }
           },
-          children: d
+          children: c
         }
       ),
-      document.body
+      l ?? document.body
     );
   }
 );
-H.displayName = "DropdownMenuContent";
-const K = a.forwardRef(
-  ({ className: t, inset: e, variant: r = "default", onClick: n, type: c, ...d }, i) => {
-    const m = M("DropdownMenuItem");
-    return /* @__PURE__ */ o(
+Dt.displayName = "DropdownMenuContent";
+const It = s.forwardRef(
+  ({ className: e, inset: t, variant: r = "default", textValue: n, onClick: o, onPointerMove: a, type: l, ...b }, w) => {
+    const c = U("DropdownMenuItem");
+    return /* @__PURE__ */ i(
       "button",
       {
-        ...d,
-        ref: i,
-        type: c ?? "button",
+        ...b,
+        ref: w,
+        type: l ?? "button",
         role: "menuitem",
         tabIndex: -1,
-        "data-inset": e || void 0,
+        "data-inset": t || void 0,
         "data-variant": r,
-        className: s("slr-dropdown__item", t),
-        onClick: (l) => {
-          var g;
-          n == null || n(l), l.defaultPrevented || (m.setOpen(!1), (g = m.triggerRef.current) == null || g.focus());
+        "data-text-value": n,
+        className: d("slr-dropdown__item", e),
+        onPointerMove: (y) => {
+          a == null || a(y), !y.defaultPrevented && !y.currentTarget.disabled && y.currentTarget.focus();
+        },
+        onClick: (y) => {
+          var f;
+          o == null || o(y), y.defaultPrevented || (c.setOpen(!1), (f = c.triggerRef.current) == null || f.focus({ preventScroll: !0 }));
         }
       }
     );
   }
 );
-K.displayName = "DropdownMenuItem";
-function Te(t) {
-  return /* @__PURE__ */ o("div", { role: "group", "data-slot": "dropdown-menu-group", ...t });
+It.displayName = "DropdownMenuItem";
+function ie(e) {
+  return /* @__PURE__ */ i("div", { role: "group", "data-slot": "dropdown-menu-group", ...e });
 }
-function Pe({ className: t, ...e }) {
-  return /* @__PURE__ */ o("div", { "data-slot": "dropdown-menu-label", className: s("slr-dropdown__label", t), ...e });
+function le({ className: e, ...t }) {
+  return /* @__PURE__ */ i("div", { "data-slot": "dropdown-menu-label", className: d("slr-dropdown__label", e), ...t });
 }
-function Oe({ className: t, ...e }) {
-  return /* @__PURE__ */ o("hr", { "data-slot": "dropdown-menu-separator", className: s("slr-dropdown__separator", t), ...e });
+function ce({ className: e, ...t }) {
+  return /* @__PURE__ */ i("hr", { "data-slot": "dropdown-menu-separator", className: d("slr-dropdown__separator", e), ...t });
 }
-function Ae({ className: t, invalid: e = !1, ...r }) {
-  return /* @__PURE__ */ o(
+function de({ className: e, invalid: t = !1, ...r }) {
+  return /* @__PURE__ */ i(
     "div",
     {
       "data-slot": "field",
-      "data-invalid": e || void 0,
-      className: s("slr-field-group", t),
+      "data-invalid": t || void 0,
+      className: d("slr-field-group", e),
       ...r
     }
   );
 }
-function Fe({ className: t, required: e = !1, children: r, ...n }) {
-  return /* @__PURE__ */ I("label", { "data-slot": "field-label", className: s("slr-field-label", t), ...n, children: [
+function ue({ className: e, required: t = !1, children: r, ...n }) {
+  return /* @__PURE__ */ z("label", { "data-slot": "field-label", className: d("slr-field-label", e), ...n, children: [
     r,
-    e ? /* @__PURE__ */ o("span", { className: "slr-field-required", "aria-hidden": "true", children: "*" }) : null
+    t ? /* @__PURE__ */ i("span", { className: "slr-field-required", "aria-hidden": "true", children: "*" }) : null
   ] });
 }
-function Ve({ className: t, ...e }) {
-  return /* @__PURE__ */ o("p", { "data-slot": "field-description", className: s("slr-field-description", t), ...e });
+function fe({ className: e, ...t }) {
+  return /* @__PURE__ */ i("p", { "data-slot": "field-description", className: d("slr-field-description", e), ...t });
 }
-function qe({ className: t, ...e }) {
-  return /* @__PURE__ */ o("p", { "data-slot": "field-error", role: "alert", className: s("slr-field-error", t), ...e });
+function pe({ className: e, ...t }) {
+  return /* @__PURE__ */ i("p", { "data-slot": "field-error", role: "alert", className: d("slr-field-error", e), ...t });
 }
-const ee = {
+const Tt = {
   sm: "iconSm",
   default: "icon",
   lg: "iconLg"
-}, te = a.forwardRef(
-  ({ label: t, tooltip: e, size: r = "default", children: n, ...c }, d) => /* @__PURE__ */ o(
-    P,
+}, _t = s.forwardRef(
+  ({ label: e, tooltip: t, size: r = "default", children: n, ...o }, a) => /* @__PURE__ */ i(
+    X,
     {
-      ref: d,
-      size: ee[r],
-      "aria-label": t,
-      title: e,
-      ...c,
+      ref: a,
+      size: Tt[r],
+      "aria-label": e,
+      title: t,
+      ...o,
       children: n
     }
   )
 );
-te.displayName = "IconButton";
-const re = a.forwardRef(
-  ({ className: t, type: e, ...r }, n) => /* @__PURE__ */ o(
+_t.displayName = "IconButton";
+const Et = s.forwardRef(
+  ({ className: e, type: t, ...r }, n) => /* @__PURE__ */ i(
     "input",
     {
       ref: n,
-      type: e,
+      type: t,
       "data-slot": "input",
-      className: s("slr-field slr-input", t),
+      className: d("slr-field slr-input", e),
       ...r
     }
   )
 );
-re.displayName = "Input";
-const ne = a.forwardRef(
-  ({ className: t, ...e }, r) => /* @__PURE__ */ o("label", { ref: r, "data-slot": "label", className: s("slr-label", t), ...e })
+Et.displayName = "Input";
+const St = s.forwardRef(
+  ({ className: e, ...t }, r) => /* @__PURE__ */ i("label", { ref: r, "data-slot": "label", className: d("slr-label", e), ...t })
 );
-ne.displayName = "Label";
-const oe = a.forwardRef(
-  ({ className: t, wrapperClassName: e, children: r, ...n }, c) => /* @__PURE__ */ I("span", { className: s("slr-select-wrap", e), children: [
-    /* @__PURE__ */ o("select", { ref: c, "data-slot": "select", className: s("slr-field slr-select", t), ...n, children: r }),
-    /* @__PURE__ */ o("span", { className: "slr-select-chevron", "aria-hidden": "true" })
+St.displayName = "Label";
+const Ct = s.forwardRef(
+  ({ className: e, wrapperClassName: t, children: r, ...n }, o) => /* @__PURE__ */ z("span", { className: d("slr-select-wrap", t), children: [
+    /* @__PURE__ */ i("select", { ref: o, "data-slot": "select", className: d("slr-field slr-select", e), ...n, children: r }),
+    /* @__PURE__ */ i("span", { className: "slr-select-chevron", "aria-hidden": "true" })
   ] })
 );
-oe.displayName = "Select";
-function ze({ className: t, containerClassName: e, children: r, ...n }) {
-  return /* @__PURE__ */ o("section", { className: s("slr-section", t), ...n, children: /* @__PURE__ */ o("div", { className: s("slr-container", e), children: r }) });
+Ct.displayName = "Select";
+function me({ className: e, containerClassName: t, children: r, ...n }) {
+  return /* @__PURE__ */ i("section", { className: d("slr-section", e), ...n, children: /* @__PURE__ */ i("div", { className: d("slr-container", t), children: r }) });
 }
-function Be({ className: t, ...e }) {
-  return /* @__PURE__ */ o("header", { className: s("slr-section-header", t), ...e });
+function ge({ className: e, ...t }) {
+  return /* @__PURE__ */ i("header", { className: d("slr-section-header", e), ...t });
 }
-function Ce({ className: t, ...e }) {
-  return /* @__PURE__ */ o("span", { className: s("slr-eyebrow", t), ...e });
+function be({ className: e, ...t }) {
+  return /* @__PURE__ */ i("span", { className: d("slr-eyebrow", e), ...t });
 }
-function je({ className: t, ...e }) {
-  return /* @__PURE__ */ o("h2", { className: s("slr-section-title", t), ...e });
+function we({ className: e, ...t }) {
+  return /* @__PURE__ */ i("h2", { className: d("slr-section-title", e), ...t });
 }
-function ke({ className: t, ...e }) {
-  return /* @__PURE__ */ o("p", { className: s("slr-section-description", t), ...e });
+function ye({ className: e, ...t }) {
+  return /* @__PURE__ */ i("p", { className: d("slr-section-description", e), ...t });
 }
-function We({
-  className: t,
-  orientation: e = "horizontal",
+function he({
+  className: e,
+  orientation: t = "horizontal",
   decorative: r = !0,
   ...n
 }) {
-  return /* @__PURE__ */ o(
+  return /* @__PURE__ */ i(
     "div",
     {
       "data-slot": "separator",
-      "data-orientation": e,
+      "data-orientation": t,
       role: r ? "none" : "separator",
-      "aria-orientation": r ? void 0 : e,
-      className: s("slr-separator", t),
+      "aria-orientation": r ? void 0 : t,
+      className: d("slr-separator", e),
       ...n
     }
   );
 }
-const ae = a.forwardRef(
-  ({ checked: t, defaultChecked: e = !1, onCheckedChange: r, onClick: n, className: c, disabled: d, type: i, ...m }, l) => {
-    const [g, w] = a.useState(e), D = t !== void 0, y = D ? t : g, u = (b) => {
-      D || w(b), r == null || r(b);
-    };
-    return /* @__PURE__ */ o(
+const Lt = s.forwardRef(
+  ({ checked: e, defaultChecked: t = !1, onCheckedChange: r, onClick: n, className: o, disabled: a, type: l, ...b }, w) => {
+    const [c, y] = H({
+      value: e,
+      defaultValue: t,
+      onChange: r
+    });
+    return /* @__PURE__ */ i(
       "button",
       {
-        ...m,
-        ref: l,
-        type: i ?? "button",
+        ...b,
+        ref: w,
+        type: l ?? "button",
         role: "switch",
-        "aria-checked": y,
-        disabled: d,
+        "aria-checked": c,
+        disabled: a,
         "data-slot": "switch",
-        "data-state": y ? "checked" : "unchecked",
-        className: s("slr-switch", c),
-        onClick: (b) => {
-          n == null || n(b), !b.defaultPrevented && !d && u(!y);
+        "data-state": c ? "checked" : "unchecked",
+        className: d("slr-switch", o),
+        onClick: (f) => {
+          n == null || n(f), !f.defaultPrevented && !a && y((m) => !m);
         },
-        children: /* @__PURE__ */ o("span", { className: "slr-switch__thumb", "data-state": y ? "checked" : "unchecked" })
+        children: /* @__PURE__ */ i("span", { className: "slr-switch__thumb", "data-state": c ? "checked" : "unchecked" })
       }
     );
   }
 );
-ae.displayName = "Switch";
-const se = a.forwardRef(
-  ({ className: t, ...e }, r) => /* @__PURE__ */ o(
+Lt.displayName = "Switch";
+const rt = s.createContext(null);
+function Z(e) {
+  const t = s.useContext(rt);
+  if (!t) throw new Error(`${e} must be rendered inside Tabs.`);
+  return t;
+}
+function nt(e, t) {
+  return `${e}-tab-${encodeURIComponent(t)}`;
+}
+function at(e, t) {
+  return `${e}-panel-${encodeURIComponent(t)}`;
+}
+const Mt = s.forwardRef(
+  ({
+    value: e,
+    defaultValue: t,
+    onValueChange: r,
+    orientation: n = "horizontal",
+    activationMode: o = "automatic",
+    loop: a = !0,
+    className: l,
+    children: b,
+    ...w
+  }, c) => {
+    const [y, f] = H({
+      value: e,
+      defaultValue: t ?? "",
+      onChange: r
+    }), m = s.useId(), g = s.useMemo(() => ({
+      value: y,
+      setValue: f,
+      orientation: n,
+      activationMode: o,
+      loop: a,
+      baseId: m
+    }), [o, m, a, n, y, f]);
+    return /* @__PURE__ */ i(rt.Provider, { value: g, children: /* @__PURE__ */ i(
+      "div",
+      {
+        ...w,
+        ref: c,
+        "data-slot": "tabs",
+        "data-orientation": n,
+        className: d("slr-tabs", l),
+        children: b
+      }
+    ) });
+  }
+);
+Mt.displayName = "Tabs";
+const At = s.forwardRef(
+  ({ className: e, ...t }, r) => {
+    const { orientation: n } = Z("TabsList");
+    return /* @__PURE__ */ i(
+      "div",
+      {
+        ...t,
+        ref: r,
+        role: "tablist",
+        "aria-orientation": n,
+        "data-slot": "tabs-list",
+        "data-orientation": n,
+        className: d("slr-tabs__list", e)
+      }
+    );
+  }
+);
+At.displayName = "TabsList";
+const kt = s.forwardRef(
+  ({ value: e, className: t, disabled: r, onClick: n, onFocus: o, onKeyDown: a, type: l, ...b }, w) => {
+    const c = Z("TabsTrigger"), y = c.value === e;
+    return /* @__PURE__ */ i(
+      "button",
+      {
+        ...b,
+        ref: w,
+        id: nt(c.baseId, e),
+        type: l ?? "button",
+        role: "tab",
+        "aria-selected": y,
+        "aria-controls": at(c.baseId, e),
+        tabIndex: y ? 0 : -1,
+        disabled: r,
+        "data-slot": "tabs-trigger",
+        "data-state": y ? "active" : "inactive",
+        "data-orientation": c.orientation,
+        className: d("slr-tabs__trigger", t),
+        onClick: (f) => {
+          n == null || n(f), !f.defaultPrevented && !r && c.setValue(e);
+        },
+        onFocus: (f) => {
+          o == null || o(f), !f.defaultPrevented && !r && c.activationMode === "automatic" && c.setValue(e);
+        },
+        onKeyDown: (f) => {
+          var p;
+          if (a == null || a(f), f.defaultPrevented) return;
+          if (c.activationMode === "manual" && ["Enter", " "].includes(f.key)) {
+            f.preventDefault(), c.setValue(e);
+            return;
+          }
+          const m = c.orientation === "horizontal" && window.getComputedStyle(f.currentTarget).direction === "rtl", g = c.orientation === "horizontal" ? m ? "ArrowRight" : "ArrowLeft" : "ArrowUp", T = c.orientation === "horizontal" ? m ? "ArrowLeft" : "ArrowRight" : "ArrowDown";
+          if (![g, T, "Home", "End"].includes(f.key)) return;
+          const x = f.currentTarget.closest('[role="tablist"]'), R = Array.from((x == null ? void 0 : x.querySelectorAll('[role="tab"]:not([disabled])')) ?? []), M = R.indexOf(f.currentTarget);
+          let u = M;
+          f.key === "Home" && (u = 0), f.key === "End" && (u = R.length - 1), f.key === g && (u = M - 1), f.key === T && (u = M + 1), c.loop ? u = (u + R.length) % R.length : u = Math.max(0, Math.min(u, R.length - 1)), f.preventDefault(), (p = R[u]) == null || p.focus();
+        }
+      }
+    );
+  }
+);
+kt.displayName = "TabsTrigger";
+const Vt = s.forwardRef(
+  ({ value: e, className: t, ...r }, n) => {
+    const o = Z("TabsContent"), a = o.value === e;
+    return /* @__PURE__ */ i(
+      "div",
+      {
+        ...r,
+        ref: n,
+        id: at(o.baseId, e),
+        role: "tabpanel",
+        "aria-labelledby": nt(o.baseId, e),
+        tabIndex: 0,
+        hidden: !a,
+        "data-slot": "tabs-content",
+        "data-state": a ? "active" : "inactive",
+        "data-orientation": o.orientation,
+        className: d("slr-tabs__content", t)
+      }
+    );
+  }
+);
+Vt.displayName = "TabsContent";
+const Ot = s.forwardRef(
+  ({ className: e, ...t }, r) => /* @__PURE__ */ i(
     "textarea",
     {
       ref: r,
       "data-slot": "textarea",
-      className: s("slr-field slr-textarea", t),
-      ...e
+      className: d("slr-field slr-textarea", e),
+      ...t
     }
   )
 );
-se.displayName = "Textarea";
+Ot.displayName = "Textarea";
 export {
-  me as Badge,
-  P as Button,
-  ge as Callout,
-  ve as CalloutDescription,
-  be as CalloutIcon,
-  we as CalloutTitle,
-  ye as Card,
-  _e as CardAction,
-  he as CardContent,
-  Re as CardDescription,
-  xe as CardFooter,
-  Ne as CardHeader,
-  De as CardTitle,
-  Ee as Dialog,
-  $ as DialogClose,
-  Z as DialogContent,
-  Q as DialogDescription,
-  Se as DialogFooter,
-  Ie as DialogHeader,
-  A as DialogOverlay,
-  G as DialogPortal,
-  J as DialogTitle,
-  U as DialogTrigger,
-  Me as DropdownMenu,
-  H as DropdownMenuContent,
-  Te as DropdownMenuGroup,
-  K as DropdownMenuItem,
-  Pe as DropdownMenuLabel,
-  Le as DropdownMenuPortal,
-  Oe as DropdownMenuSeparator,
-  Y as DropdownMenuTrigger,
-  Ae as Field,
-  Ve as FieldDescription,
-  qe as FieldError,
-  Fe as FieldLabel,
-  te as IconButton,
-  re as Input,
-  ne as Label,
-  ze as Section,
-  ke as SectionDescription,
-  Ce as SectionEyebrow,
-  Be as SectionHeader,
-  je as SectionTitle,
-  oe as Select,
-  We as Separator,
-  pe as SkipLink,
-  R as Slot,
-  ae as Switch,
-  se as Textarea,
-  fe as VisuallyHidden,
-  C as badgeVariants,
-  j as buttonVariants,
-  k as calloutVariants,
-  W as cardVariants,
-  s as cn
+  Ut as Badge,
+  X as Button,
+  jt as Callout,
+  Yt as CalloutDescription,
+  Wt as CalloutIcon,
+  Gt as CalloutTitle,
+  Zt as Card,
+  Kt as CardAction,
+  te as CardContent,
+  Xt as CardDescription,
+  ee as CardFooter,
+  Jt as CardHeader,
+  Qt as CardTitle,
+  re as Dialog,
+  wt as DialogClose,
+  ht as DialogContent,
+  Nt as DialogDescription,
+  ae as DialogFooter,
+  ne as DialogHeader,
+  tt as DialogOverlay,
+  yt as DialogPortal,
+  vt as DialogTitle,
+  bt as DialogTrigger,
+  oe as DropdownMenu,
+  Dt as DropdownMenuContent,
+  ie as DropdownMenuGroup,
+  It as DropdownMenuItem,
+  le as DropdownMenuLabel,
+  se as DropdownMenuPortal,
+  ce as DropdownMenuSeparator,
+  xt as DropdownMenuTrigger,
+  de as Field,
+  fe as FieldDescription,
+  pe as FieldError,
+  ue as FieldLabel,
+  _t as IconButton,
+  Et as Input,
+  St as Label,
+  me as Section,
+  ye as SectionDescription,
+  be as SectionEyebrow,
+  ge as SectionHeader,
+  we as SectionTitle,
+  Ct as Select,
+  he as Separator,
+  Ht as SkipLink,
+  V as Slot,
+  Lt as Switch,
+  Mt as Tabs,
+  Vt as TabsContent,
+  At as TabsList,
+  kt as TabsTrigger,
+  Ot as Textarea,
+  qt as VisuallyHidden,
+  ct as badgeVariants,
+  dt as buttonVariants,
+  ut as calloutVariants,
+  ft as cardVariants,
+  d as cn
 };
 //# sourceMappingURL=index.js.map

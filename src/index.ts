@@ -48,6 +48,7 @@ export {
   DropdownMenuTrigger,
   type DropdownMenuContentProps,
   type DropdownMenuItemProps,
+  type DropdownMenuPortalProps,
   type DropdownMenuProps,
 } from './dropdown-menu';
 export {
@@ -73,5 +74,14 @@ export {
 export { Separator, type SeparatorProps } from './separator';
 export { Slot, type SlotProps } from './slot';
 export { Switch, type SwitchProps } from './switch';
+export {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  type TabsContentProps,
+  type TabsProps,
+  type TabsTriggerProps,
+} from './tabs';
 export { Textarea } from './textarea';
 export { cn } from './utils';

@@ -11,14 +11,16 @@ interface DialogActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement
 }
 export declare const DialogTrigger: React.ForwardRefExoticComponent<DialogActionProps & React.RefAttributes<HTMLButtonElement>>;
 export declare const DialogClose: React.ForwardRefExoticComponent<DialogActionProps & React.RefAttributes<HTMLButtonElement>>;
-export interface DialogPortalProps {
-    children: React.ReactNode;
+export interface DialogPortalProps extends React.HTMLAttributes<HTMLDivElement> {
     container?: Element | DocumentFragment | null;
 }
-export declare function DialogPortal({ children, container }: DialogPortalProps): React.ReactPortal | null;
+export declare function DialogPortal({ children, container, className, ...props }: DialogPortalProps): React.ReactPortal | null;
 export declare const DialogOverlay: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>>;
 export interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
     overlayClassName?: string;
+    portalContainer?: Element | DocumentFragment | null;
+    initialFocusRef?: React.RefObject<HTMLElement | null>;
+    finalFocusRef?: React.RefObject<HTMLElement | null>;
     onEscapeKeyDown?: (event: KeyboardEvent) => void;
 }
 export declare const DialogContent: React.ForwardRefExoticComponent<DialogContentProps & React.RefAttributes<HTMLDivElement>>;

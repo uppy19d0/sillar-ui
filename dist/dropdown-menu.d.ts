@@ -10,17 +10,24 @@ interface MenuTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement>
     asChild?: boolean;
 }
 export declare const DropdownMenuTrigger: React.ForwardRefExoticComponent<MenuTriggerProps & React.RefAttributes<HTMLButtonElement>>;
-export declare function DropdownMenuPortal({ children }: {
+export interface DropdownMenuPortalProps {
     children: React.ReactNode;
-}): React.ReactPortal | null;
+    container?: Element | DocumentFragment | null;
+}
+export declare function DropdownMenuPortal({ children, container }: DropdownMenuPortalProps): React.ReactPortal | null;
 export interface DropdownMenuContentProps extends React.HTMLAttributes<HTMLDivElement> {
     align?: 'start' | 'center' | 'end';
+    side?: 'top' | 'bottom';
     sideOffset?: number;
+    collisionPadding?: number;
+    avoidCollisions?: boolean;
+    portalContainer?: Element | DocumentFragment | null;
 }
 export declare const DropdownMenuContent: React.ForwardRefExoticComponent<DropdownMenuContentProps & React.RefAttributes<HTMLDivElement>>;
 export interface DropdownMenuItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     inset?: boolean;
     variant?: 'default' | 'destructive';
+    textValue?: string;
 }
 export declare const DropdownMenuItem: React.ForwardRefExoticComponent<DropdownMenuItemProps & React.RefAttributes<HTMLButtonElement>>;
 export declare function DropdownMenuGroup(props: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element;

@@ -2,6 +2,14 @@
 
 All notable changes to Sillar UI are documented here.
 
+## 0.5.0 — 2026-09-21
+
+- Add accessible Tabs with automatic or manual activation, horizontal or vertical orientation, looping navigation, and controlled state.
+- Strengthen Dialog with outside-content isolation, nested-layer handling, valid accessible naming, initial/final focus controls, and shared controlled-state behavior.
+- Add DropdownMenu typeahead, ArrowUp entry, collision-aware positioning, side and alignment controls, and disabled-item exclusion.
+- Add DOM interaction and axe accessibility tests for focus, keyboard, dismissal, and ARIA relationships.
+- Publish bundle-size budgets, a quality contract, a security policy, and React 18/19 CI compatibility checks.
+
 ## 0.4.0 — 2026-09-20
 
 - Replace Radix Slot and Dialog with Sillar-owned accessible primitives.

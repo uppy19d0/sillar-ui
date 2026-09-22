@@ -6,7 +6,7 @@
 
 <p align="center">Accessible React building blocks for consistent product interfaces.</p>
 
-Accessible React components and design tokens for consistent product interfaces. The package is small, typed, themeable with CSS custom properties, and works without a Tailwind runtime. Its interactive primitives are implemented by Sillar UI and do not depend on Radix UI.
+Accessible React components and design tokens for consistent product interfaces. The package is small, typed, themeable with CSS custom properties, and works without a Tailwind runtime. Its interactive primitives are implemented by Sillar UI and do not depend on Radix UI or another component runtime.
 
 ## Install
 
@@ -48,7 +48,8 @@ export function Example() {
 - Card primitives with default, elevated, subtle, and outline surfaces
 - Input, Textarea, and Field composition with help and error states
 - Accessible Dialog primitives with focus trapping, Escape handling, and scroll locking
-- DropdownMenu with positioning, outside-click dismissal, and full keyboard navigation
+- DropdownMenu with collision-aware positioning, typeahead, outside-click dismissal, and full keyboard navigation
+- Tabs with automatic or manual activation and horizontal or vertical keyboard navigation
 - Native Select, Label, and accessible controlled or uncontrolled Switch
 - Slot for polymorphic composition without a third-party primitive layer
 - Callout for information, success, warning, and error messages
@@ -71,6 +72,12 @@ Override the `--slr-*` custom properties on `:root`, a theme wrapper, or `.dark`
 
 Sillar UI owns only its `slr-` class namespace and `--slr-` variables, so it can coexist with Tailwind, CSS Modules, CSS-in-JS, or plain CSS.
 
+## Accessibility and quality
+
+Dialog, DropdownMenu, and Tabs follow the corresponding [WAI-ARIA Authoring Practices patterns](https://www.w3.org/WAI/ARIA/apg/patterns/). Their keyboard, focus, dismissal, and ARIA relationships are exercised against the compiled package with DOM interaction tests and axe. Native controls are used when the browser already provides the required semantics.
+
+Every release enforces public JavaScript and CSS size budgets and rejects Radix dependencies in both the manifest and lockfile. See the [quality contract](QUALITY.md) for the current guarantees, supported baseline, and next milestones. Security reports are handled through the private process in [SECURITY.md](SECURITY.md).
+
 ## Development
 
 ```bash
@@ -78,7 +85,7 @@ npm install
 npm run check
 ```
 
-Contributions are welcome through issues and pull requests. Please keep public APIs typed and preserve keyboard focus behavior. `npm run check` also verifies that the published runtime stays free of Radix dependencies.
+Contributions are welcome through issues and pull requests. Please keep public APIs typed and preserve keyboard focus behavior. `npm run check` verifies the production build, bundle budgets, interaction behavior, accessibility examples, and that the published runtime stays free of Radix dependencies.
 
 The component source lives in `src/`, declarations and distributable assets are generated in `dist/`, and smoke tests verify the public build exactly as consumers import it.
 

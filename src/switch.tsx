@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useControllableState } from './internal';
 import { cn } from './utils';
 
 export interface SwitchProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> {
@@ -9,14 +10,11 @@ export interface SwitchProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
 
 export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
   ({ checked, defaultChecked = false, onCheckedChange, onClick, className, disabled, type, ...props }, ref) => {
-    const [internalChecked, setInternalChecked] = React.useState(defaultChecked);
-    const isControlled = checked !== undefined;
-    const resolvedChecked = isControlled ? checked : internalChecked;
-
-    const updateChecked = (next: boolean) => {
-      if (!isControlled) setInternalChecked(next);
-      onCheckedChange?.(next);
-    };
+    const [resolvedChecked, setChecked] = useControllableState({
+      value: checked,
+      defaultValue: defaultChecked,
+      onChange: onCheckedChange,
+    });
 
     return (
       <button
@@ -31,7 +29,7 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         className={cn('slr-switch', className)}
         onClick={(event) => {
           onClick?.(event);
-          if (!event.defaultPrevented && !disabled) updateChecked(!resolvedChecked);
+          if (!event.defaultPrevented && !disabled) setChecked((current) => !current);
         }}
       >
         <span className="slr-switch__thumb" data-state={resolvedChecked ? 'checked' : 'unchecked'} />

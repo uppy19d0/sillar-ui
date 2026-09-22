@@ -1,22 +1,31 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
+import { useControllableState, useIsomorphicLayoutEffect } from './internal';
 import { Slot, composeRefs } from './slot';
 import { cn } from './utils';
+
+type FocusIntent = 'first' | 'last';
 
 type MenuContextValue = {
   open: boolean;
   setOpen: (open: boolean) => void;
   triggerRef: React.RefObject<HTMLElement | null>;
   contentId: string;
+  focusIntent: FocusIntent;
+  setFocusIntent: (intent: FocusIntent) => void;
 };
 
 const MenuContext = React.createContext<MenuContextValue | null>(null);
-const useSafeLayoutEffect = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
+const menuItemSelector = '[role="menuitem"]:not([disabled]):not([aria-disabled="true"])';
 
 function useMenu(component: string) {
   const context = React.useContext(MenuContext);
   if (!context) throw new Error(`${component} must be rendered inside DropdownMenu.`);
   return context;
+}
+
+function getMenuItems(container: HTMLElement) {
+  return Array.from(container.querySelectorAll<HTMLElement>(menuItemSelector));
 }
 
 export interface DropdownMenuProps {
@@ -27,28 +36,34 @@ export interface DropdownMenuProps {
 }
 
 export function DropdownMenu({ open, defaultOpen = false, onOpenChange, children }: DropdownMenuProps) {
-  const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
+  const [resolvedOpen, setOpen] = useControllableState({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
+  const [focusIntent, setFocusIntent] = React.useState<FocusIntent>('first');
   const triggerRef = React.useRef<HTMLElement>(null);
   const contentId = React.useId();
-  const isControlled = open !== undefined;
-  const resolvedOpen = isControlled ? open : internalOpen;
-  const setOpen = React.useCallback((next: boolean) => {
-    if (!isControlled) setInternalOpen(next);
-    onOpenChange?.(next);
-  }, [isControlled, onOpenChange]);
   const value = React.useMemo(
-    () => ({ open: resolvedOpen, setOpen, triggerRef, contentId }),
-    [contentId, resolvedOpen, setOpen],
+    () => ({ open: resolvedOpen, setOpen, triggerRef, contentId, focusIntent, setFocusIntent }),
+    [contentId, focusIntent, resolvedOpen, setOpen],
   );
   return <MenuContext.Provider value={value}>{children}</MenuContext.Provider>;
 }
 
-interface MenuTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> { asChild?: boolean }
+interface MenuTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  asChild?: boolean;
+}
 
 export const DropdownMenuTrigger = React.forwardRef<HTMLButtonElement, MenuTriggerProps>(
   ({ asChild = false, onClick, onKeyDown, type, ...props }, ref) => {
     const context = useMenu('DropdownMenuTrigger');
     const Component = asChild ? Slot : 'button';
+    const openWithIntent = (intent: FocusIntent) => {
+      context.setFocusIntent(intent);
+      context.setOpen(true);
+    };
+
     return (
       <Component
         {...props}
@@ -60,13 +75,19 @@ export const DropdownMenuTrigger = React.forwardRef<HTMLButtonElement, MenuTrigg
         data-state={context.open ? 'open' : 'closed'}
         onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           onClick?.(event);
-          if (!event.defaultPrevented) context.setOpen(!context.open);
+          if (event.defaultPrevented) return;
+          if (!context.open) context.setFocusIntent('first');
+          context.setOpen(!context.open);
         }}
         onKeyDown={(event: React.KeyboardEvent<HTMLButtonElement>) => {
           onKeyDown?.(event);
-          if (!event.defaultPrevented && ['ArrowDown', 'Enter', ' '].includes(event.key)) {
+          if (event.defaultPrevented) return;
+          if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            context.setOpen(true);
+            openWithIntent('first');
+          } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            openWithIntent('last');
           }
         }}
       />
@@ -76,27 +97,52 @@ export const DropdownMenuTrigger = React.forwardRef<HTMLButtonElement, MenuTrigg
 
 DropdownMenuTrigger.displayName = 'DropdownMenuTrigger';
 
-export function DropdownMenuPortal({ children }: { children: React.ReactNode }) {
+export interface DropdownMenuPortalProps {
+  children: React.ReactNode;
+  container?: Element | DocumentFragment | null;
+}
+
+export function DropdownMenuPortal({ children, container }: DropdownMenuPortalProps) {
   const { open } = useMenu('DropdownMenuPortal');
   if (!open || typeof document === 'undefined') return null;
-  return createPortal(children, document.body);
+  return createPortal(children, container ?? document.body);
 }
 
 export interface DropdownMenuContentProps extends React.HTMLAttributes<HTMLDivElement> {
   align?: 'start' | 'center' | 'end';
+  side?: 'top' | 'bottom';
   sideOffset?: number;
+  collisionPadding?: number;
+  avoidCollisions?: boolean;
+  portalContainer?: Element | DocumentFragment | null;
 }
 
 export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenuContentProps>(
-  ({ className, align = 'start', sideOffset = 6, style, onKeyDown, children, ...props }, forwardedRef) => {
+  ({
+    className,
+    align = 'start',
+    side = 'bottom',
+    sideOffset = 6,
+    collisionPadding = 8,
+    avoidCollisions = true,
+    portalContainer,
+    style,
+    onKeyDown,
+    children,
+    ...props
+  }, forwardedRef) => {
     const context = useMenu('DropdownMenuContent');
     const contentRef = React.useRef<HTMLDivElement>(null);
     const setOpenRef = React.useRef(context.setOpen);
-    const [position, setPosition] = React.useState<React.CSSProperties>({ visibility: 'hidden' });
+    const searchRef = React.useRef({ value: '', time: 0 });
+    const [position, setPosition] = React.useState<{
+      side: 'top' | 'bottom';
+      style: React.CSSProperties;
+    }>({ side, style: { visibility: 'hidden' } });
 
     setOpenRef.current = context.setOpen;
 
-    useSafeLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       if (!context.open) return;
       const updatePosition = () => {
         const trigger = context.triggerRef.current;
@@ -104,36 +150,75 @@ export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenu
         if (!trigger || !content) return;
         const rect = trigger.getBoundingClientRect();
         const width = content.offsetWidth;
-        let left = rect.left;
+        const height = content.offsetHeight;
+        const direction = window.getComputedStyle(trigger).direction;
+        const availableTop = rect.top - collisionPadding;
+        const availableBottom = window.innerHeight - rect.bottom - collisionPadding;
+        let resolvedSide = side;
+        if (avoidCollisions) {
+          if (side === 'bottom' && height > availableBottom && availableTop > availableBottom) resolvedSide = 'top';
+          if (side === 'top' && height > availableTop && availableBottom > availableTop) resolvedSide = 'bottom';
+        }
+
+        let left = direction === 'rtl' ? rect.right - width : rect.left;
         if (align === 'center') left = rect.left + (rect.width - width) / 2;
-        if (align === 'end') left = rect.right - width;
-        left = Math.max(8, Math.min(left, window.innerWidth - width - 8));
-        setPosition({ position: 'fixed', top: rect.bottom + sideOffset, left, minWidth: rect.width, visibility: 'visible' });
+        if (align === 'end') left = direction === 'rtl' ? rect.left : rect.right - width;
+        left = Math.max(collisionPadding, Math.min(left, window.innerWidth - width - collisionPadding));
+
+        const desiredTop = resolvedSide === 'bottom'
+          ? rect.bottom + sideOffset
+          : rect.top - height - sideOffset;
+        const top = avoidCollisions
+          ? Math.max(collisionPadding, Math.min(desiredTop, window.innerHeight - height - collisionPadding))
+          : desiredTop;
+        setPosition({
+          side: resolvedSide,
+          style: {
+            position: 'fixed',
+            top,
+            left,
+            minWidth: rect.width,
+            visibility: 'visible',
+          },
+        });
       };
       updatePosition();
+      const resizeObserver = typeof ResizeObserver === 'undefined'
+        ? null
+        : new ResizeObserver(updatePosition);
+      if (contentRef.current) resizeObserver?.observe(contentRef.current);
+      if (context.triggerRef.current) resizeObserver?.observe(context.triggerRef.current);
       window.addEventListener('resize', updatePosition);
       window.addEventListener('scroll', updatePosition, true);
       return () => {
+        resizeObserver?.disconnect();
         window.removeEventListener('resize', updatePosition);
         window.removeEventListener('scroll', updatePosition, true);
       };
-    }, [align, context.open, context.triggerRef, sideOffset]);
+    }, [align, avoidCollisions, collisionPadding, context.open, context.triggerRef, side, sideOffset]);
 
     React.useEffect(() => {
       if (!context.open) return;
       const frame = window.requestAnimationFrame(() => {
-        contentRef.current?.querySelector<HTMLElement>('[role="menuitem"]:not([disabled])')?.focus();
+        const content = contentRef.current;
+        if (!content) return;
+        const items = getMenuItems(content);
+        const target = context.focusIntent === 'last' ? items.at(-1) : items[0];
+        target?.focus({ preventScroll: true });
       });
       const handlePointerDown = (event: PointerEvent) => {
         const target = event.target as Node;
-        if (!contentRef.current?.contains(target) && !context.triggerRef.current?.contains(target)) setOpenRef.current(false);
+        if (!contentRef.current?.contains(target) && !context.triggerRef.current?.contains(target)) {
+          setOpenRef.current(false);
+        }
       };
       document.addEventListener('pointerdown', handlePointerDown);
       return () => {
         window.cancelAnimationFrame(frame);
         document.removeEventListener('pointerdown', handlePointerDown);
+        searchRef.current = { value: '', time: 0 };
       };
-    }, [context.open, context.triggerRef]);
+    }, [context.focusIntent, context.open, context.triggerRef]);
 
     if (!context.open || typeof document === 'undefined') return null;
 
@@ -145,19 +230,21 @@ export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenu
         role="menu"
         data-slot="dropdown-menu-content"
         data-state="open"
+        data-side={position.side}
         className={cn('slr-dropdown__content', className)}
-        style={{ ...position, ...style }}
+        style={{ ...position.style, ...style }}
         onKeyDown={(event) => {
           onKeyDown?.(event);
           if (event.defaultPrevented) return;
-          const items = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('[role="menuitem"]:not([disabled])'));
+          const items = getMenuItems(event.currentTarget);
           const currentIndex = items.indexOf(document.activeElement as HTMLElement);
           if (event.key === 'Escape') {
             event.preventDefault();
             context.setOpen(false);
-            context.triggerRef.current?.focus();
+            context.triggerRef.current?.focus({ preventScroll: true });
           } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             event.preventDefault();
+            if (items.length === 0) return;
             const direction = event.key === 'ArrowDown' ? 1 : -1;
             items[(currentIndex + direction + items.length) % items.length]?.focus();
           } else if (event.key === 'Home') {
@@ -168,12 +255,33 @@ export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenu
             items.at(-1)?.focus();
           } else if (event.key === 'Tab') {
             context.setOpen(false);
+          } else if (
+            event.key.length === 1
+            && event.key !== ' '
+            && !event.ctrlKey
+            && !event.metaKey
+            && !event.altKey
+          ) {
+            const now = Date.now();
+            const previous = now - searchRef.current.time < 700 ? searchRef.current.value : '';
+            const repeated = previous.length > 0 && previous.split('').every((character) => character === event.key.toLowerCase());
+            const query = repeated ? event.key.toLowerCase() : `${previous}${event.key.toLowerCase()}`;
+            searchRef.current = { value: query, time: now };
+            const candidates = [...items.slice(currentIndex + 1), ...items.slice(0, currentIndex + 1)];
+            const match = candidates.find((item) => {
+              const label = item.dataset.textValue ?? item.textContent ?? '';
+              return label.trim().toLocaleLowerCase().startsWith(query);
+            });
+            if (match) {
+              event.preventDefault();
+              match.focus();
+            }
           }
         }}
       >
         {children}
       </div>,
-      document.body,
+      portalContainer ?? document.body,
     );
   },
 );
@@ -183,10 +291,11 @@ DropdownMenuContent.displayName = 'DropdownMenuContent';
 export interface DropdownMenuItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   inset?: boolean;
   variant?: 'default' | 'destructive';
+  textValue?: string;
 }
 
 export const DropdownMenuItem = React.forwardRef<HTMLButtonElement, DropdownMenuItemProps>(
-  ({ className, inset, variant = 'default', onClick, type, ...props }, ref) => {
+  ({ className, inset, variant = 'default', textValue, onClick, onPointerMove, type, ...props }, ref) => {
     const context = useMenu('DropdownMenuItem');
     return (
       <button
@@ -197,12 +306,17 @@ export const DropdownMenuItem = React.forwardRef<HTMLButtonElement, DropdownMenu
         tabIndex={-1}
         data-inset={inset || undefined}
         data-variant={variant}
+        data-text-value={textValue}
         className={cn('slr-dropdown__item', className)}
+        onPointerMove={(event) => {
+          onPointerMove?.(event);
+          if (!event.defaultPrevented && !event.currentTarget.disabled) event.currentTarget.focus();
+        }}
         onClick={(event) => {
           onClick?.(event);
           if (!event.defaultPrevented) {
             context.setOpen(false);
-            context.triggerRef.current?.focus();
+            context.triggerRef.current?.focus({ preventScroll: true });
           }
         }}
       />

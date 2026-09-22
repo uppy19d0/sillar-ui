@@ -20,6 +20,10 @@ import {
   Separator,
   SkipLink,
   Switch,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
 } from '../dist/index.js';
 
 test('Button includes its variant, size, and safe default type', () => {
@@ -145,6 +149,29 @@ test('dialog and menu triggers expose their state to assistive technology', () =
   assert.match(dialog, /aria-expanded="false"/);
   assert.match(menu, /aria-haspopup="menu"/);
   assert.match(menu, /aria-expanded="false"/);
+});
+
+test('Tabs render linked tab and panel semantics on the server', () => {
+  const html = renderToStaticMarkup(
+    React.createElement(
+      Tabs,
+      { defaultValue: 'first' },
+      React.createElement(
+        TabsList,
+        { 'aria-label': 'Example tabs' },
+        React.createElement(TabsTrigger, { value: 'first' }, 'First'),
+        React.createElement(TabsTrigger, { value: 'second' }, 'Second'),
+      ),
+      React.createElement(TabsContent, { value: 'first' }, 'First panel'),
+      React.createElement(TabsContent, { value: 'second' }, 'Second panel'),
+    ),
+  );
+
+  assert.match(html, /role="tablist"/);
+  assert.match(html, /role="tab"[^>]*aria-selected="true"/);
+  assert.match(html, /role="tabpanel"/);
+  assert.match(html, /aria-controls="[^"]+-panel-first"/);
+  assert.match(html, /aria-labelledby="[^"]+-tab-first"/);
 });
 
 test('published package and bundle have no Radix runtime dependency', async () => {
