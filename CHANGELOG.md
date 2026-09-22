@@ -2,6 +2,13 @@
 
 All notable changes to Sillar UI are documented here.
 
+## 0.6.0 — 2026-09-22
+
+- Add layered semantic tokens for raised, sunken, and hover surfaces, stronger borders, subtle text, overlays, and soft feedback states.
+- Rebalance the built-in light and dark palettes for clearer depth, calmer contrast, and more legible secondary content.
+- Refine buttons, badges, cards, fields, switches, callouts, menus, dialogs, and tabs to use the new theme layers consistently.
+- Apply the correct native `color-scheme` in light and dark theme scopes and document explicit theme composition.
+
 ## 0.5.0 — 2026-09-21
 
 - Add accessible Tabs with automatic or manual activation, horizontal or vertical orientation, looping navigation, and controlled state.

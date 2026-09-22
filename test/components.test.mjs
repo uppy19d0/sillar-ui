@@ -185,3 +185,22 @@ test('published package and bundle have no Radix runtime dependency', async () =
   assert.equal(lockedPackages.some((packagePath) => packagePath.includes('node_modules/@radix-ui/')), false);
   assert.doesNotMatch(bundle, /@radix-ui\//);
 });
+
+test('theme stylesheet exposes layered light and dark semantic tokens', async () => {
+  const stylesheet = await readFile(new URL('../dist/styles.css', import.meta.url), 'utf8');
+
+  for (const token of [
+    '--slr-color-surface-raised',
+    '--slr-color-surface-sunken',
+    '--slr-color-surface-hover',
+    '--slr-color-subtle',
+    '--slr-color-border-strong',
+    '--slr-color-overlay',
+  ]) {
+    assert.match(stylesheet, new RegExp(token));
+  }
+
+  assert.match(stylesheet, /color-scheme:light/);
+  assert.match(stylesheet, /color-scheme:dark/);
+  assert.match(stylesheet, /\[data-theme=dark\]/);
+});

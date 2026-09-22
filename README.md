@@ -60,15 +60,28 @@ export function Example() {
 
 ## Theming
 
-Override the `--slr-*` custom properties on `:root`, a theme wrapper, or `.dark`. The package ships light and dark defaults and respects `prefers-reduced-motion`.
+Override the `--slr-*` custom properties on `:root`, a theme wrapper, or `.dark`. The package ships layered light and dark defaults for page backgrounds, raised and sunken surfaces, hover states, borders, text, feedback colors, overlays, focus rings, and elevation. It also respects `prefers-reduced-motion`.
+
+Apply the dark theme with either a class or an explicit data attribute:
+
+```tsx
+<main data-theme="dark">
+  <Card>Dark theme content</Card>
+</main>
+```
 
 ```css
 :root {
   --slr-color-brand: #2563eb;
   --slr-color-brand-hover: #1d4ed8;
+  --slr-color-brand-soft: #eff6ff;
+  --slr-color-surface-raised: #ffffff;
+  --slr-color-surface-sunken: #f8fafc;
   --slr-radius-md: 1rem;
 }
 ```
+
+Use `--slr-color-surface`, `--slr-color-surface-raised`, and `--slr-color-surface-sunken` to preserve depth across themes. Use `--slr-color-muted` for readable secondary copy and `--slr-color-subtle` for low-emphasis metadata. Every feedback color also includes a matching `*-soft` surface token.
 
 Sillar UI owns only its `slr-` class namespace and `--slr-` variables, so it can coexist with Tailwind, CSS Modules, CSS-in-JS, or plain CSS.
 
