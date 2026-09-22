@@ -202,5 +202,5 @@ test('theme stylesheet exposes layered light and dark semantic tokens', async ()
 
   assert.match(stylesheet, /color-scheme:light/);
   assert.match(stylesheet, /color-scheme:dark/);
-  assert.match(stylesheet, /\[data-theme=dark\]/);
+  assert.match(stylesheet, /:is\(\.dark,\[data-theme=dark\]\)/);
 });
