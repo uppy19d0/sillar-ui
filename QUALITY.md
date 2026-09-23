@@ -31,6 +31,6 @@ These behaviors follow the relevant [WAI-ARIA Authoring Practices patterns](http
 
 Intentional markup or theme-token changes must update the reviewed snapshot with `npm run test:snapshots:update`. The regular test command remains read-only and fails when the compiled package diverges from that contract.
 
-## Roadmap
+## Next quality milestones
 
-The next quality milestones are browser-driven tests across Chromium, Firefox, and WebKit; documented screen-reader checks; unstyled primitive entry points; and more complete form, overlay, navigation, and collection primitives. Each new component must enter through the same release gates.
+The next quality milestones are browser-driven tests across Chromium, Firefox, and WebKit; documented screen-reader checks; per-component entry points; and more complete form, overlay, navigation, and collection primitives. Each new component must enter through the same release gates.

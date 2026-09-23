@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useControllableState, useIsomorphicLayoutEffect } from './internal';
 import { activateDismissableLayer } from './internal/dismissable-layer';
 import { Portal } from './internal/portal';
+import { autoUpdatePosition, calculatePosition } from './internal/positioning';
+import { moveFocus } from './internal/roving-focus';
 import { Slot, composeRefs } from './slot';
 import { cn } from './utils';
 
@@ -137,7 +139,7 @@ export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenu
     const setOpenRef = React.useRef(context.setOpen);
     const searchRef = React.useRef({ value: '', time: 0 });
     const [position, setPosition] = React.useState<{
-      side: 'top' | 'bottom';
+      side: 'top' | 'right' | 'bottom' | 'left';
       style: React.CSSProperties;
     }>({ side, style: { visibility: 'hidden' } });
 
@@ -145,57 +147,27 @@ export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenu
 
     useIsomorphicLayoutEffect(() => {
       if (!context.open) return;
+      const trigger = context.triggerRef.current;
+      const content = contentRef.current;
+      if (!trigger || !content) return;
       const updatePosition = () => {
-        const trigger = context.triggerRef.current;
-        const content = contentRef.current;
-        if (!trigger || !content) return;
-        const rect = trigger.getBoundingClientRect();
-        const width = content.offsetWidth;
-        const height = content.offsetHeight;
         const direction = window.getComputedStyle(trigger).direction;
-        const availableTop = rect.top - collisionPadding;
-        const availableBottom = window.innerHeight - rect.bottom - collisionPadding;
-        let resolvedSide = side;
-        if (avoidCollisions) {
-          if (side === 'bottom' && height > availableBottom && availableTop > availableBottom) resolvedSide = 'top';
-          if (side === 'top' && height > availableTop && availableBottom > availableTop) resolvedSide = 'bottom';
-        }
-
-        let left = direction === 'rtl' ? rect.right - width : rect.left;
-        if (align === 'center') left = rect.left + (rect.width - width) / 2;
-        if (align === 'end') left = direction === 'rtl' ? rect.left : rect.right - width;
-        left = Math.max(collisionPadding, Math.min(left, window.innerWidth - width - collisionPadding));
-
-        const desiredTop = resolvedSide === 'bottom'
-          ? rect.bottom + sideOffset
-          : rect.top - height - sideOffset;
-        const top = avoidCollisions
-          ? Math.max(collisionPadding, Math.min(desiredTop, window.innerHeight - height - collisionPadding))
-          : desiredTop;
-        setPosition({
-          side: resolvedSide,
-          style: {
-            position: 'fixed',
-            top,
-            left,
-            minWidth: rect.width,
-            visibility: 'visible',
+        setPosition(calculatePosition(
+          trigger.getBoundingClientRect(),
+          { width: content.offsetWidth, height: content.offsetHeight },
+          { width: window.innerWidth, height: window.innerHeight },
+          {
+            side,
+            align,
+            sideOffset,
+            collisionPadding,
+            avoidCollisions,
+            direction: direction === 'rtl' ? 'rtl' : 'ltr',
+            matchAnchorWidth: true,
           },
-        });
+        ));
       };
-      updatePosition();
-      const resizeObserver = typeof ResizeObserver === 'undefined'
-        ? null
-        : new ResizeObserver(updatePosition);
-      if (contentRef.current) resizeObserver?.observe(contentRef.current);
-      if (context.triggerRef.current) resizeObserver?.observe(context.triggerRef.current);
-      window.addEventListener('resize', updatePosition);
-      window.addEventListener('scroll', updatePosition, true);
-      return () => {
-        resizeObserver?.disconnect();
-        window.removeEventListener('resize', updatePosition);
-        window.removeEventListener('scroll', updatePosition, true);
-      };
+      return autoUpdatePosition(trigger, content, updatePosition);
     }, [align, avoidCollisions, collisionPadding, context.open, context.triggerRef, side, sideOffset]);
 
     React.useEffect(() => {
@@ -245,14 +217,15 @@ export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenu
           } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             event.preventDefault();
             if (items.length === 0) return;
-            const direction = event.key === 'ArrowDown' ? 1 : -1;
-            items[(currentIndex + direction + items.length) % items.length]?.focus();
+            moveFocus(items, items[currentIndex], {
+              direction: event.key === 'ArrowDown' ? 'next' : 'previous',
+            })?.focus();
           } else if (event.key === 'Home') {
             event.preventDefault();
-            items[0]?.focus();
+            moveFocus(items, items[currentIndex], { direction: 'first' })?.focus();
           } else if (event.key === 'End') {
             event.preventDefault();
-            items.at(-1)?.focus();
+            moveFocus(items, items[currentIndex], { direction: 'last' })?.focus();
           } else if (event.key === 'Tab') {
             context.setOpen(false);
           } else if (

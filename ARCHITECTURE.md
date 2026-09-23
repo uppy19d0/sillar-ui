@@ -49,8 +49,8 @@ Tests run against `dist/`, the same compiled code applications install. Source-o
 
 ## Evolution toward 1.0
 
-The next foundations are positioning, presence, collection registration, and roving focus. New overlays and composite widgets should be built only after the shared behavior they need exists in the kernel.
+The kernel also owns collision-aware positioning, automatic position updates, roving focus, and exit-animation presence. Collection registration is the next shared foundation. New overlays and composite widgets should be built only after the shared behavior they need exists in the kernel.
 
-Public APIs follow semantic versioning. Before 1.0, breaking changes are collected into documented minor releases with migration notes. After 1.0, removals require a deprecation cycle. Design tokens are public API and follow the same policy.
+Public APIs follow semantic versioning. In the 1.x line, removals require a deprecation cycle. Design tokens are public API and follow the same policy.
 
 Architecture decisions with lasting tradeoffs belong in `docs/decisions/`. Each decision records its context, chosen approach, consequences, and status so contributors can understand why the system works as it does.

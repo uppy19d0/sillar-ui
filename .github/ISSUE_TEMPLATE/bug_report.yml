@@ -1,0 +1,39 @@
+name: Bug report
+description: Report a reproducible Sillar UI problem
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping improve Sillar UI.
+  - type: input
+    id: version
+    attributes:
+      label: Sillar UI version
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: React, browser, and operating system
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Link to a repository or include the smallest code sample that shows the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Accessibility context
+      description: Include keyboard, screen reader, or other assistive technology details when relevant.

@@ -2,11 +2,15 @@
 
 All notable changes to Sillar UI are documented here.
 
-## 0.7.0 — 2026-09-22
+## 1.0.0 — 2026-09-22
 
 - Introduce a private behavior kernel shared by Dialog, DropdownMenu, and future overlay primitives.
 - Centralize portals, focus containment, nested layer ordering, modal isolation, scroll locking, and outside-pointer dismissal.
 - Document the system architecture, component contract, evolution policy, and first architecture decision record.
+- Share collision-aware positioning and roving focus behavior across DropdownMenu and Tabs.
+- Add a presence foundation for future animated overlays without premature unmounting.
+- Establish semantic-versioning, support, contribution, and community policies for the stable 1.x line.
+- Celebrate the project as made with love in the Dominican Republic by @uppy19d0.
 
 ## 0.6.0 — 2026-09-22
 

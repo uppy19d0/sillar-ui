@@ -1,11 +1,16 @@
 # Contributing to Sillar UI
 
-Thank you for helping improve the library.
+Thank you for helping build accessible interface foundations from the Dominican Republic for developers everywhere.
 
-1. Create a focused branch from `main`.
-2. Keep component APIs typed and composable.
-3. Preserve visible keyboard focus, semantic HTML, and reduced-motion behavior.
-4. Add or update a smoke test when public behavior changes.
-5. Run `npm run check` and `npm pack --dry-run` before opening a pull request.
+## Before opening a pull request
 
-Use conventional commit subjects when practical, for example `feat: add alert primitive` or `fix: preserve button type`.
+1. Discuss substantial public API changes in an issue first.
+2. Keep components composable and product-agnostic.
+3. Use semantic HTML and follow the relevant WAI-ARIA pattern.
+4. Preserve user event handlers, refs, controlled state, keyboard behavior, and server rendering.
+5. Add interaction tests for behavior and update reviewed snapshots only for intentional contract changes.
+6. Run `npm run check`.
+
+Architecture changes need a short ADR in `docs/decisions/`. Public breaking changes must include migration notes and follow `STABILITY.md`.
+
+By participating, you agree to follow `CODE_OF_CONDUCT.md`.

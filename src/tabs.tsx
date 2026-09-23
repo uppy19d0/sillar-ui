@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useControllableState } from './internal';
+import { moveFocus } from './internal/roving-focus';
 import { cn } from './utils';
 
 type TabsContextValue = {
@@ -156,16 +157,15 @@ export const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>
 
           const list = event.currentTarget.closest<HTMLElement>('[role="tablist"]');
           const tabs = Array.from(list?.querySelectorAll<HTMLButtonElement>('[role="tab"]:not([disabled])') ?? []);
-          const currentIndex = tabs.indexOf(event.currentTarget);
-          let nextIndex = currentIndex;
-          if (event.key === 'Home') nextIndex = 0;
-          if (event.key === 'End') nextIndex = tabs.length - 1;
-          if (event.key === previousKey) nextIndex = currentIndex - 1;
-          if (event.key === nextKey) nextIndex = currentIndex + 1;
-          if (context.loop) nextIndex = (nextIndex + tabs.length) % tabs.length;
-          else nextIndex = Math.max(0, Math.min(nextIndex, tabs.length - 1));
           event.preventDefault();
-          tabs[nextIndex]?.focus();
+          const direction = event.key === 'Home'
+            ? 'first'
+            : event.key === 'End'
+              ? 'last'
+              : event.key === previousKey
+                ? 'previous'
+                : 'next';
+          moveFocus(tabs, event.currentTarget, { direction, loop: context.loop })?.focus();
         }}
       />
     );

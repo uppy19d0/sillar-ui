@@ -6,6 +6,14 @@
 
 <p align="center">Accessible React building blocks for consistent product interfaces.</p>
 
+<p align="center"><strong>Made with love in the Dominican Republic by <a href="https://github.com/uppy19d0">@uppy19d0</a>.</strong></p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/sillar-ui"><img alt="npm version" src="https://img.shields.io/npm/v/sillar-ui" /></a>
+  <a href="https://github.com/uppy19d0/sillar-ui/actions/workflows/ci.yml"><img alt="CI status" src="https://github.com/uppy19d0/sillar-ui/actions/workflows/ci.yml/badge.svg" /></a>
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/npm/l/sillar-ui" /></a>
+</p>
+
 Accessible React components and design tokens for consistent product interfaces. The package is small, typed, themeable with CSS custom properties, and works without a Tailwind runtime. Its interactive primitives are implemented by Sillar UI and do not depend on Radix UI or another component runtime.
 
 ## Install
@@ -91,7 +99,9 @@ Dialog, DropdownMenu, and Tabs follow the corresponding [WAI-ARIA Authoring Prac
 
 Every release enforces public JavaScript and CSS size budgets and rejects Radix dependencies in both the manifest and lockfile. See the [quality contract](QUALITY.md) for the current guarantees, supported baseline, and next milestones. Security reports are handled through the private process in [SECURITY.md](SECURITY.md).
 
-The shared behavior kernel prevents focus, portal, dismissal, and nested-layer logic from drifting between components. Read [the architecture guide](ARCHITECTURE.md) for its boundaries, component contract, and path toward 1.0.
+The shared behavior kernel prevents focus, portal, dismissal, positioning, and nested-layer logic from drifting between components. Read [the architecture guide](ARCHITECTURE.md) for its boundaries and component contract.
+
+Sillar UI 1.x follows a documented [stability policy](STABILITY.md). Support requests and reproducible defects are welcome through the channels in [SUPPORT.md](SUPPORT.md), and contributions follow [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Development
 
@@ -107,3 +117,5 @@ The component source lives in `src/`, declarations and distributable assets are 
 ## License
 
 MIT
+
+Made with love in the Dominican Republic by [@uppy19d0](https://github.com/uppy19d0).

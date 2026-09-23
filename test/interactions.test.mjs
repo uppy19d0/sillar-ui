@@ -244,6 +244,31 @@ test('DropdownMenu dismisses only for pointers outside its content and trigger',
   assert.equal(document.querySelector('[role="menu"]'), null);
 });
 
+test('DropdownMenu flips above its trigger when the viewport has no room below', async () => {
+  const { container } = await render(
+    React.createElement(
+      DropdownMenu,
+      null,
+      React.createElement(DropdownMenuTrigger, null, 'Position menu'),
+      React.createElement(DropdownMenuContent, null, React.createElement(DropdownMenuItem, null, 'Edit')),
+    ),
+  );
+  const trigger = container.querySelector('button');
+  trigger.getBoundingClientRect = () => ({
+    top: 700, right: 140, bottom: 730, left: 100, width: 40, height: 30,
+    x: 100, y: 700, toJSON() {},
+  });
+  await act(async () => trigger.click());
+  const menu = document.querySelector('[role="menu"]');
+  Object.defineProperties(menu, {
+    offsetWidth: { configurable: true, value: 160 },
+    offsetHeight: { configurable: true, value: 120 },
+  });
+  await act(async () => window.dispatchEvent(new Event('resize')));
+  assert.equal(menu.dataset.side, 'top');
+  assert.equal(menu.style.visibility, 'visible');
+});
+
 test('Tabs follow WAI-ARIA automatic and manual activation behavior', async () => {
   const automatic = await render(
     React.createElement(
