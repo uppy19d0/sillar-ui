@@ -30,6 +30,7 @@
     "build": "vite build && tsc -p tsconfig.build.json",
     "size": "node scripts/check-size.mjs",
     "test": "node --test test/*.test.mjs",
+    "test:snapshots:update": "npm run build && UPDATE_SNAPSHOTS=1 node --test test/snapshots.test.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "check": "npm run typecheck && npm run build && npm run size && npm test",
     "prepublishOnly": "npm run check"

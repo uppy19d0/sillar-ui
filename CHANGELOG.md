@@ -9,6 +9,7 @@ All notable changes to Sillar UI are documented here.
 - Refine buttons, badges, cards, fields, switches, callouts, menus, dialogs, and tabs to use the new theme layers consistently.
 - Apply the correct native `color-scheme` in light and dark theme scopes and document explicit theme composition.
 - Ensure root-level `.dark` and `data-theme="dark"` selectors override the light defaults reliably.
+- Add reviewed snapshots for representative component composition and the complete light/dark token contract.
 
 ## 0.5.0 — 2026-09-21
 

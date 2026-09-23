@@ -6,6 +6,7 @@ Sillar UI treats accessibility, predictable behavior, and package weight as publ
 
 - Strict TypeScript validation and a production ESM build.
 - Server-rendering smoke tests against the public `dist` entry point.
+- Reviewed snapshots for composed public markup and the complete light/dark token contract.
 - DOM interaction tests for focus management, keyboard navigation, dismissal, and controlled state.
 - Automated axe checks with zero serious or critical violations in the covered examples.
 - A dependency regression test that rejects every `@radix-ui/*` package and import.
@@ -27,6 +28,8 @@ These behaviors follow the relevant [WAI-ARIA Authoring Practices patterns](http
 - Modern evergreen browsers with ES2022 modules and CSS custom properties.
 - Server rendering without access to browser globals during render.
 - Styling through the `slr-` class namespace and `--slr-*` custom properties.
+
+Intentional markup or theme-token changes must update the reviewed snapshot with `npm run test:snapshots:update`. The regular test command remains read-only and fails when the compiled package diverges from that contract.
 
 ## Roadmap
 
