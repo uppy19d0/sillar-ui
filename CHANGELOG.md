@@ -10,6 +10,7 @@ All notable changes to Sillar UI are documented here.
 - Share collision-aware positioning and roving focus behavior across DropdownMenu and Tabs.
 - Add a presence foundation for future animated overlays without premature unmounting.
 - Establish semantic-versioning, support, contribution, and community policies for the stable 1.x line.
+- Move continuous integration to the Node 24 action runtime.
 - Celebrate the project as made with love in the Dominican Republic by @uppy19d0.
 
 ## 0.6.0 — 2026-09-22
