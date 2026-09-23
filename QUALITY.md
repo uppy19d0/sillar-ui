@@ -14,6 +14,8 @@ Sillar UI treats accessibility, predictable behavior, and package weight as publ
 - Compatibility checks on React 18.3 and React 19.3.
 - A production dependency audit at high severity before merge.
 - Tokenless npm Trusted Publishing through GitHub OIDC with registry provenance.
+- Immutable GitHub Action revisions, verified npm registry signatures, and an exact tag-to-package-version release guard.
+- Weekly dependency maintenance, pull-request dependency review, and CodeQL analysis.
 
 Automated accessibility checks find common failures; they do not certify every composition or consumer application. Components still need manual keyboard and assistive-technology testing when their content or behavior is changed.
 

@@ -17,16 +17,20 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
       - name: Use an OIDC-capable npm client
-        run: npm install --global npm@latest
+        run: npm install --global npm@11.17.0
       - run: npm ci
+      - run: npm audit signatures
       - run: npm run check
+      - name: Verify release tag matches package version
+        run: npm run release:verify -- "${GITHUB_REF_NAME}"
       - name: Publish with trusted provenance
         run: npm publish --access public

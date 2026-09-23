@@ -17,6 +17,7 @@
     "ARCHITECTURE.md",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
+    "RELEASING.md",
     "STABILITY.md",
     "SUPPORT.md",
     "LICENSE"
@@ -160,6 +161,7 @@
     "docs:build": "vite build --config vite.docs.config.ts",
     "docs:dev": "vite --config vite.docs.config.ts",
     "size": "node scripts/check-size.mjs",
+    "release:verify": "node scripts/verify-release.mjs",
     "test": "node --test test/*.test.mjs",
     "test:snapshots:update": "npm run build && UPDATE_SNAPSHOTS=1 node --test test/snapshots.test.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",

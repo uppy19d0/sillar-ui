@@ -1,0 +1,7 @@
+# Public API, package integrity, and release infrastructure require maintainer review.
+/src/ @uppy19d0
+/package.json @uppy19d0
+/package-lock.json @uppy19d0
+/.github/workflows/ @uppy19d0
+/scripts/ @uppy19d0
+/SECURITY.md @uppy19d0
