@@ -91,6 +91,8 @@ Dialog, DropdownMenu, and Tabs follow the corresponding [WAI-ARIA Authoring Prac
 
 Every release enforces public JavaScript and CSS size budgets and rejects Radix dependencies in both the manifest and lockfile. See the [quality contract](QUALITY.md) for the current guarantees, supported baseline, and next milestones. Security reports are handled through the private process in [SECURITY.md](SECURITY.md).
 
+The shared behavior kernel prevents focus, portal, dismissal, and nested-layer logic from drifting between components. Read [the architecture guide](ARCHITECTURE.md) for its boundaries, component contract, and path toward 1.0.
+
 ## Development
 
 ```bash

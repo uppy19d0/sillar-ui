@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { createPortal } from 'react-dom';
-import { getFocusableElements, useControllableState, useIsomorphicLayoutEffect } from './internal';
+import { useControllableState, useIsomorphicLayoutEffect } from './internal';
+import { activateFocusScope } from './internal/focus-scope';
+import { lockBodyScroll, makeOutsideContentInert } from './internal/layer';
+import { Portal } from './internal/portal';
 import { Slot, composeRefs } from './slot';
 import { cn } from './utils';
 
@@ -16,83 +18,12 @@ type DialogContextValue = {
   registerDescription: () => () => void;
 };
 
-type InertRecord = {
-  count: number;
-  inert: boolean;
-  ariaHidden: string | null;
-};
-
 const DialogContext = React.createContext<DialogContextValue | null>(null);
-const inertRecords = new Map<HTMLElement, InertRecord>();
-const dialogStack: HTMLElement[] = [];
-let scrollLockCount = 0;
-let originalBodyOverflow = '';
 
 function useDialog(component: string) {
   const context = React.useContext(DialogContext);
   if (!context) throw new Error(`${component} must be rendered inside Dialog.`);
   return context;
-}
-
-function lockBodyScroll() {
-  if (scrollLockCount === 0) {
-    originalBodyOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-  }
-  scrollLockCount += 1;
-  return () => {
-    scrollLockCount = Math.max(0, scrollLockCount - 1);
-    if (scrollLockCount === 0) document.body.style.overflow = originalBodyOverflow;
-  };
-}
-
-function makeOutsideContentInert(portal: HTMLElement) {
-  const outside = new Set<HTMLElement>();
-  let branch: HTMLElement = portal;
-  let parent = branch.parentElement;
-
-  while (parent) {
-    for (const element of parent.children) {
-      if (
-        element instanceof HTMLElement
-        && element !== branch
-        && !['SCRIPT', 'STYLE', 'LINK'].includes(element.tagName)
-      ) outside.add(element);
-    }
-    if (parent === document.body) break;
-    branch = parent;
-    parent = branch.parentElement;
-  }
-
-  const siblings = [...outside];
-
-  siblings.forEach((element) => {
-    const current = inertRecords.get(element);
-    if (current) {
-      current.count += 1;
-      return;
-    }
-    inertRecords.set(element, {
-      count: 1,
-      inert: element.inert === true,
-      ariaHidden: element.getAttribute('aria-hidden'),
-    });
-    element.inert = true;
-    element.setAttribute('aria-hidden', 'true');
-  });
-
-  return () => {
-    siblings.forEach((element) => {
-      const current = inertRecords.get(element);
-      if (!current) return;
-      current.count -= 1;
-      if (current.count > 0) return;
-      element.inert = current.inert;
-      if (current.ariaHidden === null) element.removeAttribute('aria-hidden');
-      else element.setAttribute('aria-hidden', current.ariaHidden);
-      inertRecords.delete(element);
-    });
-  };
 }
 
 export interface DialogProps {
@@ -199,12 +130,11 @@ export interface DialogPortalProps extends React.HTMLAttributes<HTMLDivElement> 
 export function DialogPortal({ children, container, className, ...props }: DialogPortalProps) {
   const { open } = useDialog('DialogPortal');
   if (!open || typeof document === 'undefined') return null;
-  return createPortal(
+  return <Portal container={container}>
     <div {...props} data-slot="dialog-portal" className={cn('slr-dialog__portal', className)}>
       {children}
-    </div>,
-    container ?? document.body,
-  );
+    </div>
+  </Portal>;
 }
 
 export const DialogOverlay = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
@@ -267,61 +197,20 @@ export const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps
       if (!context.open) return;
       const content = contentRef.current;
       if (!content) return;
-      const previousFocus = document.activeElement as HTMLElement | null;
       const portal = content.closest<HTMLElement>('[data-slot="dialog-portal"]');
       const unlockScroll = lockBodyScroll();
       const restoreOutside = portal ? makeOutsideContentInert(portal) : () => undefined;
-      dialogStack.push(content);
-
-      const frame = window.requestAnimationFrame(() => {
-        if (content.contains(document.activeElement)) return;
-        const initialFocus = initialFocusRefRef.current?.current ?? getFocusableElements(content)[0] ?? content;
-        initialFocus.focus({ preventScroll: true });
+      const deactivateFocusScope = activateFocusScope(content, {
+        initialFocus: initialFocusRefRef.current?.current,
+        finalFocus: finalFocusRefRef.current?.current,
+        fallbackFocus: context.triggerRef.current,
+        onEscapeKeyDown: (event) => onEscapeKeyDownRef.current?.(event),
+        onDismiss: () => setOpenRef.current(false),
       });
-
-      const isTopLayer = () => dialogStack.at(-1) === content;
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (!isTopLayer()) return;
-        if (event.key === 'Escape') {
-          onEscapeKeyDownRef.current?.(event);
-          if (!event.defaultPrevented) setOpenRef.current(false);
-          return;
-        }
-        if (event.key !== 'Tab') return;
-        const focusable = getFocusableElements(content);
-        if (focusable.length === 0) {
-          event.preventDefault();
-          content.focus();
-          return;
-        }
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (event.shiftKey && (document.activeElement === first || !content.contains(document.activeElement))) {
-          event.preventDefault();
-          last.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first.focus();
-        }
-      };
-
-      const handleFocusIn = (event: FocusEvent) => {
-        if (!isTopLayer() || content.contains(event.target as Node)) return;
-        (initialFocusRefRef.current?.current ?? getFocusableElements(content)[0] ?? content).focus();
-      };
-
-      document.addEventListener('keydown', handleKeyDown);
-      document.addEventListener('focusin', handleFocusIn);
       return () => {
-        window.cancelAnimationFrame(frame);
-        document.removeEventListener('keydown', handleKeyDown);
-        document.removeEventListener('focusin', handleFocusIn);
-        const stackIndex = dialogStack.lastIndexOf(content);
-        if (stackIndex >= 0) dialogStack.splice(stackIndex, 1);
         restoreOutside();
         unlockScroll();
-        const finalFocus = finalFocusRefRef.current?.current ?? context.triggerRef.current ?? previousFocus;
-        finalFocus?.focus?.({ preventScroll: true });
+        deactivateFocusScope();
       };
     }, [context.open, context.triggerRef]);
 

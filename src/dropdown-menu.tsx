@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { createPortal } from 'react-dom';
 import { useControllableState, useIsomorphicLayoutEffect } from './internal';
+import { activateDismissableLayer } from './internal/dismissable-layer';
+import { Portal } from './internal/portal';
 import { Slot, composeRefs } from './slot';
 import { cn } from './utils';
 
@@ -105,7 +106,7 @@ export interface DropdownMenuPortalProps {
 export function DropdownMenuPortal({ children, container }: DropdownMenuPortalProps) {
   const { open } = useMenu('DropdownMenuPortal');
   if (!open || typeof document === 'undefined') return null;
-  return createPortal(children, container ?? document.body);
+  return <Portal container={container}>{children}</Portal>;
 }
 
 export interface DropdownMenuContentProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -206,23 +207,22 @@ export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenu
         const target = context.focusIntent === 'last' ? items.at(-1) : items[0];
         target?.focus({ preventScroll: true });
       });
-      const handlePointerDown = (event: PointerEvent) => {
-        const target = event.target as Node;
-        if (!contentRef.current?.contains(target) && !context.triggerRef.current?.contains(target)) {
-          setOpenRef.current(false);
-        }
-      };
-      document.addEventListener('pointerdown', handlePointerDown);
+      const deactivateDismissableLayer = contentRef.current
+        ? activateDismissableLayer(contentRef.current, {
+          branches: [context.triggerRef.current],
+          onDismiss: () => setOpenRef.current(false),
+        })
+        : () => undefined;
       return () => {
         window.cancelAnimationFrame(frame);
-        document.removeEventListener('pointerdown', handlePointerDown);
+        deactivateDismissableLayer();
         searchRef.current = { value: '', time: 0 };
       };
     }, [context.focusIntent, context.open, context.triggerRef]);
 
     if (!context.open || typeof document === 'undefined') return null;
 
-    return createPortal(
+    return <Portal container={portalContainer}>
       <div
         {...props}
         ref={composeRefs(contentRef, forwardedRef)}
@@ -280,9 +280,8 @@ export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenu
         }}
       >
         {children}
-      </div>,
-      portalContainer ?? document.body,
-    );
+      </div>
+    </Portal>;
   },
 );
 

@@ -14,7 +14,7 @@ export declare const DialogClose: React.ForwardRefExoticComponent<DialogActionPr
 export interface DialogPortalProps extends React.HTMLAttributes<HTMLDivElement> {
     container?: Element | DocumentFragment | null;
 }
-export declare function DialogPortal({ children, container, className, ...props }: DialogPortalProps): React.ReactPortal | null;
+export declare function DialogPortal({ children, container, className, ...props }: DialogPortalProps): React.JSX.Element | null;
 export declare const DialogOverlay: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>>;
 export interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
     overlayClassName?: string;

@@ -141,6 +141,53 @@ test('Dialog isolates background content, traps focus, and restores the trigger'
   assert.equal(document.activeElement, trigger);
 });
 
+test('nested Dialog layers dismiss in order and retain modal isolation', async () => {
+  const { container } = await render(
+    React.createElement(
+      Dialog,
+      null,
+      React.createElement(DialogTrigger, null, 'Open parent'),
+      React.createElement(
+        DialogContent,
+        { 'aria-label': 'Parent dialog' },
+        React.createElement(
+          Dialog,
+          null,
+          React.createElement(DialogTrigger, null, 'Open child'),
+          React.createElement(
+            DialogContent,
+            { 'aria-label': 'Child dialog' },
+            React.createElement(DialogClose, null, 'Close child'),
+          ),
+        ),
+        React.createElement(DialogClose, null, 'Close parent'),
+      ),
+    ),
+  );
+  const parentTrigger = container.querySelector('button');
+  parentTrigger.focus();
+  await act(async () => parentTrigger.click());
+  await nextFrame();
+
+  const childTrigger = [...document.querySelectorAll('button')]
+    .find((button) => button.textContent === 'Open child');
+  await act(async () => childTrigger.click());
+  await nextFrame();
+  assert.equal(document.querySelectorAll('[role="dialog"]').length, 2);
+  assert.equal(document.body.style.overflow, 'hidden');
+
+  await act(async () => keydown(document, 'Escape'));
+  assert.equal(document.querySelectorAll('[role="dialog"]').length, 1);
+  assert.equal(document.body.style.overflow, 'hidden');
+  assert.equal(document.activeElement, childTrigger);
+
+  await act(async () => keydown(document, 'Escape'));
+  assert.equal(document.querySelectorAll('[role="dialog"]').length, 0);
+  assert.equal(document.body.style.overflow, '');
+  assert.equal(container.inert, false);
+  assert.equal(document.activeElement, parentTrigger);
+});
+
 test('DropdownMenu supports ArrowUp entry, typeahead, disabled items, and focus return', async () => {
   const { container } = await render(
     React.createElement(
@@ -174,6 +221,27 @@ test('DropdownMenu supports ArrowUp entry, typeahead, disabled items, and focus 
   await act(async () => keydown(document.activeElement, 'Escape'));
   assert.equal(document.querySelector('[role="menu"]'), null);
   assert.equal(document.activeElement, trigger);
+});
+
+test('DropdownMenu dismisses only for pointers outside its content and trigger', async () => {
+  const { container } = await render(
+    React.createElement(
+      DropdownMenu,
+      null,
+      React.createElement(DropdownMenuTrigger, null, 'Actions'),
+      React.createElement(DropdownMenuContent, null, React.createElement(DropdownMenuItem, null, 'Edit')),
+    ),
+  );
+  const trigger = container.querySelector('button');
+  await act(async () => trigger.click());
+  await nextFrame();
+  const menu = document.querySelector('[role="menu"]');
+
+  await act(async () => menu.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })));
+  assert.ok(document.querySelector('[role="menu"]'));
+
+  await act(async () => document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })));
+  assert.equal(document.querySelector('[role="menu"]'), null);
 });
 
 test('Tabs follow WAI-ARIA automatic and manual activation behavior', async () => {

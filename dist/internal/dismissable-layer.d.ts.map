@@ -1,0 +1,1 @@
+{"version":3,"file":"dismissable-layer.d.ts","sourceRoot":"","sources":["../../src/internal/dismissable-layer.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,uBAAuB;IACtC,QAAQ,CAAC,EAAE,KAAK,CAAC,WAAW,GAAG,IAAI,CAAC,CAAC;IACrC,SAAS,EAAE,MAAM,IAAI,CAAC;CACvB;AAED,yFAAyF;AACzF,wBAAgB,wBAAwB,CAAC,SAAS,EAAE,WAAW,EAAE,OAAO,EAAE,uBAAuB,cAShG"}

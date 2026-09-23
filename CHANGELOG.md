@@ -2,6 +2,12 @@
 
 All notable changes to Sillar UI are documented here.
 
+## 0.7.0 — 2026-09-22
+
+- Introduce a private behavior kernel shared by Dialog, DropdownMenu, and future overlay primitives.
+- Centralize portals, focus containment, nested layer ordering, modal isolation, scroll locking, and outside-pointer dismissal.
+- Document the system architecture, component contract, evolution policy, and first architecture decision record.
+
 ## 0.6.0 — 2026-09-22
 
 - Add layered semantic tokens for raised, sunken, and hover surfaces, stronger borders, subtle text, overlays, and soft feedback states.

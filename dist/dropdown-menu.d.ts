@@ -14,7 +14,7 @@ export interface DropdownMenuPortalProps {
     children: React.ReactNode;
     container?: Element | DocumentFragment | null;
 }
-export declare function DropdownMenuPortal({ children, container }: DropdownMenuPortalProps): React.ReactPortal | null;
+export declare function DropdownMenuPortal({ children, container }: DropdownMenuPortalProps): React.JSX.Element | null;
 export interface DropdownMenuContentProps extends React.HTMLAttributes<HTMLDivElement> {
     align?: 'start' | 'center' | 'end';
     side?: 'top' | 'bottom';
