@@ -13,6 +13,7 @@ Sillar UI treats accessibility, predictable behavior, and package weight as publ
 - Bundle budgets of 36 kB raw / 9 kB gzip for JavaScript and 22 kB raw / 5.5 kB gzip for CSS.
 - Compatibility checks on React 18.3 and React 19.3.
 - A production dependency audit at high severity before merge.
+- Tokenless npm Trusted Publishing through GitHub OIDC with registry provenance.
 
 Automated accessibility checks find common failures; they do not certify every composition or consumer application. Components still need manual keyboard and assistive-technology testing when their content or behavior is changed.
 
