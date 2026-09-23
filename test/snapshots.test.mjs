@@ -118,9 +118,15 @@ function extractTokens(stylesheet, selector) {
   );
 }
 
+function normalizeReactIds(markup) {
+  const tabsId = markup.match(/id="([^"]+)-tab-preview"/)?.[1];
+  assert.ok(tabsId, 'Expected the Tabs snapshot to expose its generated base id.');
+  return markup.replaceAll(tabsId, 'sillar-tabs');
+}
+
 test('public component markup and theme tokens match the reviewed snapshot', async () => {
   const stylesheet = await readFile(new URL('../dist/styles.css', import.meta.url), 'utf8');
-  const markup = renderToStaticMarkup(componentGallery()).replaceAll('><', '>\n<');
+  const markup = normalizeReactIds(renderToStaticMarkup(componentGallery())).replaceAll('><', '>\n<');
   const snapshot = JSON.stringify({
     markup,
     light: extractTokens(stylesheet, ':root'),
