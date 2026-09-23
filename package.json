@@ -185,7 +185,7 @@
     "jsdom": "^26.1.0",
     "react-live": "^4.1.8",
     "typescript": "^7.0.2",
-    "vite": "6.4.3"
+    "vite": "8.3.0"
   },
   "publishConfig": {
     "access": "public"
