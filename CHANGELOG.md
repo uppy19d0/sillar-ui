@@ -2,6 +2,14 @@
 
 All notable changes to Sillar UI are documented here.
 
+## 1.1.0 — 2026-09-23
+
+- Add Tooltip, Popover, Accordion, Collapsible, Toast, Checkbox, RadioGroup, composed Select, Combobox, NavigationMenu, Progress, Skeleton, typed Form validation, and DatePicker.
+- Add per-component package entry points with independent bundle budgets.
+- Launch bilingual documentation with interactive examples, an editable playground, keyboard and token references, Radix migration guidance, and an ecosystem comparison.
+- Add `llms.txt` and Markdown component documentation for AI-assisted development.
+- Add automated GitHub Pages deployment for the documentation site.
+
 ## 1.0.0 — 2026-09-22
 
 - Introduce a private behavior kernel shared by Dialog, DropdownMenu, and future overlay primitives.

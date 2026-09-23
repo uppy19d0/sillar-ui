@@ -1,0 +1,31 @@
+# Sillar UI
+
+> Accessible React components, semantic design tokens, and polished light and dark themes. Made with love in the Dominican Republic by @uppy19d0.
+
+Sillar UI is an MIT-licensed React 18+ component library written in TypeScript. It owns its interaction foundations and has no Radix UI or other primitive runtime dependency.
+
+## Install
+
+```bash
+npm install sillar-ui
+```
+
+Import `sillar-ui/styles.css` once. Import from `sillar-ui` for convenience or a component entry such as `sillar-ui/dialog`, `sillar-ui/button`, or `sillar-ui/combobox` for focused bundles.
+
+## Documentation
+
+- [Component reference](./components.md)
+- [Referencia de componentes en español](./componentes.md)
+- [Architecture](https://github.com/uppy19d0/sillar-ui/blob/main/ARCHITECTURE.md)
+- [Quality contract](https://github.com/uppy19d0/sillar-ui/blob/main/QUALITY.md)
+- [Stability policy](https://github.com/uppy19d0/sillar-ui/blob/main/STABILITY.md)
+- [npm package](https://www.npmjs.com/package/sillar-ui)
+- [GitHub repository](https://github.com/uppy19d0/sillar-ui)
+
+## Public component families
+
+Accordion, Badge, Button, Callout, Card, Checkbox, Collapsible, Combobox, DatePicker, Dialog, DropdownMenu, Field, Form, IconButton, Input, Label, NavigationMenu, Popover, Progress, RadioGroup, Section, Select (native and composed), Separator, Skeleton, Slot, Switch, Tabs, Textarea, Toast, Tooltip, VisuallyHidden, and SkipLink.
+
+## Accessibility
+
+Interactive primitives use semantic HTML and WAI-ARIA patterns, preserve controlled and uncontrolled state, expose state through `data-state`, support keyboard focus behavior, and respect `prefers-reduced-motion`. See the component reference for keyboard commands.

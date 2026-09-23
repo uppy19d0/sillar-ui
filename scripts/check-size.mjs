@@ -1,22 +1,28 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { gzipSync } from 'node:zlib';
 
-const budgets = [
-  { file: 'dist/index.js', raw: 36_000, gzip: 9_000 },
-  { file: 'dist/styles.css', raw: 22_000, gzip: 5_500 },
-];
+const files = await readdir(new URL('../dist', import.meta.url));
+const javascriptFiles = files.filter((file) => file.endsWith('.js'));
+let totalRaw = 0;
+let totalGzip = 0;
 
-for (const budget of budgets) {
-  const contents = await readFile(new URL(`../${budget.file}`, import.meta.url));
-  const sizes = { raw: contents.byteLength, gzip: gzipSync(contents).byteLength };
-  assert.ok(
-    sizes.raw <= budget.raw,
-    `${budget.file} is ${sizes.raw} B; the raw budget is ${budget.raw} B`,
-  );
-  assert.ok(
-    sizes.gzip <= budget.gzip,
-    `${budget.file} is ${sizes.gzip} B gzip; the gzip budget is ${budget.gzip} B`,
-  );
-  console.log(`${budget.file}: ${sizes.raw} B raw / ${sizes.gzip} B gzip`);
+for (const file of javascriptFiles) {
+  const contents = await readFile(new URL(`../dist/${file}`, import.meta.url));
+  const raw = contents.byteLength;
+  const gzip = gzipSync(contents).byteLength;
+  totalRaw += raw;
+  totalGzip += gzip;
+  assert.ok(raw <= 10_000, `${file} is ${raw} B; the per-entry raw budget is 10000 B`);
+  assert.ok(gzip <= 4_000, `${file} is ${gzip} B gzip; the per-entry gzip budget is 4000 B`);
 }
+
+assert.ok(totalRaw <= 90_000, `all JavaScript entries total ${totalRaw} B; the budget is 90000 B`);
+assert.ok(totalGzip <= 35_000, `all JavaScript entries total ${totalGzip} B gzip; the budget is 35000 B`);
+console.log(`${javascriptFiles.length} JavaScript entries: ${totalRaw} B raw / ${totalGzip} B gzip total`);
+
+const css = await readFile(new URL('../dist/styles.css', import.meta.url));
+const cssGzip = gzipSync(css).byteLength;
+assert.ok(css.byteLength <= 34_000, `dist/styles.css is ${css.byteLength} B; the budget is 34000 B`);
+assert.ok(cssGzip <= 7_000, `dist/styles.css is ${cssGzip} B gzip; the budget is 7000 B`);
+console.log(`dist/styles.css: ${css.byteLength} B raw / ${cssGzip} B gzip`);

@@ -4,19 +4,43 @@ import test from 'node:test';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
   Badge,
   Button,
   Callout,
+  Checkbox,
+  Combobox,
   Card,
   CardTitle,
   Dialog,
   DialogTrigger,
+  DatePicker,
   DropdownMenu,
   DropdownMenuTrigger,
   FieldLabel,
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormMessage,
   IconButton,
   Label,
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  Progress,
+  RadioGroup,
+  RadioGroupItem,
   Select,
+  SelectContent,
+  SelectItem,
+  SelectRoot,
+  SelectTrigger,
+  SelectValue,
   Separator,
   SkipLink,
   Switch,
@@ -24,6 +48,8 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  Tooltip,
+  TooltipTrigger,
 } from '../dist/index.js';
 
 test('Button includes its variant, size, and safe default type', () => {
@@ -174,6 +200,59 @@ test('Tabs render linked tab and panel semantics on the server', () => {
   assert.match(html, /aria-labelledby="[^"]+-tab-first"/);
 });
 
+test('new collection primitives expose linked accessible state', () => {
+  const html = renderToStaticMarkup(React.createElement(React.Fragment, null,
+    React.createElement(Accordion, { defaultValue: 'quality', collapsible: true },
+      React.createElement(AccordionItem, { value: 'quality' },
+        React.createElement(AccordionTrigger, null, 'Quality'),
+        React.createElement(AccordionContent, null, 'Tested behavior'))),
+    React.createElement(Checkbox, { defaultChecked: true, 'aria-label': 'Accept' }),
+    React.createElement(RadioGroup, { defaultValue: 'one', 'aria-label': 'Choice' },
+      React.createElement(RadioGroupItem, { value: 'one', 'aria-label': 'One' }),
+      React.createElement(RadioGroupItem, { value: 'two', 'aria-label': 'Two' })),
+    React.createElement(Progress, { value: 65, 'aria-label': 'Progress' }),
+  ));
+  assert.match(html, /aria-expanded="true"/);
+  assert.match(html, /role="region"/);
+  assert.match(html, /role="checkbox"[^>]*aria-checked="true"/);
+  assert.match(html, /role="radiogroup"/);
+  assert.match(html, /role="progressbar"[^>]*aria-valuenow="65"/);
+});
+
+test('SelectRoot, Combobox, and NavigationMenu render their public contracts', () => {
+  const html = renderToStaticMarkup(React.createElement(React.Fragment, null,
+    React.createElement(SelectRoot, { defaultValue: 'es', name: 'language' },
+      React.createElement(SelectTrigger, null, React.createElement(SelectValue, { placeholder: 'Language' })),
+      React.createElement(SelectContent, null, React.createElement(SelectItem, { value: 'es' }, 'Spanish'))),
+    React.createElement(Combobox, { options: [{ value: 'sdq', label: 'Santo Domingo' }], name: 'city' }),
+    React.createElement(NavigationMenu, null,
+      React.createElement(NavigationMenuList, null,
+        React.createElement(NavigationMenuItem, null,
+          React.createElement(NavigationMenuTrigger, { value: 'products' }, 'Products'),
+          React.createElement(NavigationMenuContent, { value: 'products' }, 'Product links')))),
+  ));
+  assert.match(html, /role="combobox"/);
+  assert.match(html, /type="hidden" name="language" value="es"/);
+  assert.match(html, /aria-autocomplete="list"/);
+  assert.match(html, /<nav[^>]*aria-label="Primary navigation"/);
+});
+
+test('Form and DatePicker connect validation and calendar semantics', () => {
+  const html = renderToStaticMarkup(React.createElement(React.Fragment, null,
+    React.createElement(FormItem, { invalid: true, required: true },
+      React.createElement(FormLabel, null, 'Email'),
+      React.createElement(FormControl, null, React.createElement('input', { type: 'email' })),
+      React.createElement(FormMessage, null, 'Enter a valid email')),
+    React.createElement(DatePicker, { defaultValue: new Date(2026, 8, 23), locale: 'en' }),
+    React.createElement(Tooltip, null, React.createElement(TooltipTrigger, null, 'Help')),
+  ));
+  assert.match(html, /aria-invalid="true"/);
+  assert.match(html, /role="alert"/);
+  assert.match(html, /role="grid"/);
+  assert.match(html, /aria-selected="true"/);
+  assert.match(html, /data-state="closed"/);
+});
+
 test('published package and bundle have no Radix runtime dependency', async () => {
   const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
   const packageLock = JSON.parse(await readFile(new URL('../package-lock.json', import.meta.url), 'utf8'));
@@ -184,6 +263,14 @@ test('published package and bundle have no Radix runtime dependency', async () =
   assert.equal(dependencies.some((dependency) => dependency.startsWith('@radix-ui/')), false);
   assert.equal(lockedPackages.some((packagePath) => packagePath.includes('node_modules/@radix-ui/')), false);
   assert.doesNotMatch(bundle, /@radix-ui\//);
+});
+
+test('focused component entry points resolve through package exports', async () => {
+  const entries = ['accordion', 'button', 'choice', 'combobox', 'date-picker', 'dialog', 'form', 'navigation-menu', 'popover', 'select-root', 'toast', 'tooltip'];
+  for (const entry of entries) {
+    const module = await import(`sillar-ui/${entry}`);
+    assert.ok(Object.keys(module).length > 0, `${entry} must expose a public module`);
+  }
 });
 
 test('theme stylesheet exposes layered light and dark semantic tokens', async () => {

@@ -36,6 +36,13 @@ const { act } = ReactModule;
 const { createRoot } = await import('react-dom/client');
 
 const {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Checkbox,
+  Combobox,
+  DatePicker,
   Dialog,
   DialogClose,
   DialogContent,
@@ -46,6 +53,13 @@ const {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  RadioGroup,
+  RadioGroupItem,
+  SelectContent,
+  SelectItem,
+  SelectRoot,
+  SelectTrigger,
+  SelectValue,
   Tabs,
   TabsContent,
   TabsList,
@@ -312,6 +326,67 @@ test('Tabs follow WAI-ARIA automatic and manual activation behavior', async () =
   assert.equal(manualTabs[0].getAttribute('aria-selected'), 'true');
   await act(async () => keydown(manualTabs[1], 'Enter'));
   assert.equal(manualTabs[1].getAttribute('aria-selected'), 'true');
+});
+
+test('Accordion and RadioGroup share predictable roving keyboard focus', async () => {
+  const accordion = await render(React.createElement(Accordion, { defaultValue: 'one' },
+    React.createElement(AccordionItem, { value: 'one' }, React.createElement(AccordionTrigger, null, 'One'), React.createElement(AccordionContent, null, 'First')),
+    React.createElement(AccordionItem, { value: 'two' }, React.createElement(AccordionTrigger, null, 'Two'), React.createElement(AccordionContent, null, 'Second')),
+  ));
+  const triggers = accordion.container.querySelectorAll('[data-slot="accordion-trigger"]');
+  triggers[0].focus();
+  await act(async () => keydown(triggers[0], 'ArrowDown'));
+  assert.equal(document.activeElement, triggers[1]);
+  await act(async () => triggers[1].click());
+  assert.equal(triggers[1].getAttribute('aria-expanded'), 'true');
+
+  const radios = await render(React.createElement(RadioGroup, { defaultValue: 'a', 'aria-label': 'Options' },
+    React.createElement(RadioGroupItem, { value: 'a', 'aria-label': 'A' }),
+    React.createElement(RadioGroupItem, { value: 'b', 'aria-label': 'B' }),
+  ));
+  const items = radios.container.querySelectorAll('[role="radio"]');
+  items[0].focus();
+  await act(async () => keydown(items[0], 'ArrowDown'));
+  assert.equal(document.activeElement, items[1]);
+  assert.equal(items[1].getAttribute('aria-checked'), 'true');
+});
+
+test('composed Select opens from the keyboard and commits an option', async () => {
+  const changes = [];
+  const { container } = await render(React.createElement(SelectRoot, { defaultValue: 'es', onValueChange: (value) => changes.push(value) },
+    React.createElement(SelectTrigger, null, React.createElement(SelectValue, null)),
+    React.createElement(SelectContent, null,
+      React.createElement(SelectItem, { value: 'es' }, 'Spanish'),
+      React.createElement(SelectItem, { value: 'en' }, 'English')),
+  ));
+  const trigger = container.querySelector('[role="combobox"]');
+  trigger.focus();
+  await act(async () => keydown(trigger, 'ArrowDown'));
+  await nextFrame();
+  const options = document.querySelectorAll('[role="option"]');
+  assert.equal(options.length, 2);
+  await act(async () => options[1].click());
+  assert.deepEqual(changes, ['en']);
+  assert.equal(document.querySelector('[role="listbox"]'), null);
+  assert.equal(document.activeElement, trigger);
+});
+
+test('Combobox filters and selects while DatePicker moves by keyboard', async () => {
+  const selections = [];
+  const combo = await render(React.createElement(Combobox, { options: [{ value: 'sdq', label: 'Santo Domingo' }, { value: 'sti', label: 'Santiago' }], onValueChange: (value) => selections.push(value) }));
+  const input = combo.container.querySelector('[role="combobox"]');
+  await act(async () => input.focus());
+  await act(async () => keydown(input, 'ArrowDown'));
+  await act(async () => keydown(input, 'Enter'));
+  assert.deepEqual(selections, ['sti']);
+
+  const calendar = await render(React.createElement(DatePicker, { defaultValue: new Date(2026, 8, 23), locale: 'en' }));
+  const selected = calendar.container.querySelector('[aria-selected="true"]');
+  await act(async () => selected.focus());
+  await act(async () => keydown(selected, 'ArrowRight'));
+  await nextFrame();
+  assert.notEqual(document.activeElement, selected);
+  assert.equal(document.activeElement.textContent, '24');
 });
 
 test('interactive primitives have no detectable serious accessibility violations', async () => {

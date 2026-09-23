@@ -2,6 +2,8 @@
   <img src="assets/sillar-mark.svg" width="88" height="88" alt="Sillar UI logo" />
 </p>
 
+<p align="center"><a href="https://uppy19d0.github.io/sillar-ui/"><strong>Documentation</strong></a> · <a href="https://uppy19d0.github.io/sillar-ui/#components">Components</a> · <a href="https://uppy19d0.github.io/sillar-ui/#playground">Playground</a> · <a href="https://uppy19d0.github.io/sillar-ui/llms.txt">llms.txt</a></p>
+
 <h1 align="center">Sillar UI</h1>
 
 <p align="center">Accessible React building blocks for consistent product interfaces.</p>
@@ -65,6 +67,22 @@ export function Example() {
 - Section primitives for product and marketing pages
 - SkipLink and VisuallyHidden accessibility utilities
 - `cn` utility for predictable class composition
+- Tooltip and Popover with collision-aware positioning and dismissal
+- Accordion and Collapsible disclosure primitives
+- Toast notifications with live-region semantics
+- Checkbox and RadioGroup choice controls
+- Composed Select and searchable Combobox
+- NavigationMenu with roving keyboard focus
+- Progress and Skeleton loading feedback
+- Typed Form validation composition
+- Localized DatePicker calendar grid
+
+Every component also has a focused entry point for smaller application bundles:
+
+```tsx
+import { Button } from 'sillar-ui/button';
+import { Dialog, DialogContent, DialogTrigger } from 'sillar-ui/dialog';
+```
 
 ## Theming
 

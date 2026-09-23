@@ -49,7 +49,9 @@ Tests run against `dist/`, the same compiled code applications install. Source-o
 
 ## Evolution toward 1.0
 
-The kernel also owns collision-aware positioning, automatic position updates, roving focus, and exit-animation presence. Collection registration is the next shared foundation. New overlays and composite widgets should be built only after the shared behavior they need exists in the kernel.
+The kernel also owns collision-aware positioning, automatic position updates, roving focus, and exit-animation presence. Tooltip, Popover, composed Select, DropdownMenu, Dialog, Accordion, Tabs, RadioGroup, NavigationMenu, Combobox, and DatePicker reuse these foundations instead of maintaining isolated interaction systems.
+
+Every public component has a focused package entry. Applications may import from `sillar-ui` for convenience or from paths such as `sillar-ui/dialog` and `sillar-ui/combobox` to keep module graphs narrow.
 
 Public APIs follow semantic versioning. In the 1.x line, removals require a deprecation cycle. Design tokens are public API and follow the same policy.
 

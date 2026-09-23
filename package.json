@@ -1,6 +1,6 @@
 {
   "name": "sillar-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Accessible, typed React primitives and design tokens for consistent product interfaces.",
   "license": "MIT",
   "type": "module",
@@ -29,15 +29,141 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./accordion": {
+      "types": "./dist/accordion.d.ts",
+      "import": "./dist/accordion.js"
+    },
+    "./a11y": {
+      "types": "./dist/a11y.d.ts",
+      "import": "./dist/a11y.js"
+    },
+    "./badge": {
+      "types": "./dist/badge.d.ts",
+      "import": "./dist/badge.js"
+    },
+    "./button": {
+      "types": "./dist/button.d.ts",
+      "import": "./dist/button.js"
+    },
+    "./callout": {
+      "types": "./dist/callout.d.ts",
+      "import": "./dist/callout.js"
+    },
+    "./card": {
+      "types": "./dist/card.d.ts",
+      "import": "./dist/card.js"
+    },
+    "./choice": {
+      "types": "./dist/choice.d.ts",
+      "import": "./dist/choice.js"
+    },
+    "./collapsible": {
+      "types": "./dist/collapsible.d.ts",
+      "import": "./dist/collapsible.js"
+    },
+    "./combobox": {
+      "types": "./dist/combobox.d.ts",
+      "import": "./dist/combobox.js"
+    },
+    "./date-picker": {
+      "types": "./dist/date-picker.d.ts",
+      "import": "./dist/date-picker.js"
+    },
+    "./dialog": {
+      "types": "./dist/dialog.d.ts",
+      "import": "./dist/dialog.js"
+    },
+    "./dropdown-menu": {
+      "types": "./dist/dropdown-menu.d.ts",
+      "import": "./dist/dropdown-menu.js"
+    },
+    "./field": {
+      "types": "./dist/field.d.ts",
+      "import": "./dist/field.js"
+    },
+    "./form": {
+      "types": "./dist/form.d.ts",
+      "import": "./dist/form.js"
+    },
+    "./icon-button": {
+      "types": "./dist/icon-button.d.ts",
+      "import": "./dist/icon-button.js"
+    },
+    "./input": {
+      "types": "./dist/input.d.ts",
+      "import": "./dist/input.js"
+    },
+    "./label": {
+      "types": "./dist/label.d.ts",
+      "import": "./dist/label.js"
+    },
+    "./navigation-menu": {
+      "types": "./dist/navigation-menu.d.ts",
+      "import": "./dist/navigation-menu.js"
+    },
+    "./popover": {
+      "types": "./dist/popover.d.ts",
+      "import": "./dist/popover.js"
+    },
+    "./progress": {
+      "types": "./dist/progress.d.ts",
+      "import": "./dist/progress.js"
+    },
+    "./section": {
+      "types": "./dist/section.d.ts",
+      "import": "./dist/section.js"
+    },
+    "./select": {
+      "types": "./dist/select.d.ts",
+      "import": "./dist/select.js"
+    },
+    "./select-root": {
+      "types": "./dist/select-root.d.ts",
+      "import": "./dist/select-root.js"
+    },
+    "./separator": {
+      "types": "./dist/separator.d.ts",
+      "import": "./dist/separator.js"
+    },
+    "./slot": {
+      "types": "./dist/slot.d.ts",
+      "import": "./dist/slot.js"
+    },
+    "./switch": {
+      "types": "./dist/switch.d.ts",
+      "import": "./dist/switch.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs.d.ts",
+      "import": "./dist/tabs.js"
+    },
+    "./textarea": {
+      "types": "./dist/textarea.d.ts",
+      "import": "./dist/textarea.js"
+    },
+    "./toast": {
+      "types": "./dist/toast.d.ts",
+      "import": "./dist/toast.js"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip.d.ts",
+      "import": "./dist/tooltip.js"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.js"
+    },
     "./styles.css": "./dist/styles.css"
   },
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json",
+    "docs:build": "vite build --config vite.docs.config.ts",
+    "docs:dev": "vite --config vite.docs.config.ts",
     "size": "node scripts/check-size.mjs",
     "test": "node --test test/*.test.mjs",
     "test:snapshots:update": "npm run build && UPDATE_SNAPSHOTS=1 node --test test/snapshots.test.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "check": "npm run typecheck && npm run build && npm run size && npm test",
+    "check": "npm run typecheck && npm run build && npm run size && npm test && npm run docs:build",
     "prepublishOnly": "npm run check"
   },
   "peerDependencies": {
@@ -55,6 +181,7 @@
     "@vitejs/plugin-react-swc": "^3.10.2",
     "axe-core": "^4.13.0",
     "jsdom": "^26.1.0",
+    "react-live": "^4.1.8",
     "typescript": "^5.9.3",
     "vite": "6.4.3"
   },
@@ -69,7 +196,7 @@
   "bugs": {
     "url": "https://github.com/uppy19d0/sillar-ui/issues"
   },
-  "homepage": "https://github.com/uppy19d0/sillar-ui#readme",
+  "homepage": "https://uppy19d0.github.io/sillar-ui/",
   "keywords": [
     "react",
     "design-system",
