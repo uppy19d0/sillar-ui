@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Deepen the composed Select with shared collection typeahead, labeled groups, separators, configurable focus looping, required state, and correct initial value labels.
+
 All notable changes to Sillar UI are documented here.
 
 ## 1.1.0 — 2026-09-23
