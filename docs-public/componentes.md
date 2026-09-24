@@ -20,7 +20,7 @@ import 'sillar-ui/styles.css';
 - `Tabs`: activación automática o manual.
 - `NavigationMenu`: navegación con controles desplegables.
 - `RadioGroup`: selección única con foco itinerante.
-- `SelectRoot`: selector compuesto compatible con formularios.
+- `SelectRoot`, `SelectGroup`, `SelectLabel` y `SelectSeparator`: selector compuesto con búsqueda incremental, grupos accesibles y compatibilidad con formularios.
 - `Combobox`: búsqueda y autocompletado accesible.
 
 ## Formularios y estado
@@ -36,7 +36,7 @@ import 'sillar-ui/styles.css';
 | --- | --- |
 | Dialog / Popover | Escape cierra y restaura el foco |
 | Accordion | Flechas, Inicio y Fin |
-| DropdownMenu / Select | Flechas, Inicio, Fin y Escape |
+| DropdownMenu / Select | Flechas, Inicio, Fin, Escape y caracteres imprimibles |
 | Combobox | Flechas, Enter y Escape |
 | DatePicker | Flechas, Inicio, Fin, PageUp y PageDown |
 | Tabs / RadioGroup | Flechas, Inicio y Fin |

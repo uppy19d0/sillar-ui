@@ -266,6 +266,9 @@
 .slr-select-item:hover, .slr-select-item:focus-visible { outline: none; background: var(--slr-color-surface-hover); }
 .slr-select-item:disabled { cursor: not-allowed; opacity: 0.5; }
 .slr-select-item__check { width: 1rem; color: var(--slr-color-brand); font-weight: 800; }
+.slr-select-group + .slr-select-group { margin-top: 0.3rem; }
+.slr-select-label { padding: 0.5rem 0.65rem 0.35rem; color: var(--slr-color-subtle); font-size: 0.72rem; font-weight: 760; letter-spacing: 0.055em; text-transform: uppercase; }
+.slr-select-separator { height: 1px; margin: 0.35rem 0.25rem; background: var(--slr-color-border); }
 
 .slr-combobox { position: relative; width: 100%; font-family: var(--slr-font-sans); }
 .slr-combobox__input { width: 100%; }

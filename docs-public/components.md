@@ -20,7 +20,7 @@ import 'sillar-ui/styles.css';
 - `Tabs` family: automatic or manual activation and horizontal or vertical navigation.
 - `NavigationMenu` family: disclosure navigation with arrow-key movement.
 - `RadioGroup`, `RadioGroupItem`: single choice with roving focus.
-- `SelectRoot`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`: custom listbox behavior and native form value submission.
+- `SelectRoot`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectGroup`, `SelectLabel`, `SelectSeparator`, `SelectItem`: custom listbox behavior, typeahead, labeled groups, configurable focus looping, and native form value submission.
 - `Combobox`: searchable options with list autocomplete.
 
 ## Forms and feedback
@@ -41,7 +41,7 @@ Button, IconButton, Badge, Card, Callout, Section, Separator, Slot, SkipLink, an
 | --- | --- |
 | Dialog / Popover | Escape closes and restores focus |
 | Accordion | Arrow keys, Home, End |
-| DropdownMenu / Select | Arrow keys, Home, End, Escape |
+| DropdownMenu / Select | Arrow keys, Home, End, Escape, printable characters |
 | Combobox | Arrow keys, Enter, Escape |
 | DatePicker | Arrow keys, Home, End, PageUp, PageDown |
 | Tabs / RadioGroup | Arrow keys, Home, End |

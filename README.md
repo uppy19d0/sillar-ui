@@ -71,7 +71,7 @@ export function Example() {
 - Accordion and Collapsible disclosure primitives
 - Toast notifications with live-region semantics
 - Checkbox and RadioGroup choice controls
-- Composed Select and searchable Combobox
+- Composed Select with typeahead and labeled groups, plus searchable Combobox
 - NavigationMenu with roving keyboard focus
 - Progress and Skeleton loading feedback
 - Typed Form validation composition

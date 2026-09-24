@@ -20,7 +20,7 @@ export { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 export { Popover, PopoverClose, PopoverContent, PopoverTrigger, type PopoverContentProps, type PopoverProps, type PopoverTriggerProps } from './popover';
 export { Progress, Skeleton, type ProgressProps } from './progress';
 export { Select, type SelectProps } from './select';
-export { SelectContent, SelectItem, SelectRoot, SelectTrigger, SelectValue, type SelectContentProps, type SelectItemProps, type SelectRootProps, type SelectValueProps } from './select-root';
+export { SelectContent, SelectGroup, SelectItem, SelectLabel, SelectRoot, SelectSeparator, SelectTrigger, SelectValue, type SelectContentProps, type SelectItemProps, type SelectRootProps, type SelectValueProps } from './select-root';
 export { Section, SectionDescription, SectionEyebrow, SectionHeader, SectionTitle, type SectionProps, } from './section';
 export { Separator, type SeparatorProps } from './separator';
 export { Slot, type SlotProps } from './slot';

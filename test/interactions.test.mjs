@@ -56,8 +56,11 @@ const {
   RadioGroup,
   RadioGroupItem,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectRoot,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
   Tabs,
@@ -369,6 +372,33 @@ test('composed Select opens from the keyboard and commits an option', async () =
   assert.deepEqual(changes, ['en']);
   assert.equal(document.querySelector('[role="listbox"]'), null);
   assert.equal(document.activeElement, trigger);
+});
+
+test('composed Select supports groups, separators, initial labels, and typeahead', async () => {
+  const { container } = await render(React.createElement(SelectRoot, { defaultValue: 'do', required: true },
+    React.createElement(SelectTrigger, null, React.createElement(SelectValue, null)),
+    React.createElement(SelectContent, null,
+      React.createElement(SelectGroup, null,
+        React.createElement(SelectLabel, null, 'Caribbean'),
+        React.createElement(SelectItem, { value: 'do' }, 'Dominican Republic'),
+        React.createElement(SelectItem, { value: 'pr', disabled: true }, 'Puerto Rico')),
+      React.createElement(SelectSeparator),
+      React.createElement(SelectGroup, { 'aria-label': 'North America' },
+        React.createElement(SelectItem, { value: 'ca' }, 'Canada'),
+        React.createElement(SelectItem, { value: 'us' }, 'United States'))),
+  ));
+  const trigger = container.querySelector('[role="combobox"]');
+  assert.equal(trigger.textContent.includes('Dominican Republic'), true);
+  assert.equal(trigger.getAttribute('aria-required'), 'true');
+  await act(async () => keydown(trigger, 'ArrowDown'));
+  await nextFrame();
+  const listbox = document.querySelector('[role="listbox"]');
+  const groups = listbox.querySelectorAll('[role="group"]');
+  assert.equal(groups.length, 2);
+  assert.equal(groups[0].getAttribute('aria-labelledby'), groups[0].querySelector('[data-slot="select-label"]').id);
+  assert.equal(listbox.querySelectorAll('[role="separator"]').length, 1);
+  await act(async () => keydown(document.activeElement, 'c'));
+  assert.equal(document.activeElement.dataset.value, 'ca');
 });
 
 test('Combobox filters and selects while DatePicker moves by keyboard', async () => {
