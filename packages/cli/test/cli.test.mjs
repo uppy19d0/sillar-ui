@@ -8,6 +8,7 @@ import { inspectProject } from '../src/commands/doctor.js';
 import { initProject } from '../src/commands/init.js';
 import { formatMigrationReport, migrateRadix, scanRadixMigration } from '../src/commands/migrate.js';
 import { resolveInside } from '../src/project.js';
+import { checkTokens, contrastRatio, createTokenTheme, initTokens, inspectTokenTheme } from '../src/commands/tokens.js';
 
 async function fixture({ withSillar = false } = {}) {
   const cwd = await mkdtemp(path.join(tmpdir(), 'sillar-cli-'));
@@ -64,4 +65,24 @@ test('Radix migration audit finds supported and manual migrations without changi
   await migrateRadix({ cwd, report: true, output: () => {} });
   assert.match(await readFile(path.join(cwd, 'sillar-radix-migration.md'), 'utf8'), /Review component APIs/);
   assert.equal(await readFile(path.join(cwd, 'src/main.tsx'), 'utf8'), source);
+});
+
+test('token tooling generates a complete accessible light and dark brand contract', async () => {
+  const cwd = await fixture({ withSillar: true });
+  await initProject({ cwd, output: () => {} });
+  const report = inspectTokenTheme(createTokenTheme('#6750a4'));
+  assert.equal(report.valid, true);
+  assert.ok(contrastRatio(report.light.brand, report.light['brand-contrast']) >= 4.5);
+  assert.ok(contrastRatio(report.dark.brand, report.dark['brand-contrast']) >= 4.5);
+  await initTokens({ cwd, brand: '#6750a4', output: () => {} });
+  assert.equal((await checkTokens({ cwd, output: () => {} })).valid, true);
+  await assert.rejects(() => initTokens({ cwd, brand: '#6750a4' }), /already exists/);
+});
+
+test('token tooling rejects invalid colors and incomplete or inaccessible themes', () => {
+  assert.throws(() => createTokenTheme('purple'), /Invalid brand color/);
+  const invalid = inspectTokenTheme(':root { --slr-color-brand: #777777; --slr-color-brand-contrast: #888888; }');
+  assert.equal(invalid.valid, false);
+  assert.ok(invalid.errors.some((error) => error.includes('below 4.5:1')));
+  assert.ok(invalid.errors.some((error) => error.includes('dark: missing')));
 });

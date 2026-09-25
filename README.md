@@ -31,6 +31,8 @@ npx sillar-cli init
 npx sillar-cli add button dialog select
 npx sillar-cli doctor
 npx sillar-cli migrate radix --report
+npx sillar-cli tokens init --brand '#6750a4'
+npx sillar-cli tokens check
 ```
 
 Import the stylesheet once at the application entry point:
