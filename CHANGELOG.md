@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Deepen the composed Select with shared collection typeahead, labeled groups, separators, configurable focus looping, required state, and correct initial value labels.
+- Add the independent `sillar-cli` foundation with safe project initialization, focused component aliases, installation diagnostics, and a discoverable component registry.
 
 All notable changes to Sillar UI are documented here.
 
