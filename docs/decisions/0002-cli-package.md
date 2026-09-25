@@ -9,9 +9,9 @@ Project diagnostics, scaffolding, migrations, and token generation need Node.js 
 
 ## Decision
 
-Sillar maintains the CLI in `packages/cli` and publishes it independently as `sillar-cli`, exposing the `sillar` binary. The first contract provides `init`, `add`, `doctor`, and `list`. Commands use only Node.js built-ins, reject paths outside the project, and do not overwrite files unless the user passes `--force`.
+Sillar maintains the CLI in `packages/cli` and publishes it independently as `sillar-cli`, exposing the `sillar` binary. The first contract provides `init`, `add`, `doctor`, `list`, migration audits, and token tooling. Commands use only Node.js built-ins, reject paths outside the project, and do not overwrite files unless the user passes `--force`.
 
-The React package remains independently publishable and has no runtime dependency on the CLI. Future migration and token commands will use the same configuration file and command parser.
+The React package remains independently publishable and has no runtime dependency on the CLI. Migration and token commands use the same configuration file and command parser.
 
 ## Consequences
 

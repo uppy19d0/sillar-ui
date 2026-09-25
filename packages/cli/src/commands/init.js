@@ -18,6 +18,7 @@ export async function initProject({ cwd, force = false, output = console.log }) 
     $schema: 'https://uppy19d0.github.io/sillar-ui/schema/cli.json',
     library: 'sillar-ui',
     componentsDir,
+    tokensFile: 'src/styles/sillar.tokens.css',
     typescript,
     sourceEntry: await findSourceEntry(cwd),
   };
