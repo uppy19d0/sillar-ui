@@ -24,6 +24,14 @@ Accessible React components and design tokens for consistent product interfaces.
 npm install sillar-ui
 ```
 
+Set up and verify a project with the companion CLI:
+
+```bash
+npx sillar-cli init
+npx sillar-cli add button dialog select
+npx sillar-cli doctor
+```
+
 Import the stylesheet once at the application entry point:
 
 ```tsx

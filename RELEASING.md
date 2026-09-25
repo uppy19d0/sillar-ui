@@ -20,3 +20,7 @@ Never retry a failed release by moving or replacing a published tag. Fix the cau
 - Major: removals or incompatible changes after the deprecation process in `STABILITY.md`.
 
 Prereleases use a SemVer prerelease version and an explicit npm distribution tag. Stable releases always publish to `latest`.
+
+## CLI releases
+
+The companion CLI is versioned independently in `packages/cli/package.json`. Tag CLI releases as `cli-v<version>`. The dedicated workflow validates the tag, runs the complete Sillar quality suite, and publishes `sillar-cli` with npm provenance.

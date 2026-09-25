@@ -1,0 +1,33 @@
+{
+  "name": "sillar-cli",
+  "version": "0.1.0",
+  "description": "Project setup, component aliases, and diagnostics for Sillar UI.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "sillar": "./bin/sillar.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "@uppy19d0 (https://github.com/uppy19d0)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uppy19d0/sillar-ui.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "sillar-ui",
+    "design-system",
+    "cli",
+    "react"
+  ]
+}
