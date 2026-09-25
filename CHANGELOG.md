@@ -4,6 +4,8 @@
 
 - Deepen the composed Select with shared collection typeahead, labeled groups, separators, configurable focus looping, required state, and correct initial value labels.
 - Add the independent `sillar-cli` foundation with safe project initialization, focused component aliases, installation diagnostics, and a discoverable component registry.
+- Expand Combobox with controlled open state, groups, custom filters, async loading feedback, creatable options, accessible result announcements, and disabled-item-aware navigation.
+- Add a non-destructive `sillar migrate radix` audit that maps supported packages, reports source locations, and generates a reviewable migration plan.
 
 All notable changes to Sillar UI are documented here.
 

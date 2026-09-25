@@ -30,6 +30,7 @@ Set up and verify a project with the companion CLI:
 npx sillar-cli init
 npx sillar-cli add button dialog select
 npx sillar-cli doctor
+npx sillar-cli migrate radix --report
 ```
 
 Import the stylesheet once at the application entry point:
@@ -79,7 +80,7 @@ export function Example() {
 - Accordion and Collapsible disclosure primitives
 - Toast notifications with live-region semantics
 - Checkbox and RadioGroup choice controls
-- Composed Select with typeahead and labeled groups, plus searchable Combobox
+- Composed Select with typeahead and labeled groups, plus Combobox with groups, async loading, custom filtering, and creatable options
 - NavigationMenu with roving keyboard focus
 - Progress and Skeleton loading feedback
 - Typed Form validation composition

@@ -6,6 +6,7 @@ import test from 'node:test';
 import { addComponents } from '../src/commands/add.js';
 import { inspectProject } from '../src/commands/doctor.js';
 import { initProject } from '../src/commands/init.js';
+import { formatMigrationReport, migrateRadix, scanRadixMigration } from '../src/commands/migrate.js';
 import { resolveInside } from '../src/project.js';
 
 async function fixture({ withSillar = false } = {}) {
@@ -49,4 +50,18 @@ test('doctor reports a complete setup and actionable missing requirements', asyn
 
 test('project paths cannot escape the configured root', () => {
   assert.throws(() => resolveInside('/tmp/project', '../outside'), /inside the project/);
+});
+
+test('Radix migration audit finds supported and manual migrations without changing source', async () => {
+  const cwd = await fixture({ withSillar: true });
+  await writeFile(path.join(cwd, 'package.json'), JSON.stringify({ dependencies: { react: '^19.0.0', '@radix-ui/react-dialog': '^1.0.0', '@radix-ui/react-avatar': '^1.0.0' } }));
+  const source = `import * as Dialog from '@radix-ui/react-dialog';\n`;
+  await writeFile(path.join(cwd, 'src/main.tsx'), source);
+  const result = await scanRadixMigration(cwd);
+  assert.equal(result.supported[0].replacement, 'sillar-ui/dialog');
+  assert.equal(result.unsupported[0].packageName, '@radix-ui/react-avatar');
+  assert.match(formatMigrationReport(result), /src\/main\.tsx:1/);
+  await migrateRadix({ cwd, report: true, output: () => {} });
+  assert.match(await readFile(path.join(cwd, 'sillar-radix-migration.md'), 'utf8'), /Review component APIs/);
+  assert.equal(await readFile(path.join(cwd, 'src/main.tsx'), 'utf8'), source);
 });

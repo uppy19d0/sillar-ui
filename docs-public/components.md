@@ -21,7 +21,7 @@ import 'sillar-ui/styles.css';
 - `NavigationMenu` family: disclosure navigation with arrow-key movement.
 - `RadioGroup`, `RadioGroupItem`: single choice with roving focus.
 - `SelectRoot`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectGroup`, `SelectLabel`, `SelectSeparator`, `SelectItem`: custom listbox behavior, typeahead, labeled groups, configurable focus looping, and native form value submission.
-- `Combobox`: searchable options with list autocomplete.
+- `Combobox`: controlled or uncontrolled list autocomplete with groups, custom filters, async loading states, option creation, disabled-item navigation, and live result counts.
 
 ## Forms and feedback
 

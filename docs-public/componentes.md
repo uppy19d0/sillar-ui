@@ -21,7 +21,7 @@ import 'sillar-ui/styles.css';
 - `NavigationMenu`: navegación con controles desplegables.
 - `RadioGroup`: selección única con foco itinerante.
 - `SelectRoot`, `SelectGroup`, `SelectLabel` y `SelectSeparator`: selector compuesto con búsqueda incremental, grupos accesibles y compatibilidad con formularios.
-- `Combobox`: búsqueda y autocompletado accesible.
+- `Combobox`: autocompletado controlado o no controlado con grupos, filtros personalizados, carga asíncrona, creación de opciones y conteo accesible de resultados.
 
 ## Formularios y estado
 
