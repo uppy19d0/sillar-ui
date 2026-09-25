@@ -2,6 +2,7 @@ import path from 'node:path';
 import { addComponents } from './commands/add.js';
 import { doctorProject } from './commands/doctor.js';
 import { initProject } from './commands/init.js';
+import { migrateRadix } from './commands/migrate.js';
 import { componentNames } from './registry.js';
 
 const help = `Sillar CLI
@@ -10,6 +11,7 @@ Usage:
   sillar init [--cwd <path>] [--force]
   sillar add <component...> [--cwd <path>] [--force]
   sillar doctor [--cwd <path>]
+  sillar migrate radix [--cwd <path>] [--report] [--force]
   sillar list
   sillar --help
 `;
@@ -18,6 +20,7 @@ function parseArguments(argv) {
   const positionals = [];
   let cwd = process.cwd();
   let force = false;
+  let report = false;
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index];
     if (argument === '--cwd') {
@@ -26,19 +29,24 @@ function parseArguments(argv) {
       cwd = path.resolve(value);
       index += 1;
     } else if (argument === '--force') force = true;
+    else if (argument === '--report') report = true;
     else if (argument === '--help' || argument === '-h') positionals.push('help');
     else if (argument.startsWith('-')) throw new Error(`Unknown option: ${argument}`);
     else positionals.push(argument);
   }
-  return { command: positionals[0] ?? 'help', values: positionals.slice(1), cwd, force };
+  return { command: positionals[0] ?? 'help', values: positionals.slice(1), cwd, force, report };
 }
 
 export async function run(argv, output = console.log) {
-  const { command, values, cwd, force } = parseArguments(argv);
+  const { command, values, cwd, force, report } = parseArguments(argv);
   if (command === 'help') return output(help);
   if (command === 'list') return output(componentNames.join('\n'));
   if (command === 'init') return initProject({ cwd, force, output });
   if (command === 'add') return addComponents({ cwd, names: values, force, output });
+  if (command === 'migrate') {
+    if (values[0] !== 'radix') throw new Error('Choose a migration target. Available: radix.');
+    return migrateRadix({ cwd, report, force, output });
+  }
   if (command === 'doctor') {
     const result = await doctorProject({ cwd, output });
     if (!result.healthy) process.exitCode = 1;

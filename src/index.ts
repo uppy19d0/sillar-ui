@@ -13,7 +13,7 @@ export {
   type CalloutProps,
 } from './callout';
 export { Checkbox, RadioGroup, RadioGroupItem, type CheckboxProps, type RadioGroupItemProps, type RadioGroupProps } from './choice';
-export { Combobox, type ComboboxOption, type ComboboxProps } from './combobox';
+export { Combobox, type ComboboxFilterContext, type ComboboxOption, type ComboboxProps } from './combobox';
 export { Collapsible, CollapsibleContent, CollapsibleTrigger, type CollapsibleProps } from './collapsible';
 export { DatePicker, type DatePickerProps } from './date-picker';
 export {

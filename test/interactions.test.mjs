@@ -419,6 +419,38 @@ test('Combobox filters and selects while DatePicker moves by keyboard', async ()
   assert.equal(document.activeElement.textContent, '24');
 });
 
+test('Combobox supports groups, loading, disabled-item navigation, and option creation', async () => {
+  const selections = [];
+  const combo = await render(React.createElement(Combobox, {
+    'aria-label': 'City',
+    defaultOpen: true,
+    options: [
+      { value: 'sdq', label: 'Santo Domingo', disabled: true, group: 'Caribbean' },
+      { value: 'sti', label: 'Santiago', group: 'Caribbean' },
+      { value: 'mia', label: 'Miami', group: 'North America' },
+    ],
+    onValueChange: (value) => selections.push(value),
+  }));
+  const input = combo.container.querySelector('[role="combobox"]');
+  assert.equal(input.getAttribute('aria-label'), 'City');
+  assert.equal(combo.container.querySelectorAll('[role="group"]').length, 2);
+  await act(async () => keydown(input, 'Home'));
+  assert.match(input.getAttribute('aria-activedescendant'), /-1$/);
+  await act(async () => keydown(input, 'End'));
+  await act(async () => keydown(input, 'Enter'));
+  assert.deepEqual(selections, ['mia']);
+
+  const created = [];
+  const creatable = await render(React.createElement(Combobox, { options: [], defaultInputValue: 'La Vega', defaultOpen: true, onCreateOption: (value) => created.push(value) }));
+  const createInput = creatable.container.querySelector('[role="combobox"]');
+  await act(async () => keydown(createInput, 'Enter'));
+  assert.deepEqual(created, ['La Vega']);
+
+  const loading = await render(React.createElement(Combobox, { options: [], defaultOpen: true, loading: true, loadingMessage: 'Loading cities' }));
+  assert.equal(loading.container.querySelector('[role="listbox"]').getAttribute('aria-busy'), 'true');
+  assert.match(loading.container.textContent, /Loading cities/);
+});
+
 test('interactive primitives have no detectable serious accessibility violations', async () => {
   const { container } = await render(
     React.createElement(

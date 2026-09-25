@@ -5,7 +5,7 @@ export { Badge, badgeVariants, type BadgeProps } from './badge';
 export { Button, buttonVariants, type ButtonProps } from './button';
 export { Callout, CalloutDescription, CalloutIcon, CalloutTitle, calloutVariants, type CalloutProps, } from './callout';
 export { Checkbox, RadioGroup, RadioGroupItem, type CheckboxProps, type RadioGroupItemProps, type RadioGroupProps } from './choice';
-export { Combobox, type ComboboxOption, type ComboboxProps } from './combobox';
+export { Combobox, type ComboboxFilterContext, type ComboboxOption, type ComboboxProps } from './combobox';
 export { Collapsible, CollapsibleContent, CollapsibleTrigger, type CollapsibleProps } from './collapsible';
 export { DatePicker, type DatePickerProps } from './date-picker';
 export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, cardVariants, type CardProps, } from './card';
