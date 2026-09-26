@@ -32,9 +32,12 @@ test('select supports typeahead selection in a portal', async ({ page }) => {
   const trigger = card.getByRole('combobox', { name: 'Country' });
   await trigger.click();
   await expect(page.getByRole('listbox')).toBeVisible();
-  await page.keyboard.press('p');
-  await expect(page.getByRole('option', { name: 'Puerto Rico' })).toBeFocused();
-  await page.keyboard.press('Enter');
+  const selectedOption = page.getByRole('option', { name: 'Dominican Republic' });
+  await expect(selectedOption).toBeFocused();
+  await selectedOption.press('p');
+  const matchedOption = page.getByRole('option', { name: 'Puerto Rico' });
+  await expect(matchedOption).toBeFocused();
+  await matchedOption.press('Enter');
   await expect(trigger).toHaveText('Puerto Rico');
   await expect(page.getByRole('listbox')).toBeHidden();
 });
