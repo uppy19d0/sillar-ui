@@ -1,5 +1,7 @@
 node_modules/
 docs-dist/
+playwright-report/
+test-results/
 .npm-cache/
 *.log
 .DS_Store

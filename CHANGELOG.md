@@ -7,6 +7,7 @@
 - Expand Combobox with controlled open state, groups, custom filters, async loading feedback, creatable options, accessible result announcements, and disabled-item-aware navigation.
 - Add a non-destructive `sillar migrate radix` audit that maps supported packages, reports source locations, and generates a reviewable migration plan.
 - Add `sillar tokens init` and `sillar tokens check` to generate branded light/dark overrides and enforce complete, WCAG AA contrast-safe token contracts.
+- Add the Sillar Browser Lab with real-browser interaction coverage across Chromium, Firefox, WebKit, mobile overflow checks, and reviewed light/dark visual snapshots.
 
 All notable changes to Sillar UI are documented here.
 
