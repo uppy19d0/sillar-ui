@@ -9,6 +9,8 @@ Sillar UI treats accessibility, predictable behavior, and package weight as publ
 - Reviewed snapshots for composed public markup and the complete light/dark token contract.
 - DOM interaction tests for focus management, keyboard navigation, dismissal, and controlled state.
 - Automated axe checks with zero serious or critical violations in the covered examples.
+- Browser-driven interaction checks in Chromium, Firefox, WebKit, and a mobile Chromium viewport.
+- Reviewed light/dark visual snapshots with reduced-motion rendering for deterministic diffs.
 - A dependency regression test that rejects every `@radix-ui/*` package and import.
 - Per-component JavaScript budgets of 10 kB raw / 4 kB gzip, an aggregate 90 kB raw / 35 kB gzip ceiling across every entry, and a 34 kB raw / 7 kB gzip CSS budget.
 - Compatibility checks on React 18.3 and React 19.3.
@@ -36,4 +38,4 @@ Intentional markup or theme-token changes must update the reviewed snapshot with
 
 ## Next quality milestones
 
-The next quality milestones are browser-driven tests across Chromium, Firefox, and WebKit and documented screen-reader checks across VoiceOver, NVDA, and JAWS. Each new component must enter through the same release gates.
+The next quality milestone is a documented screen-reader matrix across VoiceOver, NVDA, and JAWS. Each new component must enter through the same release gates.

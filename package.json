@@ -160,6 +160,8 @@
     "build": "vite build && tsc -p tsconfig.build.json",
     "docs:build": "vite build --config vite.docs.config.ts",
     "docs:dev": "vite --config vite.docs.config.ts",
+    "test:browser": "playwright test",
+    "test:browser:update": "playwright test --update-snapshots",
     "size": "node scripts/check-size.mjs",
     "release:verify": "node scripts/verify-release.mjs",
     "release:verify:cli": "node scripts/verify-cli-release.mjs",
@@ -180,6 +182,7 @@
     "tailwind-merge": "^3.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.3.3",
