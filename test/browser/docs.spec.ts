@@ -27,6 +27,14 @@ test('popover dismisses with Escape and restores trigger focus', async ({ page }
   await expect(trigger).toBeFocused();
 });
 
+test('getting started tutorial exposes an actionable learning path', async ({ page }) => {
+  const tutorial = page.locator('#tutorial');
+  await expect(tutorial.getByRole('heading', { level: 2 })).toBeVisible();
+  await expect(tutorial.getByRole('listitem')).toHaveCount(4);
+  await expect(tutorial.getByRole('link', { name: /Markdown tutorial/i })).toHaveAttribute('href', /tutorial\.md$/);
+  await expect(tutorial.getByText('RD$ 84,250.00')).toBeVisible();
+});
+
 test('select supports typeahead selection in a portal', async ({ page }) => {
   const card = page.locator('.component-card').filter({ hasText: 'Select + Combobox' });
   const trigger = card.getByRole('combobox', { name: 'Country' });

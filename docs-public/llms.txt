@@ -14,6 +14,8 @@ Import `sillar-ui/styles.css` once. Import from `sillar-ui` for convenience or a
 
 ## Documentation
 
+- [Getting started tutorial](./tutorial.md)
+- [Tutorial de inicio en español](./tutorial-es.md)
 - [Component reference](./components.md)
 - [Referencia de componentes en español](./componentes.md)
 - [Architecture](https://github.com/uppy19d0/sillar-ui/blob/main/ARCHITECTURE.md)
