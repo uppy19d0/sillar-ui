@@ -8,7 +8,7 @@ import './site.css';
 type Language = 'en' | 'es';
 const copy = {
   en: {
-    nav: ['Overview', 'Components', 'Playground', 'Accessibility', 'Migration', 'Compare'],
+    nav: ['Overview', 'Tutorial', 'Components', 'Playground', 'Accessibility', 'Migration'],
     eyebrow: 'Open source · React 18+ · TypeScript',
     title: 'Accessible React components, beautifully ready.',
     lead: 'Build professional interfaces with accessible behavior, semantic design tokens, light and dark themes, and no primitive runtime dependency.',
@@ -17,9 +17,13 @@ const copy = {
     catalog: 'A practical component foundation', catalogLead: 'Interactive building blocks for product interfaces, backed by shared focus, layer, positioning, and keyboard foundations.',
     playground: 'Edit the code. See the result.', playgroundLead: 'The preview executes against the current Sillar UI source.',
     accessibility: 'Keyboard and accessibility contract', migration: 'Migrate from Radix', compare: 'Choose with context', tokens: 'Semantic tokens',
+    tutorial: 'Build your first Sillar interface', tutorialLead: 'A guided path from an empty React project to a themed, accessible product surface.',
+    tutorialSteps: ['Install the packages', 'Load the design system', 'Compose a product card', 'Verify the experience'],
+    tutorialNotes: ['Use the CLI to install Sillar and run project diagnostics.', 'Import the stylesheet once in your application entry point.', 'Combine typed primitives instead of rebuilding interaction behavior.', 'Test keyboard navigation, both themes, and your production build.'],
+    tutorialResult: 'What you will build', tutorialResultText: 'A responsive account summary with clear hierarchy, semantic status, and an accessible primary action.',
   },
   es: {
-    nav: ['Resumen', 'Componentes', 'Playground', 'Accesibilidad', 'Migración', 'Comparar'],
+    nav: ['Resumen', 'Tutorial', 'Componentes', 'Playground', 'Accesibilidad', 'Migración'],
     eyebrow: 'Código abierto · React 18+ · TypeScript',
     title: 'Componentes React accesibles, listos y hermosos.',
     lead: 'Construye interfaces profesionales con comportamiento accesible, tokens semánticos, temas claro y oscuro y sin dependencias de primitivas.',
@@ -28,6 +32,10 @@ const copy = {
     catalog: 'Una base práctica de componentes', catalogLead: 'Bloques interactivos respaldados por fundamentos compartidos de foco, capas, posicionamiento y teclado.',
     playground: 'Edita el código. Mira el resultado.', playgroundLead: 'La vista ejecuta el código contra la versión actual de Sillar UI.',
     accessibility: 'Contrato de teclado y accesibilidad', migration: 'Migrar desde Radix', compare: 'Elige con contexto', tokens: 'Tokens semánticos',
+    tutorial: 'Construye tu primera interfaz con Sillar', tutorialLead: 'Un recorrido guiado desde un proyecto React vacío hasta una superficie de producto accesible y con tema.',
+    tutorialSteps: ['Instala los paquetes', 'Carga el design system', 'Compón una tarjeta de producto', 'Verifica la experiencia'],
+    tutorialNotes: ['Usa el CLI para instalar Sillar y diagnosticar el proyecto.', 'Importa la hoja de estilos una sola vez en la entrada de la aplicación.', 'Combina primitivas tipadas sin reconstruir el comportamiento interactivo.', 'Prueba el teclado, ambos temas y el build de producción.'],
+    tutorialResult: 'Lo que construirás', tutorialResultText: 'Un resumen de cuenta responsive con jerarquía clara, estado semántico y una acción principal accesible.',
   },
 } as const;
 
@@ -72,6 +80,13 @@ const playgroundCode = `<Card variant="elevated">
   </CardContent>
 </Card>`;
 
+const tutorialCommands = [
+  'npm install sillar-ui',
+  'npx sillar-cli init',
+  "import 'sillar-ui/styles.css';",
+  'npx sillar-cli doctor',
+];
+
 function ToastDemo() {
   const { toast } = Sillar.useToast();
   return <Sillar.Button onClick={() => toast({ title: 'Published successfully', description: 'Your release is available to everyone.', variant: 'success' })}>Create notification</Sillar.Button>;
@@ -103,10 +118,11 @@ function App() {
   };
   React.useEffect(() => { document.documentElement.lang = language; document.documentElement.classList.toggle('dark', dark); document.documentElement.dataset.theme = dark ? 'dark' : 'light'; }, [dark, language]);
   return <Sillar.ToastProvider><div className="docs-shell">
-    <header className="docs-header"><a className="brand" href="#overview"><img src={`${import.meta.env.BASE_URL}sillar-mark.svg`} alt="" /><span>Sillar UI</span><small>v1</small></a><nav aria-label="Documentation">{t.nav.map((item, index) => <a key={item} href={`#${['overview','components','playground','accessibility','migration','compare'][index]}`}>{item}</a>)}</nav><div className="header-actions"><button onClick={() => setLanguage(language === 'en' ? 'es' : 'en')} aria-label="Change language">{language.toUpperCase()}</button><button onClick={() => setDark(!dark)} aria-label="Toggle color theme">{dark ? '☀' : '☾'}</button><a href="https://github.com/uppy19d0/sillar-ui">GitHub ↗</a></div></header>
+    <header className="docs-header"><a className="brand" href="#overview"><img src={`${import.meta.env.BASE_URL}sillar-mark.svg`} alt="" /><span>Sillar UI</span><small>v1</small></a><nav aria-label="Documentation">{t.nav.map((item, index) => <a key={item} href={`#${['overview','tutorial','components','playground','accessibility','migration'][index]}`}>{item}</a>)}</nav><div className="header-actions"><button onClick={() => setLanguage(language === 'en' ? 'es' : 'en')} aria-label="Change language">{language.toUpperCase()}</button><button onClick={() => setDark(!dark)} aria-label="Toggle color theme">{dark ? '☀' : '☾'}</button><a href="https://github.com/uppy19d0/sillar-ui">GitHub ↗</a></div></header>
     <main>
       <section id="overview" className="hero"><div className="hero-copy"><span className="eyebrow">{t.eyebrow}</span><h1>{t.title}</h1><p>{t.lead}</p><div className="hero-actions"><code>{t.install}</code><a className="primary-action" href="#components">{t.explore}</a><a href="https://github.com/uppy19d0/sillar-ui">{t.github}</a></div></div><div className="hero-panel"><span>DESIGN SYSTEM / 01</span><div className="hero-card"><Sillar.Badge variant="success">Accessible by default</Sillar.Badge><h2>Craft product interfaces with confidence.</h2><p>Typed APIs, resilient interaction behavior, and a visual language that works in light and dark.</p><div className="demo-row"><Sillar.Button>Build now</Sillar.Button><Sillar.Button variant="outline">Read docs</Sillar.Button></div></div><footer>Made with love in the Dominican Republic by <a href="https://github.com/uppy19d0">@uppy19d0</a>.</footer></div></section>
       <section className="principles">{t.principles.map((item, index) => <article key={item}><span>0{index + 1}</span><strong>{item}</strong></article>)}</section>
+      <section id="tutorial" className="section tutorial-section"><header className="section-heading"><span>GETTING STARTED</span><h2>{t.tutorial}</h2><p>{t.tutorialLead}</p></header><div className="tutorial-layout"><ol className="tutorial-steps">{t.tutorialSteps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{step}</h3><p>{t.tutorialNotes[index]}</p><pre><code>{tutorialCommands[index]}</code></pre></div></li>)}</ol><aside className="tutorial-result"><span>{t.tutorialResult}</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Active</Sillar.Badge><Sillar.CardTitle>Caribbean account</Sillar.CardTitle><Sillar.CardDescription>{t.tutorialResultText}</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><div className="tutorial-balance"><small>Available balance</small><strong>RD$ 84,250.00</strong></div><Sillar.Button>View activity</Sillar.Button></Sillar.CardContent></Sillar.Card><a href={`${import.meta.env.BASE_URL}${language === 'es' ? 'tutorial-es.md' : 'tutorial.md'}`}>Markdown tutorial ↗</a></aside></div></section>
       <section id="components" className="section"><header className="section-heading"><span>COMPONENTS</span><h2>{t.catalog}</h2><p>{t.catalogLead}</p></header><div className="component-grid">{examples.map((example) => <article key={example.name} className="component-card"><header><strong>{example.name}</strong><code>import from 'sillar-ui'</code></header><div className="component-preview">{example.node}</div></article>)}</div></section>
       <section id="playground" className="section playground-section"><header className="section-heading"><span>PLAYGROUND</span><h2>{t.playground}</h2><p>{t.playgroundLead}</p></header><LiveProvider code={playgroundCode} scope={Sillar}><div className="playground"><div><div className="panel-label">CODE / TSX</div><LiveEditor className="live-editor" /></div><div><div className="panel-label">PREVIEW</div><LivePreview className="live-preview" /><LiveError className="live-error" /></div></div></LiveProvider></section>
       <section className="section"><header className="section-heading"><span>THEMES</span><h2>{localized.themes}</h2><p>{localized.themesLead}</p></header><div className="theme-comparison"><div className="theme-frame theme-light"><span>LIGHT</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Ready</Sillar.Badge><Sillar.CardTitle>Semantic by design</Sillar.CardTitle><Sillar.CardDescription>One component contract, adapted to its environment.</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><Sillar.Button>Continue</Sillar.Button></Sillar.CardContent></Sillar.Card></div><div className="theme-frame theme-dark" data-theme="dark"><span>DARK</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Ready</Sillar.Badge><Sillar.CardTitle>Semantic by design</Sillar.CardTitle><Sillar.CardDescription>One component contract, adapted to its environment.</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><Sillar.Button>Continue</Sillar.Button></Sillar.CardContent></Sillar.Card></div></div></section>
