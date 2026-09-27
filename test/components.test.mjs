@@ -9,8 +9,11 @@ import {
   AccordionItem,
   AccordionTrigger,
   Badge,
+  BreakdownList,
   Button,
   Callout,
+  CalculatorPanel,
+  CalculatorShell,
   Checkbox,
   Combobox,
   Card,
@@ -20,21 +23,28 @@ import {
   DatePicker,
   DropdownMenu,
   DropdownMenuTrigger,
+  EmptyState,
+  ExportActions,
   FieldLabel,
   FormControl,
+  FormGrid,
   FormItem,
   FormLabel,
   FormMessage,
   IconButton,
   Label,
+  MoneyInput,
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
+  parseNumericInput,
+  PercentageInput,
   Progress,
   RadioGroup,
   RadioGroupItem,
+  ResultSummary,
   Select,
   SelectContent,
   SelectItem,
@@ -48,6 +58,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  TextField,
   Tooltip,
   TooltipTrigger,
 } from '../dist/index.js';
@@ -122,6 +133,29 @@ test('Field and callout primitives expose validation semantics', () => {
   assert.match(label, /slr-field-required/);
   assert.match(callout, /role="alert"/);
   assert.match(callout, /slr-callout--danger/);
+});
+
+test('TextField connects labels, messages, adornments, and validation state', () => {
+  const html = renderToStaticMarkup(
+    React.createElement(TextField, {
+      label: 'Workspace name',
+      description: 'Use a clear public name.',
+      error: 'This name is already taken.',
+      leading: '@',
+      trailing: '.app',
+      variant: 'glass',
+      maxLength: 24,
+      defaultValue: 'sillar',
+      required: true,
+    }),
+  );
+
+  assert.match(html, /data-slot="text-field"/);
+  assert.match(html, /data-variant="glass"/);
+  assert.match(html, /aria-invalid="true"/);
+  assert.match(html, /role="alert"/);
+  assert.match(html, /aria-describedby="[^"]+-description [^"]+-message"/);
+  assert.match(html, /6\/24/);
 });
 
 test('SkipLink points keyboard users to the requested target', () => {
@@ -224,7 +258,7 @@ test('SelectRoot, Combobox, and NavigationMenu render their public contracts', (
     React.createElement(SelectRoot, { defaultValue: 'es', name: 'language' },
       React.createElement(SelectTrigger, null, React.createElement(SelectValue, { placeholder: 'Language' })),
       React.createElement(SelectContent, null, React.createElement(SelectItem, { value: 'es' }, 'Spanish'))),
-    React.createElement(Combobox, { options: [{ value: 'sdq', label: 'Santo Domingo' }], name: 'city' }),
+    React.createElement(Combobox, { options: [{ value: 'nyc', label: 'New York' }], name: 'city' }),
     React.createElement(NavigationMenu, null,
       React.createElement(NavigationMenuList, null,
         React.createElement(NavigationMenuItem, null,
@@ -253,6 +287,54 @@ test('Form and DatePicker connect validation and calendar semantics', () => {
   assert.match(html, /data-state="closed"/);
 });
 
+test('application patterns render estimator, numeric, result, and export contracts', () => {
+  const html = renderToStaticMarkup(React.createElement(React.Fragment, null,
+    React.createElement(CalculatorShell, {
+      title: 'Plan estimator',
+      eyebrow: 'Pricing',
+      badge: 'SaaS ready',
+      aside: React.createElement(ResultSummary, {
+        title: 'Estimated monthly total',
+        value: '$349',
+        items: [{ label: 'Usage buffer', value: '$100', tone: 'warning' }],
+      }),
+    },
+      React.createElement(CalculatorPanel, { title: 'Configuration' },
+        React.createElement(FormGrid, null,
+          React.createElement(MoneyInput, { value: 85000, currency: 'USD', 'aria-label': 'Monthly budget' }),
+          React.createElement(PercentageInput, { value: 12, 'aria-label': 'Growth percentage' })))),
+    React.createElement(ExportActions, { onPrint() {}, onPdf() {}, onCopy() {} }),
+    React.createElement(BreakdownList, { items: [{ label: 'Total', value: '$349', description: 'Base plan plus usage' }] }),
+  ));
+
+  assert.match(html, /data-slot="calculator-shell"/);
+  assert.match(html, /data-slot="result-summary"/);
+  assert.match(html, /data-slot="money-input"/);
+  assert.match(html, /data-export-action="pdf"/);
+  assert.match(html, /USD/);
+});
+
+test('empty states provide stable product feedback markup', () => {
+  const html = renderToStaticMarkup(React.createElement(React.Fragment, null,
+    React.createElement(EmptyState, {
+      title: 'No reports yet',
+      description: 'Create your first export.',
+      actions: [{ label: 'Create report', href: '/reports/new' }],
+    }),
+    React.createElement(EmptyState, { title: 'No filters matched' }),
+  ));
+
+  assert.match(html, /data-slot="empty-state"/);
+  assert.match(html, /href="\/reports\/new"/);
+  assert.match(html, /No filters matched/);
+});
+
+test('numeric parser handles currency and localized decimal input', () => {
+  assert.equal(parseNumericInput('RD$ 85,000.50', 'en-US'), 85000.50);
+  assert.equal(parseNumericInput('RD$ 85000,50', 'es-DO'), 85000.50);
+  assert.equal(parseNumericInput('invalid', 'en-US'), null);
+});
+
 test('published package and bundle have no Radix runtime dependency', async () => {
   const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
   const packageLock = JSON.parse(await readFile(new URL('../package-lock.json', import.meta.url), 'utf8'));
@@ -266,7 +348,28 @@ test('published package and bundle have no Radix runtime dependency', async () =
 });
 
 test('focused component entry points resolve through package exports', async () => {
-  const entries = ['accordion', 'button', 'choice', 'combobox', 'date-picker', 'dialog', 'form', 'navigation-menu', 'popover', 'select-root', 'toast', 'tooltip'];
+  const entries = [
+    'accordion',
+    'button',
+    'calculator-shell',
+    'choice',
+    'combobox',
+    'confirm-dialog',
+    'date-picker',
+    'dialog',
+    'empty-state',
+    'export-actions',
+    'form',
+    'form-grid',
+    'money-input',
+    'navigation-menu',
+    'popover',
+    'result-summary',
+    'select-root',
+    'text-field',
+    'toast',
+    'tooltip',
+  ];
   for (const entry of entries) {
     const module = await import(`sillar-ui/${entry}`);
     assert.ok(Object.keys(module).length > 0, `${entry} must expose a public module`);

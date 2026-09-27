@@ -67,7 +67,7 @@ export function Example() {
 - IconButton with a required accessible label
 - Badge with status and neutral variants
 - Card primitives with default, elevated, subtle, and outline surfaces
-- Input, Textarea, and Field composition with help and error states
+- Input, Textarea, TextField, and Field composition with premium states, help text, counters, adornments, and errors
 - Accessible Dialog primitives with focus trapping, Escape handling, and scroll locking
 - DropdownMenu with collision-aware positioning, typeahead, outside-click dismissal, and full keyboard navigation
 - Tabs with automatic or manual activation and horizontal or vertical keyboard navigation
@@ -87,12 +87,65 @@ export function Example() {
 - Progress and Skeleton loading feedback
 - Typed Form validation composition
 - Localized DatePicker calendar grid
+- CalculatorShell and CalculatorPanel for pricing tools, estimators, configurators, and guided workflows
+- TextField for premium product forms with glass, filled, elevated, and default variants
+- MoneyInput and PercentageInput with locale-aware numeric parsing
+- ResultSummary and BreakdownList for totals, comparisons, KPI cards, invoices, and calculated outcomes
+- ExportActions for print, PDF, copy, share, and download workflows
+- FormGrid and FieldGroup for responsive product forms
+- EmptyState, ErrorState, LoadingState, and ConfirmDialog for production feedback flows
 
 Every component also has a focused entry point for smaller application bundles:
 
 ```tsx
 import { Button } from 'sillar-ui/button';
 import { Dialog, DialogContent, DialogTrigger } from 'sillar-ui/dialog';
+import { MoneyInput } from 'sillar-ui/money-input';
+import { TextField } from 'sillar-ui/text-field';
+```
+
+## Product patterns
+
+Sillar UI includes composed patterns for real applications that need consistent UX across calculators, configurators, dashboards, checkout flows, backoffice screens, and self-service portals. These patterns use the same tokens and accessibility contracts as the primitives.
+
+```tsx
+import {
+  CalculatorPanel,
+  CalculatorShell,
+  FormGrid,
+  MoneyInput,
+  PercentageInput,
+  ResultSummary,
+} from 'sillar-ui';
+
+export function PricingEstimator() {
+  return (
+    <CalculatorShell
+      eyebrow="Pricing"
+      title="Plan estimator"
+      badge="SaaS ready"
+      aside={
+        <ResultSummary
+          title="Estimated monthly total"
+          value="$349"
+          description="Projected total based on the selected configuration."
+          items={[
+            { label: 'Base plan', value: '$249' },
+            { label: 'Usage buffer', value: '$100', tone: 'warning' },
+          ]}
+        />
+      }
+    >
+      <CalculatorPanel title="Configuration inputs">
+        <FormGrid>
+          <MoneyInput currency="USD" aria-label="Monthly budget" />
+          <PercentageInput aria-label="Growth percentage" />
+          <TextField label="Workspace" leading="@" trailing=".app" variant="glass" />
+        </FormGrid>
+      </CalculatorPanel>
+    </CalculatorShell>
+  );
+}
 ```
 
 ## Theming

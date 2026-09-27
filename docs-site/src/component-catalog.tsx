@@ -1,0 +1,65 @@
+import * as React from 'react';
+
+export type CatalogLanguage = 'en' | 'es';
+
+type ComponentDoc = {
+  name: string;
+  slug: string;
+  category: 'Actions' | 'Forms' | 'Overlays' | 'Navigation' | 'Feedback' | 'Layout' | 'Product';
+  description: { en: string; es: string };
+  importPath: string;
+  exports: string;
+  keyboard: string;
+  status: 'Stable';
+};
+
+const componentDocs: ComponentDoc[] = [
+  { name: 'Accordion', slug: 'accordion', category: 'Layout', description: { en: 'Organize related content into keyboard-navigable disclosure sections.', es: 'Organiza contenido relacionado en secciones desplegables navegables por teclado.' }, importPath: 'sillar-ui/accordion', exports: 'Accordion, AccordionItem, AccordionTrigger, AccordionContent', keyboard: 'Arrow keys · Home · End · Enter · Space', status: 'Stable' },
+  { name: 'Button', slug: 'button', category: 'Actions', description: { en: 'Trigger product actions with variants, loading states, and polymorphic composition.', es: 'Ejecuta acciones con variantes, estado de carga y composición polimórfica.' }, importPath: 'sillar-ui/button', exports: 'Button, buttonVariants', keyboard: 'Enter · Space', status: 'Stable' },
+  { name: 'CalculatorShell', slug: 'calculator-shell', category: 'Product', description: { en: 'Structure calculators, pricing tools, configurators, and guided product workflows with result asides.', es: 'Estructura calculadoras, cotizadores, configuradores y flujos guiados con resultados laterales.' }, importPath: 'sillar-ui/calculator-shell', exports: 'CalculatorShell, CalculatorPanel', keyboard: 'Follows nested controls', status: 'Stable' },
+  { name: 'Checkbox & RadioGroup', slug: 'choice', category: 'Forms', description: { en: 'Collect independent and exclusive choices with native form semantics.', es: 'Recopila elecciones independientes y exclusivas con semántica de formulario.' }, importPath: 'sillar-ui/choice', exports: 'Checkbox, RadioGroup, RadioGroupItem', keyboard: 'Space · Arrow keys', status: 'Stable' },
+  { name: 'Combobox', slug: 'combobox', category: 'Forms', description: { en: 'Search, filter, create, and select options from a typed collection.', es: 'Busca, filtra, crea y selecciona opciones de una colección tipada.' }, importPath: 'sillar-ui/combobox', exports: 'Combobox, ComboboxGroup', keyboard: 'Arrow keys · Enter · Escape', status: 'Stable' },
+  { name: 'ConfirmDialog', slug: 'confirm-dialog', category: 'Product', description: { en: 'Ship destructive or high-impact confirmations with Sillar Dialog and Button defaults.', es: 'Entrega confirmaciones destructivas o críticas con los defaults de Dialog y Button.' }, importPath: 'sillar-ui/confirm-dialog', exports: 'ConfirmDialog', keyboard: 'Tab · Shift+Tab · Escape', status: 'Stable' },
+  { name: 'DatePicker', slug: 'date-picker', category: 'Forms', description: { en: 'Choose localized dates through an accessible calendar grid.', es: 'Selecciona fechas localizadas mediante una cuadrícula de calendario accesible.' }, importPath: 'sillar-ui/date-picker', exports: 'DatePicker', keyboard: 'Arrow keys · Home · End · PageUp · PageDown', status: 'Stable' },
+  { name: 'Dialog', slug: 'dialog', category: 'Overlays', description: { en: 'Present modal tasks with focus trapping, isolation, and focus restoration.', es: 'Presenta tareas modales con foco contenido, aislamiento y restauración.' }, importPath: 'sillar-ui/dialog', exports: 'Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription', keyboard: 'Tab · Shift+Tab · Escape', status: 'Stable' },
+  { name: 'DropdownMenu', slug: 'dropdown-menu', category: 'Overlays', description: { en: 'Expose contextual actions with typeahead and collision-aware positioning.', es: 'Expone acciones contextuales con búsqueda por teclado y posicionamiento adaptable.' }, importPath: 'sillar-ui/dropdown-menu', exports: 'DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem', keyboard: 'Arrow keys · Home · End · Typeahead · Escape', status: 'Stable' },
+  { name: 'EmptyState', slug: 'empty-state', category: 'Feedback', description: { en: 'Render empty, error, and loading product states with consistent surfaces.', es: 'Renderiza estados vacíos, de error y carga con superficies consistentes.' }, importPath: 'sillar-ui/empty-state', exports: 'EmptyState, ErrorState, LoadingState', keyboard: 'Follows nested actions', status: 'Stable' },
+  { name: 'ExportActions', slug: 'export-actions', category: 'Product', description: { en: 'Standardize print, PDF, copy, share, and download actions for reports and calculators.', es: 'Estandariza acciones de imprimir, PDF, copiar, compartir y descargar para reportes y calculadoras.' }, importPath: 'sillar-ui/export-actions', exports: 'ExportActions', keyboard: 'Enter · Space', status: 'Stable' },
+  { name: 'Form & Field', slug: 'form', category: 'Forms', description: { en: 'Connect labels, validation, errors, and submission through typed helpers.', es: 'Conecta etiquetas, validación, errores y envío mediante helpers tipados.' }, importPath: 'sillar-ui/form', exports: 'Form, FormItem, FormLabel, FormControl, FormMessage, useForm', keyboard: 'Native form behavior', status: 'Stable' },
+  { name: 'FormGrid & FieldGroup', slug: 'form-grid', category: 'Forms', description: { en: 'Build responsive, grouped product forms without rewriting layout CSS.', es: 'Crea formularios responsivos y agrupados sin reescribir CSS de layout.' }, importPath: 'sillar-ui/form-grid', exports: 'FormGrid, FieldGroup', keyboard: 'Follows nested fields', status: 'Stable' },
+  { name: 'MoneyInput', slug: 'money-input', category: 'Forms', description: { en: 'Collect currency and percentage values with locale-aware numeric parsing.', es: 'Captura valores monetarios y porcentajes con parsing numérico localizado.' }, importPath: 'sillar-ui/money-input', exports: 'MoneyInput, PercentageInput, parseNumericInput', keyboard: 'Native input behavior', status: 'Stable' },
+  { name: 'NavigationMenu', slug: 'navigation-menu', category: 'Navigation', description: { en: 'Build keyboard-friendly product and documentation navigation.', es: 'Construye navegación de producto y documentación compatible con teclado.' }, importPath: 'sillar-ui/navigation-menu', exports: 'NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent', keyboard: 'Arrow keys · Home · End · Escape', status: 'Stable' },
+  { name: 'Popover', slug: 'popover', category: 'Overlays', description: { en: 'Place interactive supporting content near its trigger and return focus on dismiss.', es: 'Ubica contenido interactivo junto al activador y devuelve el foco al cerrar.' }, importPath: 'sillar-ui/popover', exports: 'Popover, PopoverTrigger, PopoverContent', keyboard: 'Tab · Escape', status: 'Stable' },
+  { name: 'Progress & Skeleton', slug: 'progress', category: 'Feedback', description: { en: 'Communicate determinate progress and content loading states.', es: 'Comunica progreso determinado y estados de carga de contenido.' }, importPath: 'sillar-ui/progress', exports: 'Progress, Skeleton', keyboard: 'Not interactive', status: 'Stable' },
+  { name: 'ResultSummary', slug: 'result-summary', category: 'Product', description: { en: 'Present totals, comparisons, balances, invoices, and KPI outcomes with breakdown rows.', es: 'Presenta totales, comparaciones, balances, facturas y resultados KPI con filas de desglose.' }, importPath: 'sillar-ui/result-summary', exports: 'ResultSummary, BreakdownList', keyboard: 'Not interactive', status: 'Stable' },
+  { name: 'Select', slug: 'select', category: 'Forms', description: { en: 'Choose a value with groups, typeahead, controlled state, and portal positioning.', es: 'Selecciona un valor con grupos, búsqueda por teclado, estado controlado y portal.' }, importPath: 'sillar-ui/select-root', exports: 'SelectRoot, SelectTrigger, SelectValue, SelectContent, SelectItem', keyboard: 'Arrow keys · Home · End · Typeahead · Enter · Escape', status: 'Stable' },
+  { name: 'Tabs', slug: 'tabs', category: 'Navigation', description: { en: 'Switch related panels with automatic or manual keyboard activation.', es: 'Alterna paneles relacionados con activación automática o manual.' }, importPath: 'sillar-ui/tabs', exports: 'Tabs, TabsList, TabsTrigger, TabsContent', keyboard: 'Arrow keys · Home · End', status: 'Stable' },
+  { name: 'TextField', slug: 'text-field', category: 'Forms', description: { en: 'Compose premium product inputs with labels, helper text, counters, adornments, and glass or elevated surfaces.', es: 'Compón inputs premium con etiquetas, ayuda, contador, adornos y superficies glass o elevadas.' }, importPath: 'sillar-ui/text-field', exports: 'TextField', keyboard: 'Native input behavior', status: 'Stable' },
+  { name: 'Toast', slug: 'toast', category: 'Feedback', description: { en: 'Announce time-sensitive outcomes through managed live regions.', es: 'Anuncia resultados importantes mediante regiones vivas administradas.' }, importPath: 'sillar-ui/toast', exports: 'ToastProvider, ToastViewport, useToast', keyboard: 'F6 · Escape', status: 'Stable' },
+  { name: 'Tooltip', slug: 'tooltip', category: 'Overlays', description: { en: 'Add concise supporting text without replacing visible labels.', es: 'Agrega texto breve de apoyo sin sustituir etiquetas visibles.' }, importPath: 'sillar-ui/tooltip', exports: 'Tooltip, TooltipTrigger, TooltipContent', keyboard: 'Focus · Escape', status: 'Stable' },
+];
+
+export function ComponentCatalog({ language }: { language: CatalogLanguage }) {
+  const [query, setQuery] = React.useState('');
+  const [selectedSlug, setSelectedSlug] = React.useState(() => window.location.hash.startsWith('#component-') ? window.location.hash.replace('#component-', '') : 'button');
+  const labels = language === 'es'
+    ? { title: 'Referencia completa de componentes', lead: 'Busca por nombre, categoría o capacidad. Cada ficha incluye importación, exports y contrato de teclado.', search: 'Buscar componentes', results: 'componentes', empty: 'No encontramos componentes con ese criterio.', import: 'Importación enfocada', exports: 'Exports principales', keyboard: 'Contrato de teclado', copy: 'Copiar enlace', copied: 'Enlace copiado' }
+    : { title: 'Complete component reference', lead: 'Search by name, category, or capability. Every entry documents its import, exports, and keyboard contract.', search: 'Search components', results: 'components', empty: 'No components match that search.', import: 'Focused import', exports: 'Main exports', keyboard: 'Keyboard contract', copy: 'Copy link', copied: 'Link copied' };
+  const [copied, setCopied] = React.useState(false);
+  const normalizedQuery = query.trim().toLocaleLowerCase(language);
+  const filtered = componentDocs.filter((component) => [component.name, component.category, component.description[language], component.exports].join(' ').toLocaleLowerCase(language).includes(normalizedQuery));
+  const selected = componentDocs.find((component) => component.slug === selectedSlug) ?? componentDocs[0];
+
+  const selectComponent = (slug: string) => {
+    setSelectedSlug(slug);
+    window.history.replaceState(null, '', `#component-${slug}`);
+  };
+
+  const copyLink = async () => {
+    await navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}#component-${selected.slug}`);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1500);
+  };
+
+  return <section id="reference" className="section catalog-section"><header className="section-heading"><span>REFERENCE</span><h2>{labels.title}</h2><p>{labels.lead}</p></header><div className="catalog-toolbar"><label><span>{labels.search}</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`${labels.search}…`} /></label><output aria-live="polite">{filtered.length} {labels.results}</output></div><div className="catalog-layout"><nav className="catalog-list" aria-label={labels.title}>{filtered.length ? filtered.map((component) => <button key={component.slug} type="button" className={component.slug === selected.slug ? 'active' : ''} onClick={() => selectComponent(component.slug)}><span><strong>{component.name}</strong><small>{component.category}</small></span><span aria-hidden="true">→</span></button>) : <p>{labels.empty}</p>}</nav><article className="catalog-detail" id={`component-${selected.slug}`}><header><div><span>{selected.category} · {selected.status}</span><h3>{selected.name}</h3></div><button type="button" onClick={copyLink}>{copied ? labels.copied : labels.copy}</button></header><p>{selected.description[language]}</p><dl><div><dt>{labels.import}</dt><dd><code>import {'{ '}{selected.exports.split(',')[0]}{' }'} from '{selected.importPath}'</code></dd></div><div><dt>{labels.exports}</dt><dd>{selected.exports}</dd></div><div><dt>{labels.keyboard}</dt><dd><kbd>{selected.keyboard}</kbd></dd></div></dl><a href={`${import.meta.env.BASE_URL}${language === 'es' ? 'componentes.md' : 'components.md'}#${selected.slug}`}>Markdown API ↗</a></article></div></section>;
+}

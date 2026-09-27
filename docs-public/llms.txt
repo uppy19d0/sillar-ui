@@ -26,7 +26,7 @@ Import `sillar-ui/styles.css` once. Import from `sillar-ui` for convenience or a
 
 ## Public component families
 
-Accordion, Badge, Button, Callout, Card, Checkbox, Collapsible, Combobox, DatePicker, Dialog, DropdownMenu, Field, Form, IconButton, Input, Label, NavigationMenu, Popover, Progress, RadioGroup, Section, Select (native and composed), Separator, Skeleton, Slot, Switch, Tabs, Textarea, Toast, Tooltip, VisuallyHidden, and SkipLink.
+Accordion, Badge, Button, CalculatorShell, CalculatorPanel, Callout, Card, Checkbox, Collapsible, Combobox, ConfirmDialog, DatePicker, Dialog, DropdownMenu, EmptyState, ErrorState, ExportActions, Field, FieldGroup, Form, FormGrid, IconButton, Input, Label, LoadingState, MoneyInput, NavigationMenu, PercentageInput, Popover, Progress, RadioGroup, ResultSummary, Section, Select (native and composed), Separator, Skeleton, Slot, Switch, Tabs, Textarea, TextField, Toast, Tooltip, VisuallyHidden, and SkipLink.
 
 ## Accessibility
 

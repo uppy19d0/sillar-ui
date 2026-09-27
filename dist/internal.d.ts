@@ -1,5 +1,5 @@
 import * as React from 'react';
-export declare const useIsomorphicLayoutEffect: typeof React.useEffect;
+export declare const useIsomorphicLayoutEffect: typeof React.useLayoutEffect;
 export type ControllableStateUpdater<T> = T | ((previous: T) => T);
 export declare function useControllableState<T>({ value, defaultValue, onChange, }: {
     value?: T;

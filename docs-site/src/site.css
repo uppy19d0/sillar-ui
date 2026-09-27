@@ -58,6 +58,31 @@ h1 { max-width: 12ch; margin: 0; font-size: clamp(3.3rem, 7vw, 6.7rem); font-wei
 .component-card > header { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--slr-color-border); padding: 0.8rem 1rem; }
 .component-card header code { overflow: hidden; color: var(--slr-color-subtle); font-size: 0.7rem; text-overflow: ellipsis; }
 .component-preview { display: grid; min-height: 19rem; align-content: center; padding: clamp(1.2rem, 4vw, 2.5rem); }
+.catalog-toolbar { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.catalog-toolbar label { display: grid; width: min(100%, 34rem); gap: .45rem; color: var(--slr-color-muted); font-size: .78rem; font-weight: 700; }
+.catalog-toolbar input { width: 100%; border: 1px solid var(--slr-color-border); border-radius: var(--slr-radius-sm); background: var(--slr-color-surface-raised); padding: .8rem 1rem; color: var(--slr-color-text); }
+.catalog-toolbar input:focus-visible { outline: none; box-shadow: var(--slr-shadow-focus); }
+.catalog-toolbar output { color: var(--slr-color-subtle); font-size: .8rem; white-space: nowrap; }
+.catalog-layout { display: grid; grid-template-columns: minmax(15rem, .7fr) minmax(0, 1.3fr); overflow: hidden; border: 1px solid var(--slr-color-border); border-radius: var(--slr-radius-lg); background: var(--slr-color-surface); }
+.catalog-list { max-height: 37rem; overflow-y: auto; border-right: 1px solid var(--slr-color-border); }
+.catalog-list button { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 1rem; border: 0; border-bottom: 1px solid var(--slr-color-border); background: transparent; padding: 1rem 1.1rem; color: var(--slr-color-text); text-align: left; cursor: pointer; }
+.catalog-list button:hover, .catalog-list button.active { background: var(--slr-color-surface-hover); }
+.catalog-list button.active { box-shadow: inset 3px 0 var(--slr-color-brand); }
+.catalog-list button span:first-child { display: grid; gap: .2rem; }
+.catalog-list small { color: var(--slr-color-subtle); }
+.catalog-list > p { padding: 1.25rem; color: var(--slr-color-muted); }
+.catalog-detail { display: grid; align-content: start; gap: 1.4rem; min-height: 34rem; padding: clamp(1.5rem, 5vw, 3rem); scroll-margin-top: 6rem; }
+.catalog-detail header { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
+.catalog-detail header span { color: var(--slr-color-brand); font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.catalog-detail h3 { margin: .6rem 0 0; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -.05em; }
+.catalog-detail header button { border: 1px solid var(--slr-color-border); border-radius: .5rem; background: var(--slr-color-surface-raised); padding: .5rem .7rem; color: var(--slr-color-muted); cursor: pointer; }
+.catalog-detail > p { max-width: 42rem; margin: 0; color: var(--slr-color-muted); font-size: 1.05rem; line-height: 1.7; }
+.catalog-detail dl { display: grid; gap: 0; margin: 0; border-top: 1px solid var(--slr-color-border); }
+.catalog-detail dl > div { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 1rem; border-bottom: 1px solid var(--slr-color-border); padding: 1rem 0; }
+.catalog-detail dt { color: var(--slr-color-subtle); font-size: .78rem; font-weight: 700; }
+.catalog-detail dd { min-width: 0; margin: 0; overflow-wrap: anywhere; }
+.catalog-detail code, .catalog-detail kbd { color: var(--slr-color-brand); font: .8rem/1.6 monospace; }
+.catalog-detail > a { width: fit-content; color: var(--slr-color-brand); font-weight: 750; text-decoration: none; }
 .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
 .demo-stack { display: grid; gap: 1rem; }
 .demo-label { display: flex; align-items: center; gap: 0.65rem; }
@@ -95,5 +120,5 @@ pre { max-width: 100%; overflow: auto; border-radius: 0.5rem; background: var(--
 .docs-footer > div:last-child { justify-content: flex-end; }
 .docs-footer p { margin: 0; text-align: center; }
 
-@media (max-width: 900px) { .docs-header { grid-template-columns: 1fr auto; } .docs-header nav { display: none; } .hero { min-height: auto; grid-template-columns: 1fr; } .hero-panel { transform: none; } .component-grid, .playground, .split-section, .theme-comparison, .tutorial-layout { grid-template-columns: 1fr; } .tutorial-result { position: static; } .playground > div + div, .theme-frame + .theme-frame { border-top: 1px solid rgba(148,163,184,.2); border-left: 0; } .principles { grid-template-columns: repeat(2, 1fr); } .principles article:nth-child(3) { border-left: 0; } .principles article:nth-child(n+3) { border-top: 1px solid var(--slr-color-border); } .migration-grid { grid-template-columns: 1fr; } .docs-footer { grid-template-columns: 1fr; justify-items: start; } .docs-footer p { text-align: left; } .docs-footer > div:last-child { justify-content: flex-start; } }
+@media (max-width: 900px) { .docs-header { grid-template-columns: 1fr auto; } .docs-header nav { display: none; } .hero { min-height: auto; grid-template-columns: 1fr; } .hero-panel { transform: none; } .component-grid, .playground, .split-section, .theme-comparison, .tutorial-layout, .catalog-layout { grid-template-columns: 1fr; } .catalog-list { max-height: 18rem; border-right: 0; border-bottom: 1px solid var(--slr-color-border); } .tutorial-result { position: static; } .playground > div + div, .theme-frame + .theme-frame { border-top: 1px solid rgba(148,163,184,.2); border-left: 0; } .principles { grid-template-columns: repeat(2, 1fr); } .principles article:nth-child(3) { border-left: 0; } .principles article:nth-child(n+3) { border-top: 1px solid var(--slr-color-border); } .migration-grid { grid-template-columns: 1fr; } .docs-footer { grid-template-columns: 1fr; justify-items: start; } .docs-footer p { text-align: left; } .docs-footer > div:last-child { justify-content: flex-start; } }
 @media (max-width: 560px) { h1 { font-size: 3.1rem; } .header-actions a { display: none; } .principles { grid-template-columns: 1fr; } .principles article + article { border-top: 1px solid var(--slr-color-border); border-left: 0; } .component-grid { grid-template-columns: 1fr; } .component-card > header code { display: none; } }

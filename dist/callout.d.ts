@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { type VariantProps } from 'class-variance-authority';
 export declare const calloutVariants: (props?: ({
-    variant?: "success" | "info" | "warning" | "danger" | null | undefined;
+    variant?: "danger" | "info" | "success" | "warning" | null | undefined;
 } & import("class-variance-authority/types").ClassProp) | undefined) => string;
 export interface CalloutProps extends React.ComponentPropsWithoutRef<'div'>, VariantProps<typeof calloutVariants> {
 }

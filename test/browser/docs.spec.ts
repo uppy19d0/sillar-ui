@@ -40,22 +40,22 @@ test('select supports typeahead selection in a portal', async ({ page }) => {
   const trigger = card.getByRole('combobox', { name: 'Country' });
   await trigger.click();
   await expect(page.getByRole('listbox')).toBeVisible();
-  const selectedOption = page.getByRole('option', { name: 'Dominican Republic' });
+  const selectedOption = page.getByRole('option', { name: 'United States' });
   await expect(selectedOption).toBeFocused();
-  await selectedOption.press('p');
-  const matchedOption = page.getByRole('option', { name: 'Puerto Rico' });
+  await selectedOption.press('s');
+  const matchedOption = page.getByRole('option', { name: 'Singapore' });
   await expect(matchedOption).toBeFocused();
   await matchedOption.press('Enter');
-  await expect(trigger).toHaveText('Puerto Rico');
+  await expect(trigger).toHaveText('Singapore');
   await expect(page.getByRole('listbox')).toBeHidden();
 });
 
 test('combobox filters and commits an option from the keyboard', async ({ page }) => {
   const input = page.getByPlaceholder('Search a city');
-  await input.fill('santo');
+  await input.fill('lon');
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
-  await expect(input).toHaveValue('Santo Domingo');
+  await expect(input).toHaveValue('London');
   await expect(input).toHaveAttribute('aria-expanded', 'false');
 });
 
