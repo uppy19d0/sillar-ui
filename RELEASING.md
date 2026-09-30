@@ -4,7 +4,7 @@ Sillar UI releases are built from immutable Git tags and published through npm T
 
 In npm package settings, configure the GitHub Actions trusted publisher for `sillar-ui` with owner `uppy19d0`, repository `sillar-ui`, workflow filename `publish.yml`, and direct `npm publish` allowed. Configure `sillar-cli` separately with workflow filename `publish-cli.yml`. Neither workflow uses a GitHub environment. Revoke any old npm publish token after a successful trusted release.
 
-Before the next `sillar-ui` release, reconcile `sillar-ui@1.2.0` on npm with its source: the public `main` branch currently declares 1.1.0 and has no `v1.2.0` tag. Recover and review the exact 1.2.0 source commit before advancing the root package version. Do not tag the older 1.1.0 source as 1.2.0.
+Before the next `sillar-ui` release, merge and review [PR #15](https://github.com/uppy19d0/sillar-ui/pull/15), which contains the 1.2.0 source. All 202 files in the published `sillar-ui@1.2.0` tarball match that branch at commit `fd46a22ad26f2bc14193cba3eb603b61b77c3c65` byte for byte. The public `main` branch still declares 1.1.0 and there is no `v1.2.0` tag or npm provenance attestation. Do not tag the older 1.1.0 source as 1.2.0; npm cannot replace a version that is already published.
 
 ## Release process
 
