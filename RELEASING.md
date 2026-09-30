@@ -2,6 +2,10 @@
 
 Sillar UI releases are built from immutable Git tags and published through npm Trusted Publishing. Maintainers do not need an npm token.
 
+In npm package settings, configure the GitHub Actions trusted publisher for `sillar-ui` with owner `uppy19d0`, repository `sillar-ui`, workflow filename `publish.yml`, and direct `npm publish` allowed. Configure `sillar-cli` separately with workflow filename `publish-cli.yml`. Neither workflow uses a GitHub environment. Revoke any old npm publish token after a successful trusted release.
+
+Before the next `sillar-ui` release, reconcile `sillar-ui@1.2.0` on npm with its source: the public `main` branch currently declares 1.1.0 and has no `v1.2.0` tag. Recover and review the exact 1.2.0 source commit before advancing the root package version. Do not tag the older 1.1.0 source as 1.2.0.
+
 ## Release process
 
 1. Update `CHANGELOG.md` and the version in `package.json` and `package-lock.json`.
