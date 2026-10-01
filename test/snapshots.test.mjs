@@ -168,7 +168,9 @@ function extractTokens(stylesheet, selector) {
 function normalizeReactIds(markup) {
   const tabsId = markup.match(/id="([^"]+)-tab-preview"/)?.[1];
   assert.ok(tabsId, 'Expected the Tabs snapshot to expose its generated base id.');
-  return markup.replaceAll(tabsId, 'sillar-tabs');
+  const textFieldId = markup.match(/<label for="([^"]+)" data-slot="text-field-label"/)?.[1];
+  assert.ok(textFieldId, 'Expected the TextField snapshot to expose its generated id.');
+  return markup.replaceAll(tabsId, 'sillar-tabs').replaceAll(textFieldId, 'sillar-text-field');
 }
 
 test('public component markup and theme tokens match the reviewed snapshot', async () => {
