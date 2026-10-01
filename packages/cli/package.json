@@ -1,6 +1,6 @@
 {
   "name": "sillar-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Project setup, component aliases, and diagnostics for Sillar UI.",
   "license": "MIT",
   "type": "module",
@@ -10,13 +10,16 @@
   "files": [
     "bin",
     "src",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "SECURITY.md"
   ],
   "engines": {
     "node": ">=20"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "author": "@uppy19d0 (https://github.com/uppy19d0)",
   "repository": {
