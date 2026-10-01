@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { type VariantProps } from 'class-variance-authority';
 export declare const cardVariants: (props?: ({
-    variant?: "default" | "outline" | "elevated" | "subtle" | null | undefined;
+    variant?: "default" | "elevated" | "outline" | "subtle" | null | undefined;
 } & import("class-variance-authority/types").ClassProp) | undefined) => string;
 export interface CardProps extends React.ComponentPropsWithoutRef<'div'>, VariantProps<typeof cardVariants> {
 }

@@ -26,14 +26,25 @@ import 'sillar-ui/styles.css';
 ## Forms and feedback
 
 - `Form`, `FormItem`, `FormLabel`, `FormControl`, `FormDescription`, `FormMessage`, `useForm`: validation state, accessible error relationships, and typed values.
-- `Checkbox`, `Switch`, native `Select`, `Input`, `Textarea`, `Label`, and `Field` composition.
+- `Checkbox`, `Switch`, native `Select`, `Input`, `Textarea`, `TextField`, `Label`, and `Field` composition.
+- `TextField`: premium input composition with label, helper text, error/success messages, character counter, leading/trailing adornments, action slot, and default, filled, glass, or elevated variants.
+- `MoneyInput`, `PercentageInput`, `parseNumericInput`: locale-aware numeric entry for commerce, finance, billing, analytics, and KPI workflows.
+- `FormGrid`, `FieldGroup`: responsive form layout and grouped field sections.
 - `DatePicker`: localized calendar grid with day, week, and month keyboard navigation.
 - `Progress`: determinate and indeterminate progress.
 - `Skeleton`: motion-aware loading placeholder.
+- `EmptyState`, `ErrorState`, `LoadingState`: product feedback surfaces for empty data, failures, and pending views.
 
 ## Layout and presentation
 
 Button, IconButton, Badge, Card, Callout, Section, Separator, Slot, SkipLink, and VisuallyHidden.
+
+## Product patterns
+
+- `CalculatorShell`, `CalculatorPanel`: structured calculator and estimator layouts with optional aside results, actions, footer, badge, and responsive width.
+- `ResultSummary`, `BreakdownList`: KPI/result panels for totals, comparisons, balances, invoices, and calculated outcomes.
+- `ExportActions`: standard action bar for print, PDF, copy, share, and download workflows.
+- `ConfirmDialog`: composed confirmation dialog built on Sillar Dialog and Button primitives.
 
 ## Keyboard summary
 

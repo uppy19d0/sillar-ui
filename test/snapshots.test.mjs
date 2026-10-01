@@ -5,10 +5,13 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import {
   Badge,
+  BreakdownList,
   Button,
   Callout,
   CalloutDescription,
   CalloutTitle,
+  CalculatorPanel,
+  CalculatorShell,
   Card,
   CardContent,
   CardDescription,
@@ -19,7 +22,11 @@ import {
   FieldDescription,
   FieldError,
   FieldLabel,
+  FormGrid,
   Input,
+  MoneyInput,
+  PercentageInput,
+  ResultSummary,
   Select,
   Separator,
   Switch,
@@ -27,6 +34,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  TextField,
   Textarea,
 } from '../dist/index.js';
 
@@ -75,6 +83,15 @@ function componentGallery() {
           React.createElement('option', { value: 'engineer' }, 'Engineer'),
         ),
         React.createElement(Textarea, { defaultValue: 'Snapshot coverage', 'aria-label': 'Notes' }),
+        React.createElement(TextField, {
+          label: 'Workspace',
+          description: 'A premium input pattern for product forms.',
+          leading: '@',
+          trailing: '.app',
+          variant: 'glass',
+          defaultValue: 'sillar',
+          maxLength: 24,
+        }),
       ),
       React.createElement(
         CardFooter,
@@ -89,6 +106,36 @@ function componentGallery() {
       React.createElement(CalloutTitle, null, 'Review changes'),
       React.createElement(CalloutDescription, null, 'Theme and markup changes are snapshot tested.'),
     ),
+    React.createElement(
+      CalculatorShell,
+      {
+        eyebrow: 'Pricing',
+        title: 'Plan estimator',
+        badge: 'Product pattern',
+        aside: React.createElement(ResultSummary, {
+          title: 'Estimated monthly total',
+          value: '$349',
+          description: 'Projected total based on the selected configuration.',
+          items: [
+            { label: 'Base plan', value: '$249' },
+            { label: 'Usage buffer', value: '$100', tone: 'warning' },
+          ],
+        }),
+      },
+      React.createElement(
+        CalculatorPanel,
+        { title: 'Configuration inputs', description: 'Reusable layout for SaaS, commerce, and operations workflows.' },
+        React.createElement(
+          FormGrid,
+          null,
+          React.createElement(MoneyInput, { value: 85000, currency: 'USD', 'aria-label': 'Monthly budget' }),
+          React.createElement(PercentageInput, { value: 12, 'aria-label': 'Growth percentage' }),
+        ),
+      ),
+    ),
+    React.createElement(BreakdownList, {
+      items: [{ label: 'Estimated total', value: '$349', description: 'Base plan plus usage buffer' }],
+    }),
     React.createElement(
       Tabs,
       { defaultValue: 'preview' },
@@ -121,7 +168,9 @@ function extractTokens(stylesheet, selector) {
 function normalizeReactIds(markup) {
   const tabsId = markup.match(/id="([^"]+)-tab-preview"/)?.[1];
   assert.ok(tabsId, 'Expected the Tabs snapshot to expose its generated base id.');
-  return markup.replaceAll(tabsId, 'sillar-tabs');
+  const textFieldId = markup.match(/<label for="([^"]+)" data-slot="text-field-label"/)?.[1];
+  assert.ok(textFieldId, 'Expected the TextField snapshot to expose its generated id.');
+  return markup.replaceAll(tabsId, 'sillar-tabs').replaceAll(textFieldId, 'sillar-text-field');
 }
 
 test('public component markup and theme tokens match the reviewed snapshot', async () => {

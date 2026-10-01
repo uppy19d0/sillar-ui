@@ -26,9 +26,20 @@ import 'sillar-ui/styles.css';
 ## Formularios y estado
 
 - `Form`, `FormItem`, `FormLabel`, `FormControl`, `FormMessage` y `useForm`: valores tipados, validación y mensajes asociados.
-- `Checkbox`, `Switch`, `Input`, `Textarea`, `Label`, `Field` y `Select` nativo.
+- `Checkbox`, `Switch`, `Input`, `Textarea`, `TextField`, `Label`, `Field` y `Select` nativo.
+- `TextField`: composición premium de input con etiqueta, ayuda, mensajes de error/éxito, contador, adornos inicial/final, acción y variantes default, filled, glass o elevated.
+- `MoneyInput`, `PercentageInput` y `parseNumericInput`: entrada numérica localizada para comercio, finanzas, facturación, analítica e indicadores.
+- `FormGrid` y `FieldGroup`: layout responsivo para formularios y secciones agrupadas.
 - `DatePicker`: calendario localizado con navegación por días, semanas y meses.
 - `Progress` y `Skeleton`: estados determinados, indeterminados y carga visual.
+- `EmptyState`, `ErrorState` y `LoadingState`: superficies de producto para datos vacíos, errores y vistas pendientes.
+
+## Patrones de producto
+
+- `CalculatorShell` y `CalculatorPanel`: layouts para calculadoras, estimadores y flujos guiados con resultados laterales, acciones, footer, badge y ancho responsivo.
+- `ResultSummary` y `BreakdownList`: paneles de KPI/resultados para totales, descuentos, balances y cálculos.
+- `ExportActions`: barra estándar para imprimir, exportar PDF, copiar, compartir y descargar.
+- `ConfirmDialog`: diálogo de confirmación construido sobre las primitivas Dialog y Button.
 
 ## Navegación de teclado
 

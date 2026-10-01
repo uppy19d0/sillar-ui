@@ -4,6 +4,7 @@ export { SkipLink, VisuallyHidden, type VisuallyHiddenProps } from './a11y';
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, type AccordionItemProps, type AccordionProps } from './accordion';
 export { Badge, badgeVariants, type BadgeProps } from './badge';
 export { Button, buttonVariants, type ButtonProps } from './button';
+export { CalculatorPanel, CalculatorShell, type CalculatorPanelProps, type CalculatorShellProps } from './calculator-shell';
 export {
   Callout,
   CalloutDescription,
@@ -15,6 +16,7 @@ export {
 export { Checkbox, RadioGroup, RadioGroupItem, type CheckboxProps, type RadioGroupItemProps, type RadioGroupProps } from './choice';
 export { Combobox, type ComboboxFilterContext, type ComboboxOption, type ComboboxProps } from './combobox';
 export { Collapsible, CollapsibleContent, CollapsibleTrigger, type CollapsibleProps } from './collapsible';
+export { ConfirmDialog, type ConfirmDialogProps } from './confirm-dialog';
 export { DatePicker, type DatePickerProps } from './date-picker';
 export {
   Card,
@@ -56,6 +58,8 @@ export {
   type DropdownMenuPortalProps,
   type DropdownMenuProps,
 } from './dropdown-menu';
+export { EmptyState, ErrorState, LoadingState, type EmptyStateAction, type EmptyStateProps, type ErrorStateProps, type LoadingStateProps } from './empty-state';
+export { ExportActions, type ExportAction, type ExportActionKind, type ExportActionsProps } from './export-actions';
 export {
   Field,
   FieldDescription,
@@ -65,12 +69,15 @@ export {
   type FieldProps,
 } from './field';
 export { Form, FormControl, FormDescription, FormItem, FormLabel, FormMessage, useForm, type FormControlProps, type FormErrors, type FormItemProps, type UseFormOptions } from './form';
+export { FieldGroup, FormGrid, type FieldGroupProps, type FormGridProps } from './form-grid';
 export { IconButton, type IconButtonProps } from './icon-button';
 export { Input } from './input';
 export { Label } from './label';
+export { MoneyInput, PercentageInput, parseNumericInput, type MoneyInputProps, type PercentageInputProps } from './money-input';
 export { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, type NavigationMenuContentProps, type NavigationMenuProps, type NavigationMenuTriggerProps } from './navigation-menu';
 export { Popover, PopoverClose, PopoverContent, PopoverTrigger, type PopoverContentProps, type PopoverProps, type PopoverTriggerProps } from './popover';
 export { Progress, Skeleton, type ProgressProps } from './progress';
+export { BreakdownList, ResultSummary, type BreakdownListProps, type ResultSummaryItem, type ResultSummaryProps, type ResultSummaryTone } from './result-summary';
 export { Select, type SelectProps } from './select';
 export { SelectContent, SelectGroup, SelectItem, SelectLabel, SelectRoot, SelectSeparator, SelectTrigger, SelectValue, type SelectContentProps, type SelectItemProps, type SelectRootProps, type SelectValueProps } from './select-root';
 export {
@@ -93,6 +100,7 @@ export {
   type TabsProps,
   type TabsTriggerProps,
 } from './tabs';
+export { TextField, type TextFieldProps, type TextFieldSize, type TextFieldTone, type TextFieldVariant } from './text-field';
 export { Textarea } from './textarea';
 export { ToastProvider, ToastViewport, useToast, type ToastInput, type ToastProviderProps, type ToastVariant, type ToastViewportProps } from './toast';
 export { Tooltip, TooltipContent, TooltipTrigger, type TooltipContentProps, type TooltipProps, type TooltipTriggerProps } from './tooltip';

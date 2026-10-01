@@ -12,7 +12,7 @@ Sillar UI treats accessibility, predictable behavior, and package weight as publ
 - Browser-driven interaction checks in Chromium, Firefox, WebKit, and a mobile Chromium viewport.
 - Reviewed light/dark visual snapshots with reduced-motion rendering for deterministic diffs.
 - A dependency regression test that rejects every `@radix-ui/*` package and import.
-- Per-component JavaScript budgets of 10 kB raw / 4 kB gzip, an aggregate 90 kB raw / 35 kB gzip ceiling across every entry, and a 34 kB raw / 7 kB gzip CSS budget.
+- Per-component JavaScript budgets of 10 kB raw / 4 kB gzip, an aggregate 110 kB raw / 42 kB gzip ceiling across every entry, and a 48 kB raw / 8 kB gzip CSS budget.
 - Compatibility checks on React 18.3 and React 19.3.
 - A production dependency audit at high severity before merge.
 - Tokenless npm Trusted Publishing through GitHub OIDC with registry provenance.

@@ -17,12 +17,12 @@ for (const file of javascriptFiles) {
   assert.ok(gzip <= 4_000, `${file} is ${gzip} B gzip; the per-entry gzip budget is 4000 B`);
 }
 
-assert.ok(totalRaw <= 90_000, `all JavaScript entries total ${totalRaw} B; the budget is 90000 B`);
-assert.ok(totalGzip <= 35_000, `all JavaScript entries total ${totalGzip} B gzip; the budget is 35000 B`);
+assert.ok(totalRaw <= 110_000, `all JavaScript entries total ${totalRaw} B; the budget is 110000 B`);
+assert.ok(totalGzip <= 42_000, `all JavaScript entries total ${totalGzip} B gzip; the budget is 42000 B`);
 console.log(`${javascriptFiles.length} JavaScript entries: ${totalRaw} B raw / ${totalGzip} B gzip total`);
 
 const css = await readFile(new URL('../dist/styles.css', import.meta.url));
 const cssGzip = gzipSync(css).byteLength;
-assert.ok(css.byteLength <= 34_000, `dist/styles.css is ${css.byteLength} B; the budget is 34000 B`);
-assert.ok(cssGzip <= 7_000, `dist/styles.css is ${cssGzip} B gzip; the budget is 7000 B`);
+assert.ok(css.byteLength <= 48_000, `dist/styles.css is ${css.byteLength} B; the budget is 48000 B`);
+assert.ok(cssGzip <= 8_000, `dist/styles.css is ${cssGzip} B gzip; the budget is 8000 B`);
 console.log(`dist/styles.css: ${css.byteLength} B raw / ${cssGzip} B gzip`);

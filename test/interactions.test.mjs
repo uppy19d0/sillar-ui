@@ -375,20 +375,20 @@ test('composed Select opens from the keyboard and commits an option', async () =
 });
 
 test('composed Select supports groups, separators, initial labels, and typeahead', async () => {
-  const { container } = await render(React.createElement(SelectRoot, { defaultValue: 'do', required: true },
+  const { container } = await render(React.createElement(SelectRoot, { defaultValue: 'us', required: true },
     React.createElement(SelectTrigger, null, React.createElement(SelectValue, null)),
     React.createElement(SelectContent, null,
       React.createElement(SelectGroup, null,
-        React.createElement(SelectLabel, null, 'Caribbean'),
-        React.createElement(SelectItem, { value: 'do' }, 'Dominican Republic'),
-        React.createElement(SelectItem, { value: 'pr', disabled: true }, 'Puerto Rico')),
+        React.createElement(SelectLabel, null, 'North America'),
+        React.createElement(SelectItem, { value: 'us' }, 'United States'),
+        React.createElement(SelectItem, { value: 'ca', disabled: true }, 'Canada')),
       React.createElement(SelectSeparator),
-      React.createElement(SelectGroup, { 'aria-label': 'North America' },
-        React.createElement(SelectItem, { value: 'ca' }, 'Canada'),
-        React.createElement(SelectItem, { value: 'us' }, 'United States'))),
+      React.createElement(SelectGroup, { 'aria-label': 'Global' },
+        React.createElement(SelectItem, { value: 'sg' }, 'Singapore'),
+        React.createElement(SelectItem, { value: 'gb' }, 'United Kingdom'))),
   ));
   const trigger = container.querySelector('[role="combobox"]');
-  assert.equal(trigger.textContent.includes('Dominican Republic'), true);
+  assert.equal(trigger.textContent.includes('United States'), true);
   assert.equal(trigger.getAttribute('aria-required'), 'true');
   await act(async () => keydown(trigger, 'ArrowDown'));
   await nextFrame();
@@ -397,18 +397,18 @@ test('composed Select supports groups, separators, initial labels, and typeahead
   assert.equal(groups.length, 2);
   assert.equal(groups[0].getAttribute('aria-labelledby'), groups[0].querySelector('[data-slot="select-label"]').id);
   assert.equal(listbox.querySelectorAll('[role="separator"]').length, 1);
-  await act(async () => keydown(document.activeElement, 'c'));
-  assert.equal(document.activeElement.dataset.value, 'ca');
+  await act(async () => keydown(document.activeElement, 's'));
+  assert.equal(document.activeElement.dataset.value, 'sg');
 });
 
 test('Combobox filters and selects while DatePicker moves by keyboard', async () => {
   const selections = [];
-  const combo = await render(React.createElement(Combobox, { options: [{ value: 'sdq', label: 'Santo Domingo' }, { value: 'sti', label: 'Santiago' }], onValueChange: (value) => selections.push(value) }));
+  const combo = await render(React.createElement(Combobox, { options: [{ value: 'nyc', label: 'New York' }, { value: 'lon', label: 'London' }], onValueChange: (value) => selections.push(value) }));
   const input = combo.container.querySelector('[role="combobox"]');
   await act(async () => input.focus());
   await act(async () => keydown(input, 'ArrowDown'));
   await act(async () => keydown(input, 'Enter'));
-  assert.deepEqual(selections, ['sti']);
+  assert.deepEqual(selections, ['lon']);
 
   const calendar = await render(React.createElement(DatePicker, { defaultValue: new Date(2026, 8, 23), locale: 'en' }));
   const selected = calendar.container.querySelector('[aria-selected="true"]');
@@ -425,9 +425,9 @@ test('Combobox supports groups, loading, disabled-item navigation, and option cr
     'aria-label': 'City',
     defaultOpen: true,
     options: [
-      { value: 'sdq', label: 'Santo Domingo', disabled: true, group: 'Caribbean' },
-      { value: 'sti', label: 'Santiago', group: 'Caribbean' },
-      { value: 'mia', label: 'Miami', group: 'North America' },
+      { value: 'nyc', label: 'New York', disabled: true, group: 'North America' },
+      { value: 'lon', label: 'London', group: 'Global' },
+      { value: 'sg', label: 'Singapore', group: 'Global' },
     ],
     onValueChange: (value) => selections.push(value),
   }));
@@ -438,7 +438,7 @@ test('Combobox supports groups, loading, disabled-item navigation, and option cr
   assert.match(input.getAttribute('aria-activedescendant'), /-1$/);
   await act(async () => keydown(input, 'End'));
   await act(async () => keydown(input, 'Enter'));
-  assert.deepEqual(selections, ['mia']);
+  assert.deepEqual(selections, ['sg']);
 
   const created = [];
   const creatable = await render(React.createElement(Combobox, { options: [], defaultInputValue: 'La Vega', defaultOpen: true, onCreateOption: (value) => created.push(value) }));

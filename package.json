@@ -1,6 +1,6 @@
 {
   "name": "sillar-ui",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Accessible, typed React primitives and design tokens for consistent product interfaces.",
   "license": "MIT",
   "type": "module",
@@ -46,6 +46,10 @@
       "types": "./dist/button.d.ts",
       "import": "./dist/button.js"
     },
+    "./calculator-shell": {
+      "types": "./dist/calculator-shell.d.ts",
+      "import": "./dist/calculator-shell.js"
+    },
     "./callout": {
       "types": "./dist/callout.d.ts",
       "import": "./dist/callout.js"
@@ -66,6 +70,10 @@
       "types": "./dist/combobox.d.ts",
       "import": "./dist/combobox.js"
     },
+    "./confirm-dialog": {
+      "types": "./dist/confirm-dialog.d.ts",
+      "import": "./dist/confirm-dialog.js"
+    },
     "./date-picker": {
       "types": "./dist/date-picker.d.ts",
       "import": "./dist/date-picker.js"
@@ -78,9 +86,21 @@
       "types": "./dist/dropdown-menu.d.ts",
       "import": "./dist/dropdown-menu.js"
     },
+    "./empty-state": {
+      "types": "./dist/empty-state.d.ts",
+      "import": "./dist/empty-state.js"
+    },
+    "./export-actions": {
+      "types": "./dist/export-actions.d.ts",
+      "import": "./dist/export-actions.js"
+    },
     "./field": {
       "types": "./dist/field.d.ts",
       "import": "./dist/field.js"
+    },
+    "./form-grid": {
+      "types": "./dist/form-grid.d.ts",
+      "import": "./dist/form-grid.js"
     },
     "./form": {
       "types": "./dist/form.d.ts",
@@ -98,6 +118,10 @@
       "types": "./dist/label.d.ts",
       "import": "./dist/label.js"
     },
+    "./money-input": {
+      "types": "./dist/money-input.d.ts",
+      "import": "./dist/money-input.js"
+    },
     "./navigation-menu": {
       "types": "./dist/navigation-menu.d.ts",
       "import": "./dist/navigation-menu.js"
@@ -109,6 +133,10 @@
     "./progress": {
       "types": "./dist/progress.d.ts",
       "import": "./dist/progress.js"
+    },
+    "./result-summary": {
+      "types": "./dist/result-summary.d.ts",
+      "import": "./dist/result-summary.js"
     },
     "./section": {
       "types": "./dist/section.d.ts",
@@ -137,6 +165,10 @@
     "./tabs": {
       "types": "./dist/tabs.d.ts",
       "import": "./dist/tabs.js"
+    },
+    "./text-field": {
+      "types": "./dist/text-field.d.ts",
+      "import": "./dist/text-field.js"
     },
     "./textarea": {
       "types": "./dist/textarea.d.ts",
