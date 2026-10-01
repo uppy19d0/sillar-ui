@@ -2,12 +2,20 @@
 
 ## Unreleased
 
+## 1.2.1 — 2026-09-30
+
+- Prepare npm Trusted Publishing with provenance and hardened release checks.
+- Keep the component contract snapshot stable across React 18 and 19 by normalizing generated field IDs.
+
+## 1.2.0
+
 - Deepen the composed Select with shared collection typeahead, labeled groups, separators, configurable focus looping, required state, and correct initial value labels.
 - Add the independent `sillar-cli` foundation with safe project initialization, focused component aliases, installation diagnostics, and a discoverable component registry.
 - Expand Combobox with controlled open state, groups, custom filters, async loading feedback, creatable options, accessible result announcements, and disabled-item-aware navigation.
 - Add a non-destructive `sillar migrate radix` audit that maps supported packages, reports source locations, and generates a reviewable migration plan.
 - Add `sillar tokens init` and `sillar tokens check` to generate branded light/dark overrides and enforce complete, WCAG AA contrast-safe token contracts.
 - Add the Sillar Browser Lab with real-browser interaction coverage across Chromium, Firefox, WebKit, mobile overflow checks, and reviewed light/dark visual snapshots.
+- Add composed application patterns for pricing and business forms, with reusable numeric inputs and result summaries.
 
 All notable changes to Sillar UI are documented here.
 
