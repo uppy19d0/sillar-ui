@@ -1,4 +1,5 @@
 import './styles.css';
+export { LoadingIndicator, type LoadingIndicatorProps } from './loading-indicator';
 export { SkipLink, VisuallyHidden, type VisuallyHiddenProps } from './a11y';
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, type AccordionItemProps, type AccordionProps } from './accordion';
 export { Badge, badgeVariants, type BadgeProps } from './badge';

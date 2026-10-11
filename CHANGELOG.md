@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 1.3.0
+
+- Add LoadingIndicator with localized status text, three sizes, decorative mode and reduced-motion support.
+- Reuse the indicator in busy buttons to keep loading feedback consistent.
+
 ## 1.2.1 — 2026-09-30
 
 - Prepare npm Trusted Publishing with provenance and hardened release checks.

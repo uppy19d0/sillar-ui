@@ -1,9 +1,10 @@
-import { jsx as e, jsxs as g, Fragment as y } from "react/jsx-runtime";
+import { jsx as a, jsxs as g, Fragment as y } from "react/jsx-runtime";
 import * as x from "react";
-import { Slot as N } from "./slot.js";
+import { Slot as z } from "./slot.js";
 import { cva as j } from "class-variance-authority";
-import { cn as z } from "./utils.js";
-const B = j("slr-button", {
+import { cn as B } from "./utils.js";
+import { LoadingIndicator as D } from "./loading-indicator.js";
+const I = j("slr-button", {
   variants: {
     variant: {
       default: "slr-button--default",
@@ -26,40 +27,40 @@ const B = j("slr-button", {
     variant: "default",
     size: "default"
   }
-}), D = x.forwardRef(
-  ({ className: u, variant: l, size: i, asChild: t = !1, type: d, loading: o = !1, disabled: b, children: s, onClick: r, tabIndex: m, ...c }, f) => {
-    const p = t ? N : "button", n = b || o, v = (a) => {
-      if (n) {
-        a.preventDefault();
+}), L = x.forwardRef(
+  ({ className: u, variant: i, size: l, asChild: t = !1, type: d, loading: o = !1, disabled: b, children: s, onClick: n, tabIndex: m, ...c }, f) => {
+    const v = t ? z : "button", r = b || o, p = (e) => {
+      if (r) {
+        e.preventDefault();
         return;
       }
-      r == null || r(a);
+      n == null || n(e);
     };
-    return /* @__PURE__ */ e(
-      p,
+    return /* @__PURE__ */ a(
+      v,
       {
         ref: f,
         "data-slot": "button",
         "data-loading": o || void 0,
-        className: z(B({ variant: l, size: i }), u),
+        className: B(I({ variant: i, size: l }), u),
         type: t ? void 0 : d ?? "button",
-        disabled: t ? void 0 : n,
+        disabled: t ? void 0 : r,
         "aria-busy": o || void 0,
-        "aria-disabled": t && n ? !0 : void 0,
-        tabIndex: t && n ? -1 : m,
-        onClick: v,
+        "aria-disabled": t && r ? !0 : void 0,
+        tabIndex: t && r ? -1 : m,
+        onClick: p,
         ...c,
         children: t ? s : /* @__PURE__ */ g(y, { children: [
-          o ? /* @__PURE__ */ e("span", { className: "slr-spinner", "aria-hidden": "true" }) : null,
+          o ? /* @__PURE__ */ a(D, { decorative: !0, size: "sm" }) : null,
           s
         ] })
       }
     );
   }
 );
-D.displayName = "Button";
+L.displayName = "Button";
 export {
-  D as Button,
-  B as buttonVariants
+  L as Button,
+  I as buttonVariants
 };
 //# sourceMappingURL=button.js.map

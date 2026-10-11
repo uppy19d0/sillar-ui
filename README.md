@@ -203,3 +203,14 @@ The component source lives in `src/`, declarations and distributable assets are 
 MIT
 
 Made with love in the Dominican Republic by [@uppy19d0](https://github.com/uppy19d0).
+
+## Loading feedback
+
+```tsx
+import { LoadingIndicator } from 'sillar-ui/loading-indicator';
+import 'sillar-ui/styles.css';
+
+<LoadingIndicator label="Cargando ofertas…" size="md" />
+```
+
+Render it only while work is pending. `showLabel={false}` keeps the localized text available to assistive technology. Use `decorative` inside an already labelled busy button; `Button loading` includes it automatically. Keep existing results visible during refresh and set `aria-busy` on the region being updated. The indicator uses CSS only, honors reduced motion and never steals focus. Use `Progress` for known percentages and `LoadingState` for skeleton layouts.
