@@ -1,5 +1,13 @@
 import { expect, test } from '@playwright/test';
 
+test('loading indicator announces text and respects reduced motion', async ({ page }) => {
+  const indicator = page.getByRole('status').filter({ hasText: 'Loading results…' });
+  await expect(indicator).toBeVisible();
+  await expect(indicator).toHaveAttribute('aria-live', 'polite');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(indicator.locator('.slr-spinner')).toHaveCSS('animation-name', 'none');
+});
+
 test.beforeEach(async ({ page }) => {
   await page.goto('./');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
