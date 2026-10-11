@@ -2,6 +2,11 @@ name: Publish Sillar CLI
 
 on:
   workflow_dispatch:
+    inputs:
+      bootstrap:
+        description: Use the temporary token for a verified first release
+        type: boolean
+        default: false
   push:
     tags:
       - 'cli-v*'
@@ -37,3 +42,5 @@ jobs:
         run: node scripts/verify-cli-release.mjs "${GITHUB_REF_NAME}"
       - name: Publish CLI with trusted provenance
         run: npm publish ./packages/cli --provenance --access public --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ inputs.bootstrap && secrets.NPM_BOOTSTRAP_TOKEN || '' }}
