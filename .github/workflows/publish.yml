@@ -2,6 +2,11 @@ name: Publish Package
 
 on:
   workflow_dispatch:
+    inputs:
+      bootstrap:
+        description: Use the temporary token for a verified first release
+        type: boolean
+        default: false
   push:
     tags:
       - 'v*'
@@ -37,3 +42,5 @@ jobs:
         run: npm run release:verify -- "${GITHUB_REF_NAME}"
       - name: Publish with trusted provenance
         run: npm publish --provenance --access public --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ inputs.bootstrap && secrets.NPM_BOOTSTRAP_TOKEN || '' }}
