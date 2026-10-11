@@ -29,6 +29,7 @@ export default defineConfig({
         'icon-button': 'src/icon-button.tsx',
         input: 'src/input.tsx',
         label: 'src/label.tsx',
+        'loading-indicator': 'src/loading-indicator.tsx',
         'money-input': 'src/money-input.tsx',
         'navigation-menu': 'src/navigation-menu.tsx',
         popover: 'src/popover.tsx',

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Slot } from './slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from './utils';
+import { LoadingIndicator } from './loading-indicator';
 
 export const buttonVariants = cva('slr-button', {
   variants: {
@@ -65,7 +66,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {asChild ? children : (
           <>
-            {loading ? <span className="slr-spinner" aria-hidden="true" /> : null}
+            {loading ? <LoadingIndicator decorative size="sm" /> : null}
             {children}
           </>
         )}
