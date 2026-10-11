@@ -1,7 +1,7 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { CONFIG_FILE } from './init.js';
-import { exists, readJson, resolveInside } from '../project.js';
+import { exists, readJson, resolveInside, assertProjectPath, writeProjectFile } from '../project.js';
 
 export const DEFAULT_TOKENS_FILE = 'src/styles/sillar.tokens.css';
 const requiredColors = ['brand', 'brand-hover', 'brand-contrast', 'brand-soft', 'brand-soft-border'];
@@ -67,8 +67,9 @@ async function tokenPath(cwd) { const config = await readJson(path.join(cwd, CON
 
 export async function initTokens({ cwd, brand, force = false, output = console.log }) {
   const target = await tokenPath(cwd);
+  await assertProjectPath(cwd, target);
   await mkdir(path.dirname(target), { recursive: true });
-  try { await writeFile(target, createTokenTheme(brand), { flag: force ? 'w' : 'wx' }); }
+  try { await writeProjectFile(cwd, target, createTokenTheme(brand), force); }
   catch (error) { if (error?.code === 'EEXIST') throw new Error(`${path.relative(cwd, target)} already exists. Use --force to replace it.`); throw error; }
   output(`Created ${path.relative(cwd, target)}`);
   output(`Import "./${path.basename(target)}" after "sillar-ui/styles.css".`);

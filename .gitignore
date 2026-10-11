@@ -5,3 +5,9 @@ test-results/
 .npm-cache/
 *.log
 .DS_Store
+
+**/.npmrc
+
+*.tgz
+
+.security-artifacts/

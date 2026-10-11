@@ -1,6 +1,6 @@
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { readJson, resolveInside } from '../project.js';
+import { readJson, resolveInside, writeProjectFile } from '../project.js';
 
 const supported = {
   '@radix-ui/react-accordion': 'sillar-ui/accordion',
@@ -89,7 +89,7 @@ export async function migrateRadix({ cwd, report = false, force = false, output 
   if (report) {
     const target = resolveInside(cwd, 'sillar-radix-migration.md');
     try {
-      await writeFile(target, formatMigrationReport(result), { flag: force ? 'w' : 'wx' });
+      await writeProjectFile(cwd, target, formatMigrationReport(result), force);
     } catch (error) {
       if (error && error.code === 'EEXIST') throw new Error('sillar-radix-migration.md already exists. Use --force to replace it.');
       throw error;
