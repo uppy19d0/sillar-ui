@@ -1,6 +1,6 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
-import { exists, findSourceEntry, readJson, resolveInside } from '../project.js';
+import { exists, findSourceEntry, readJson, resolveInside, assertProjectPath, writeProjectFile } from '../project.js';
 
 export const CONFIG_FILE = 'sillar.config.json';
 
@@ -23,8 +23,9 @@ export async function initProject({ cwd, force = false, output = console.log }) 
     sourceEntry: await findSourceEntry(cwd),
   };
 
+  await assertProjectPath(cwd, resolveInside(cwd, componentsDir));
   await mkdir(resolveInside(cwd, componentsDir), { recursive: true });
-  await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`, { flag: force ? 'w' : 'wx' });
+  await writeProjectFile(cwd, configPath, `${JSON.stringify(config, null, 2)}\n`, force);
 
   const dependencies = { ...packageJson.dependencies, ...packageJson.devDependencies };
   output(`Created ${CONFIG_FILE}`);
