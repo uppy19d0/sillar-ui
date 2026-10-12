@@ -38,6 +38,10 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm audit signatures
       - run: npm run check
+      - name: Test package artifact guard
+        run: node --test scripts/check-package-contents.test.mjs
+      - name: Verify published package contents
+        run: node scripts/check-package-contents.mjs packages/cli
       - name: Verify release tag matches CLI package version
         run: node scripts/verify-cli-release.mjs "${GITHUB_REF_NAME}"
       - name: Publish CLI with trusted provenance
