@@ -125,7 +125,8 @@ export function FormItem({ invalid = false, required = false, controlId, classNa
   const description = findPart(children, FormDescription);
   const message = findPart(children, FormMessage);
   const descriptionId = description ? description.props.id ?? `${id}-description` : undefined;
-  const messageId = message ? message.props.id ?? `${id}-message` : undefined;
+  // Preserve the existing implicit error ID through opaque wrappers, including SSR.
+  const messageId = message?.props.id ?? `${id}-message`;
   const context = React.useMemo(() => ({ id, invalid, required, descriptionId, messageId }), [id, invalid, required, descriptionId, messageId]);
   return <FormFieldContext.Provider value={context}><div {...props} data-invalid={invalid || undefined} className={cn('slr-form__item', className)}>{children}</div></FormFieldContext.Provider>;
 }

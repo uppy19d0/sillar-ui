@@ -71,6 +71,7 @@ export function ContactForm() {
 - Una lista vacía oculta el resumen. El título predeterminado está en inglés; pasa `title` para localizarlo.
 - Cambiar los errores no mueve el foco. El ejemplo enfoca el resumen después de ese envío fallido, cuando React ya ha mostrado los errores.
 - Los enlaces permiten navegar con teclado y localizar IDs exactos, incluso con puntuación. Un input personalizado debe reenviar IDs, atributos ARIA, eventos y refs.
+- Renderiza un `FormMessage` cuando `FormItem` sea inválido. Su ID de error predeterminado conserva la asociación incluso dentro de otros componentes. Los IDs personalizados de ayuda/error se detectan en hijos directos y fragmentos; en composiciones opacas, usa `controlId` y valores explícitos de `aria-describedby` que coincidan con tus IDs.
 - `handleSubmit` devuelve false si falla la validación o ya hay un envío en curso. Las excepciones de `validate` y `onSubmit` se propagan; captura los fallos de red y muestra una opción para reintentar.
 - Reset recupera los valores iniciales del último render confirmado y limpia los errores. No cancela una petición ni permite otro envío hasta que termine. La aplicación gestiona cancelación, idempotencia y errores del servidor.
 - Presenta los fallos de red separados de los errores de campos. Los reintentos automáticos de escrituras dependen del contrato del endpoint.

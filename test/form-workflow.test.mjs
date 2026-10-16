@@ -194,16 +194,52 @@ test('form composition preserves direct child IDs through fragments and merges a
   assert.match(html, /id="custom-help"/); assert.match(html, /id="custom-error"/);
 });
 
-test('explicit controlId supports opaque compositions without guessing their output; absent help produces no dangling references', () => {
+test('explicit controlId supports opaque controls without guessing their output; valid fields omit absent help', () => {
   let calls = 0;
   function OpaqueControl() { calls++; return React.createElement(FormControl, null, React.createElement('input')); }
-  const html = renderToStaticMarkup(React.createElement(FormItem, { controlId: 'stable-field', invalid: true },
+  const html = renderToStaticMarkup(React.createElement(FormItem, { controlId: 'stable-field' },
     React.createElement(FormLabel, null, 'Name'), React.createElement(OpaqueControl),
   ));
   assert.equal(calls, 1);
   assert.match(html, /for="stable-field"/); assert.match(html, /id="stable-field"/);
   assert.doesNotMatch(html, /aria-describedby/);
 });
+
+for (const wrapper of ['container', 'opaque component']) {
+  test(`invalid fields preserve implicit error associations through ${wrapper === 'container' ? 'a container' : 'an opaque component'} during SSR and client updates`, async () => {
+    function WrappedMessage({ invalid }) {
+      return React.createElement('div', null, React.createElement(FormMessage, null, invalid ? 'A name is required.' : undefined));
+    }
+    function Example({ invalid }) {
+      const message = wrapper === 'container'
+        ? React.createElement('div', null, React.createElement(FormMessage, null, invalid ? 'A name is required.' : undefined))
+        : React.createElement(WrappedMessage, { invalid });
+      return React.createElement(FormItem, { invalid },
+        React.createElement(FormLabel, null, 'Name'),
+        React.createElement(FormControl, null, React.createElement('input')),
+        message,
+      );
+    }
+    function assertAssociation(container) {
+      const input = container.querySelector('input');
+      const message = container.querySelector('[role="alert"]');
+      assert.ok(message);
+      assert.equal(message.id, `${input.id}-message`);
+      assert.equal(input.getAttribute('aria-describedby'), message.id);
+      assert.equal(message.textContent, 'A name is required.');
+    }
+    const serverContainer = document.createElement('div');
+    serverContainer.innerHTML = renderToStaticMarkup(React.createElement(Example, { invalid: true }));
+    assertAssociation(serverContainer);
+    const { root, container } = await render(React.createElement(Example, { invalid: true }));
+    assertAssociation(container);
+    await act(async () => root.render(React.createElement(Example, { invalid: false })));
+    assert.equal(container.querySelector('input').getAttribute('aria-describedby'), null);
+    assert.equal(container.querySelector('[role="alert"]'), null);
+    await act(async () => root.render(React.createElement(Example, { invalid: true })));
+    assertAssociation(container);
+  });
+}
 
 test('summary and form primitives render on the server without window or document', () => {
   const previousWindow = globalThis.window, previousDocument = globalThis.document;

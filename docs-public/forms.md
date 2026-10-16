@@ -71,6 +71,7 @@ export function ContactForm() {
 - The summary is absent for an empty error list. Its default heading is English; supply `title` for your locale.
 - Updating errors does not move focus. The example focuses the summary only after this form's failed submit, once React has committed the errors.
 - Native links support keyboard navigation and exact field IDs, including punctuation. A custom input must forward IDs, ARIA attributes, events and refs.
+- Render a `FormMessage` for an invalid `FormItem`. Its default error ID remains associated through wrapper components. Automatic discovery of custom help/error IDs covers direct parts and fragments; for opaque compositions, use `controlId` and explicit `aria-describedby` values that match your custom IDs.
 - `handleSubmit` returns false for validation failures or a concurrent submission. Exceptions from `validate` or `onSubmit` propagate; catch request failures and give the user a retry path.
 - Reset restores the latest committed initial values and clears field errors. It does not cancel an active request or allow another submit until that request settles. Cancellation, idempotency and server-side error mapping belong to the application.
 - Keep network errors separate from field errors. Do not retry writes automatically unless the endpoint's contract allows it.
