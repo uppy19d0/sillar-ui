@@ -86,6 +86,7 @@ export function Example() {
 - NavigationMenu with roving keyboard focus
 - Progress and Skeleton loading feedback
 - Typed Form validation composition
+- FormErrorSummary with linked field errors, localized headings and explicit focus control; duplicate async submissions are guarded.
 - Localized DatePicker calendar grid
 - CalculatorShell and CalculatorPanel for pricing tools, estimators, configurators, and guided workflows
 - TextField for premium product forms with glass, filled, elevated, and default variants
@@ -180,6 +181,16 @@ Sillar UI owns only its `slr-` class namespace and `--slr-` variables, so it can
 Dialog, DropdownMenu, and Tabs follow the corresponding [WAI-ARIA Authoring Practices patterns](https://www.w3.org/WAI/ARIA/apg/patterns/). Their keyboard, focus, dismissal, and ARIA relationships are exercised against the compiled package with DOM interaction tests and axe. Native controls are used when the browser already provides the required semantics.
 
 Every release enforces public JavaScript and CSS size budgets and rejects Radix dependencies in both the manifest and lockfile. See the [quality contract](QUALITY.md) for the current guarantees, supported baseline, and next milestones. Security reports are handled through the private process in [SECURITY.md](SECURITY.md).
+
+### Form workflows and performance
+
+Use `FormItem controlId` to connect labels, help text, error messages and summary links to the same input. `FormErrorSummary` accepts `errors={[{ id: 'email', message: 'Enter a valid email.' }]}` and a localized `title`. Its forwarded ref lets the application focus the summary after a failed submit; mounting it never moves focus automatically. See the complete [English example](docs-public/forms.md) or [ejemplo en español](docs-public/formularios.md).
+
+`useForm` prevents concurrent submits, reads same-tick edits correctly and releases its submit lock after success or failure. Resetting a draft keeps an existing request busy until it settles; it does not cancel that request. Applications remain responsible for server validation and request cancellation.
+
+Disabled or loading `Button asChild` controls block child activation handlers, including keyboard activation. Supply one element; custom components must forward events, attributes and refs. Fragments cannot provide that contract. Enabled composition keeps child-first handler ordering and honors `preventDefault()`.
+
+Overlay placement is immediate on opening; bursts of scroll, resize and observer notifications share one animation frame. `npm run size:consumer` measures consumer bundles with runtime class utilities included and checks that unrelated components are removed. These fixtures exclude React, CSS and app code; they are size checks, not latency benchmarks.
 
 Official releases publish from GitHub Actions through npm Trusted Publishing. Each npm artifact receives verifiable provenance without storing a long-lived registry token. The complete immutable-tag workflow is documented in [the release guide](RELEASING.md).
 

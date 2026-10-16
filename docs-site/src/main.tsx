@@ -49,7 +49,7 @@ const examples = [
   { name: 'Loading indicator', node: <div className="demo-stack"><Sillar.LoadingIndicator label="Loading results…" /><Sillar.LoadingIndicator label="Refreshing results…" size="lg" /></div> },
   { name: 'Progress + Skeleton', node: <div className="demo-stack"><Sillar.Progress value={72} aria-label="Documentation progress" /><Sillar.Skeleton style={{ height: 72 }} /></div> },
   { name: 'DatePicker', node: <Sillar.DatePicker defaultValue={new Date()} /> },
-  { name: 'Collapsible + NavigationMenu', node: <div className="demo-stack"><Sillar.Collapsible><Sillar.CollapsibleTrigger asChild><Sillar.Button variant="outline">Show release notes</Sillar.Button></Sillar.CollapsibleTrigger><Sillar.CollapsibleContent><p>Focused entry points, typed APIs, and owned interaction foundations.</p></Sillar.CollapsibleContent></Sillar.Collapsible><Sillar.NavigationMenu defaultValue="learn"><Sillar.NavigationMenuList><Sillar.NavigationMenuItem><Sillar.NavigationMenuTrigger value="learn">Learn</Sillar.NavigationMenuTrigger><Sillar.NavigationMenuContent value="learn"><Sillar.NavigationMenuLink href="#playground">Playground</Sillar.NavigationMenuLink><Sillar.NavigationMenuLink href="#accessibility">Accessibility</Sillar.NavigationMenuLink></Sillar.NavigationMenuContent></Sillar.NavigationMenuItem></Sillar.NavigationMenuList></Sillar.NavigationMenu></div> },
+  { name: 'Collapsible + NavigationMenu', node: <div className="demo-stack"><Sillar.Collapsible><Sillar.CollapsibleTrigger className={Sillar.buttonVariants({ variant: 'outline' })}>Show release notes</Sillar.CollapsibleTrigger><Sillar.CollapsibleContent><p>Focused entry points, typed APIs, and owned interaction foundations.</p></Sillar.CollapsibleContent></Sillar.Collapsible><Sillar.NavigationMenu defaultValue="learn"><Sillar.NavigationMenuList><Sillar.NavigationMenuItem><Sillar.NavigationMenuTrigger value="learn">Learn</Sillar.NavigationMenuTrigger><Sillar.NavigationMenuContent value="learn"><Sillar.NavigationMenuLink href="#playground">Playground</Sillar.NavigationMenuLink><Sillar.NavigationMenuLink href="#accessibility">Accessibility</Sillar.NavigationMenuLink></Sillar.NavigationMenuContent></Sillar.NavigationMenuItem></Sillar.NavigationMenuList></Sillar.NavigationMenu></div> },
   { name: 'Toast', node: <ToastDemo /> },
   { name: 'Form + validation', node: <FormDemo /> },
 ];
@@ -95,9 +95,35 @@ function ToastDemo() {
   return <Sillar.Button onClick={() => toast({ title: 'Published successfully', description: 'Your release is available to everyone.', variant: 'success' })}>Create notification</Sillar.Button>;
 }
 
-function FormDemo() {
-  const form = Sillar.useForm({ initialValues: { email: '' }, validate: (values) => ({ email: /\S+@\S+/.test(values.email) ? undefined : 'Enter a valid email.' }), onSubmit: () => undefined });
-  return <Sillar.Form onSubmit={form.handleSubmit}><Sillar.FormItem invalid={Boolean(form.errors.email)} required><Sillar.FormLabel>Email</Sillar.FormLabel><Sillar.FormControl><Sillar.Input type="email" placeholder="you@example.com" {...form.field('email')} /></Sillar.FormControl><Sillar.FormMessage>{form.errors.email}</Sillar.FormMessage></Sillar.FormItem><Sillar.Button type="submit">Validate</Sillar.Button></Sillar.Form>;
+function FormDemo({ language = 'en' }: { language?: Language }) {
+  const es = language === 'es';
+  const controlId = `contact-email-${React.useId()}`;
+  const summary = React.useRef<HTMLDivElement>(null);
+  const focusSummary = React.useRef(false);
+  const [saved, setSaved] = React.useState(false);
+  const form = Sillar.useForm({
+    initialValues: { email: '' },
+    validate: values => ({ email: /\S+@\S+\.\S+/.test(values.email) ? undefined : es ? 'Escribe un correo válido.' : 'Enter a valid email.' }),
+    onSubmit: async () => { await new Promise(resolve => window.setTimeout(resolve, 600)); setSaved(true); },
+  });
+  React.useEffect(() => {
+    if (focusSummary.current && form.errors.email) { summary.current?.focus(); focusSummary.current = false; }
+  }, [form.errors]);
+  return <Sillar.Form onSubmit={async event => {
+    setSaved(false); focusSummary.current = true;
+    if (await form.handleSubmit(event)) focusSummary.current = false;
+  }}>
+    <Sillar.FormErrorSummary ref={summary} title={es ? 'Revisa el formulario' : 'Check the form'} errors={form.errors.email ? [{ id: controlId, message: form.errors.email }] : []} />
+    <Sillar.FormItem controlId={controlId} invalid={Boolean(form.errors.email)} required>
+      <Sillar.FormLabel>{es ? 'Correo electrónico' : 'Email'}</Sillar.FormLabel>
+      <Sillar.FormControl><Sillar.Input type="email" placeholder="you@example.com" {...form.field('email')} /></Sillar.FormControl>
+      <Sillar.FormDescription>{es ? 'Demostración local; el correo no se envía ni se guarda.' : 'Local demo; the email is not sent or saved.'}</Sillar.FormDescription>
+      <Sillar.FormMessage>{form.errors.email}</Sillar.FormMessage>
+    </Sillar.FormItem>
+    <Sillar.Button type="submit" loading={form.submitting}>{form.submitting ? es ? 'Validando…' : 'Validating…' : es ? 'Validar' : 'Validate'}</Sillar.Button>
+    {saved && <p role="status">{es ? 'Formulario válido. Demostración completada.' : 'Valid form. Demo complete.'}</p>}
+    <a href={`${import.meta.env.BASE_URL}${es ? 'formularios.md' : 'forms.md'}`}>{es ? 'Ver el ejemplo completo' : 'Read the full example'}</a>
+  </Sillar.Form>;
 }
 
 function App() {
@@ -126,7 +152,7 @@ function App() {
       <section id="overview" className="hero"><div className="hero-copy"><span className="eyebrow">{t.eyebrow}</span><h1>{t.title}</h1><p>{t.lead}</p><div className="hero-actions"><code>{t.install}</code><a className="primary-action" href="#components">{t.explore}</a><a href="https://github.com/uppy19d0/sillar-ui">{t.github}</a></div></div><div className="hero-panel"><span>DESIGN SYSTEM / 01</span><div className="hero-card"><Sillar.Badge variant="success">Accessible by default</Sillar.Badge><h2>Craft product interfaces with confidence.</h2><p>Typed APIs, resilient interaction behavior, and a visual language that works in light and dark.</p><div className="demo-row"><Sillar.Button>Build now</Sillar.Button><Sillar.Button variant="outline">Read docs</Sillar.Button></div></div><footer>Made with love in the Dominican Republic by <a href="https://github.com/uppy19d0">@uppy19d0</a>.</footer></div></section>
       <section className="principles">{t.principles.map((item, index) => <article key={item}><span>0{index + 1}</span><strong>{item}</strong></article>)}</section>
       <section id="tutorial" className="section tutorial-section"><header className="section-heading"><span>GETTING STARTED</span><h2>{t.tutorial}</h2><p>{t.tutorialLead}</p></header><div className="tutorial-layout"><ol className="tutorial-steps">{t.tutorialSteps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{step}</h3><p>{t.tutorialNotes[index]}</p><pre><code>{tutorialCommands[index]}</code></pre></div></li>)}</ol><aside className="tutorial-result"><span>{t.tutorialResult}</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Active</Sillar.Badge><Sillar.CardTitle>Caribbean account</Sillar.CardTitle><Sillar.CardDescription>{t.tutorialResultText}</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><div className="tutorial-balance"><small>Available balance</small><strong>RD$ 84,250.00</strong></div><Sillar.Button>View activity</Sillar.Button></Sillar.CardContent></Sillar.Card><a href={`${import.meta.env.BASE_URL}${language === 'es' ? 'tutorial-es.md' : 'tutorial.md'}`}>Markdown tutorial ↗</a></aside></div></section>
-      <section id="components" className="section"><header className="section-heading"><span>COMPONENTS</span><h2>{t.catalog}</h2><p>{t.catalogLead}</p></header><div className="component-grid">{examples.map((example) => <article key={example.name} className="component-card"><header><strong>{example.name}</strong><code>import from 'sillar-ui'</code></header><div className="component-preview">{example.node}</div></article>)}</div></section>
+      <section id="components" className="section"><header className="section-heading"><span>COMPONENTS</span><h2>{t.catalog}</h2><p>{t.catalogLead}</p></header><div className="component-grid">{examples.map((example) => <article key={example.name} className="component-card"><header><strong>{example.name}</strong><code>import from 'sillar-ui'</code></header><div className="component-preview">{example.name === 'Form + validation' ? <FormDemo language={language} /> : example.node}</div></article>)}</div></section>
       <ComponentCatalog language={language} />
       <section id="playground" className="section playground-section"><header className="section-heading"><span>PLAYGROUND</span><h2>{t.playground}</h2><p>{t.playgroundLead}</p></header><LiveProvider code={playgroundCode} scope={Sillar}><div className="playground"><div><div className="panel-label">CODE / TSX</div><LiveEditor className="live-editor" /></div><div><div className="panel-label">PREVIEW</div><LivePreview className="live-preview" /><LiveError className="live-error" /></div></div></LiveProvider></section>
       <section className="section"><header className="section-heading"><span>THEMES</span><h2>{localized.themes}</h2><p>{localized.themesLead}</p></header><div className="theme-comparison"><div className="theme-frame theme-light"><span>LIGHT</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Ready</Sillar.Badge><Sillar.CardTitle>Semantic by design</Sillar.CardTitle><Sillar.CardDescription>One component contract, adapted to its environment.</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><Sillar.Button>Continue</Sillar.Button></Sillar.CardContent></Sillar.Card></div><div className="theme-frame theme-dark" data-theme="dark"><span>DARK</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Ready</Sillar.Badge><Sillar.CardTitle>Semantic by design</Sillar.CardTitle><Sillar.CardDescription>One component contract, adapted to its environment.</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><Sillar.Button>Continue</Sillar.Button></Sillar.CardContent></Sillar.Card></div></div></section>

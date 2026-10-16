@@ -55,3 +55,7 @@ import 'sillar-ui/styles.css';
 ## Temas
 
 Activa el modo oscuro con `.dark` o `data-theme="dark"`. Personaliza las variables documentadas `--slr-*` para adaptar la identidad visual sin modificar el comportamiento.
+
+## FormErrorSummary
+
+`FormErrorSummary` recibe `errors`, `title` y una referencia al div. `FormItem controlId` conecta los enlaces del resumen con las etiquetas, descripciones y mensajes de cada campo. [Ejemplo completo](formularios.md).

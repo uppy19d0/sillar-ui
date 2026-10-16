@@ -13,6 +13,37 @@ test.beforeEach(async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 });
 
+test('form summary links focus the invalid control and async validation recovers', async ({ page }) => {
+  const card = page.locator('.component-card').filter({ hasText: 'Form + validation' });
+  await expect(card.getByRole('region', { name: 'Check the form' })).toHaveCount(0);
+  await card.getByRole('button', { name: 'Validate', exact: true }).click();
+  const summary = card.getByRole('region', { name: 'Check the form' });
+  await expect(summary).toBeFocused();
+  await summary.getByRole('link', { name: 'Enter a valid email.' }).click();
+  const input = card.getByRole('textbox', { name: 'Email' });
+  await expect(input).toBeFocused();
+  const ids = (await input.getAttribute('aria-describedby'))?.split(/\s+/) ?? [];
+  expect(ids.length).toBeGreaterThan(1);
+  for (const id of ids) await expect(page.locator(`[id=${JSON.stringify(id)}]`)).toHaveCount(1);
+  await input.fill('demo@example.test');
+  await card.getByRole('button', { name: 'Validate', exact: true }).click();
+  await expect(card.getByRole('button', { name: 'Validating…' })).toBeDisabled();
+  await expect(card.getByRole('status')).toHaveText('Valid form. Demo complete.');
+  await expect(summary).toHaveCount(0);
+});
+
+test('Spanish form workflow exposes localized errors and preserves field focus', async ({ page }) => {
+  await page.getByRole('button', { name: 'Change language', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+  const card = page.locator('.component-card').filter({ hasText: 'Form + validation' });
+  await card.getByRole('button', { name: 'Validar', exact: true }).click();
+  const summary = card.getByRole('region', { name: 'Revisa el formulario' });
+  await expect(summary).toBeFocused();
+  await summary.getByRole('link', { name: 'Escribe un correo válido.' }).click();
+  await expect(card.getByRole('textbox', { name: 'Correo electrónico' })).toBeFocused();
+  await expect(card.getByRole('link', { name: 'Ver el ejemplo completo' })).toHaveAttribute('href', /formularios\.md$/);
+});
+
 test('theme contract remains readable in light and dark modes', async ({ page, browserName, isMobile }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect(page.getByRole('heading', { level: 1 })).toHaveCSS('color', 'rgb(245, 247, 250)');

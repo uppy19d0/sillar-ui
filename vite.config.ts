@@ -26,6 +26,7 @@ export default defineConfig({
         field: 'src/field.tsx',
         'form-grid': 'src/form-grid.tsx',
         form: 'src/form.tsx',
+        'form-error-summary': 'src/form-error-summary.tsx',
         'icon-button': 'src/icon-button.tsx',
         input: 'src/input.tsx',
         label: 'src/label.tsx',

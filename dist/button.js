@@ -1,10 +1,10 @@
-import { jsx as a, jsxs as g, Fragment as y } from "react/jsx-runtime";
-import * as x from "react";
-import { Slot as z } from "./slot.js";
-import { cva as j } from "class-variance-authority";
-import { cn as B } from "./utils.js";
-import { LoadingIndicator as D } from "./loading-indicator.js";
-const I = j("slr-button", {
+import { jsx as b, jsxs as D, Fragment as P } from "react/jsx-runtime";
+import * as d from "react";
+import { Slot as w } from "./slot.js";
+import { cva as E } from "class-variance-authority";
+import { cn as K } from "./utils.js";
+import { LoadingIndicator as S } from "./loading-indicator.js";
+const z = E("slr-button", {
   variants: {
     variant: {
       default: "slr-button--default",
@@ -27,40 +27,66 @@ const I = j("slr-button", {
     variant: "default",
     size: "default"
   }
-}), L = x.forwardRef(
-  ({ className: u, variant: i, size: l, asChild: t = !1, type: d, loading: o = !1, disabled: b, children: s, onClick: n, tabIndex: m, ...c }, f) => {
-    const v = t ? z : "button", r = b || o, p = (e) => {
+});
+function u(t) {
+  t.type !== "touchstart" && t.preventDefault(), t.stopPropagation();
+}
+function f(t) {
+  return (o) => {
+    o.key === "Enter" || o.key === " " || o.key === "Spacebar" ? u(o) : typeof t == "function" && t(o);
+  };
+}
+function m(t) {
+  const o = {};
+  for (const n of ["onClick", "onAuxClick", "onDoubleClick", "onPointerDown", "onPointerUp", "onMouseDown", "onMouseUp", "onTouchStart", "onTouchEnd"])
+    o[n] = u, o[`${n}Capture`] = u;
+  for (const n of ["onKeyDown", "onKeyUp", "onKeyPress"])
+    o[n] = f(t[n]), o[`${n}Capture`] = f(t[`${n}Capture`]);
+  return o;
+}
+function A(t, o) {
+  const n = {
+    ...m(t.props),
+    "aria-disabled": !0,
+    tabIndex: -1
+  };
+  return o && (n["aria-busy"] = !0, n["data-loading"] = !0), (typeof t.type != "string" || ["button", "input", "select", "textarea", "fieldset", "optgroup", "option"].includes(t.type)) && (n.disabled = !0), d.cloneElement(t, n);
+}
+const I = d.forwardRef(
+  ({ className: t, variant: o, size: n, asChild: e = !1, type: p, loading: a = !1, disabled: y, children: s, onClick: l, tabIndex: g, ...i }, v) => {
+    const k = e ? w : "button", r = y || a, x = (c) => {
       if (r) {
-        e.preventDefault();
+        u(c);
         return;
       }
-      n == null || n(e);
+      l == null || l(c);
     };
-    return /* @__PURE__ */ a(
-      v,
+    return /* @__PURE__ */ b(
+      k,
       {
-        ref: f,
+        ...i,
+        ...e && r ? m(i) : {},
+        ref: v,
         "data-slot": "button",
-        "data-loading": o || void 0,
-        className: B(I({ variant: i, size: l }), u),
-        type: t ? void 0 : d ?? "button",
-        disabled: t ? void 0 : r,
-        "aria-busy": o || void 0,
-        "aria-disabled": t && r ? !0 : void 0,
-        tabIndex: t && r ? -1 : m,
-        onClick: p,
-        ...c,
-        children: t ? s : /* @__PURE__ */ g(y, { children: [
-          o ? /* @__PURE__ */ a(D, { decorative: !0, size: "sm" }) : null,
+        "data-loading": a || void 0,
+        className: K(z({ variant: o, size: n }), t),
+        type: e ? void 0 : p ?? "button",
+        disabled: e ? void 0 : r,
+        "aria-busy": a || i["aria-busy"],
+        "aria-disabled": r && (e || i["aria-disabled"] !== void 0) ? !0 : i["aria-disabled"],
+        tabIndex: e && r ? -1 : g,
+        onClick: x,
+        children: e ? r && d.isValidElement(s) ? A(s, a) : s : /* @__PURE__ */ D(P, { children: [
+          a ? /* @__PURE__ */ b(S, { decorative: !0, size: "sm" }) : null,
           s
         ] })
       }
     );
   }
 );
-L.displayName = "Button";
+I.displayName = "Button";
 export {
-  L as Button,
-  I as buttonVariants
+  I as Button,
+  z as buttonVariants
 };
 //# sourceMappingURL=button.js.map

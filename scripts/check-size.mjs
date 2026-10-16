@@ -17,8 +17,8 @@ for (const file of javascriptFiles) {
   assert.ok(gzip <= 4_000, `${file} is ${gzip} B gzip; the per-entry gzip budget is 4000 B`);
 }
 
-assert.ok(totalRaw <= 110_000, `all JavaScript entries total ${totalRaw} B; the budget is 110000 B`);
-assert.ok(totalGzip <= 42_000, `all JavaScript entries total ${totalGzip} B gzip; the budget is 42000 B`);
+assert.ok(totalRaw <= 120_000, `all JavaScript entries total ${totalRaw} B; the budget is 120000 B`);
+assert.ok(totalGzip <= 45_000, `all JavaScript entries total ${totalGzip} B gzip; the budget is 45000 B`);
 console.log(`${javascriptFiles.length} JavaScript entries: ${totalRaw} B raw / ${totalGzip} B gzip total`);
 
 const css = await readFile(new URL('../dist/styles.css', import.meta.url));

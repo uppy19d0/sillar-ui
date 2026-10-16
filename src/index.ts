@@ -70,6 +70,7 @@ export {
   type FieldProps,
 } from './field';
 export { Form, FormControl, FormDescription, FormItem, FormLabel, FormMessage, useForm, type FormControlProps, type FormErrors, type FormItemProps, type UseFormOptions } from './form';
+export { FormErrorSummary, type FormErrorSummaryProps, type FormErrorSummaryEntry } from './form-error-summary';
 export { FieldGroup, FormGrid, type FieldGroupProps, type FormGridProps } from './form-grid';
 export { IconButton, type IconButtonProps } from './icon-button';
 export { Input } from './input';

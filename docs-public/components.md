@@ -60,3 +60,7 @@ Button, IconButton, Badge, Card, Callout, Section, Separator, Slot, SkipLink, an
 ## Theme activation
 
 Use `.dark` or `data-theme="dark"` on the document root or any containing element. Override documented `--slr-*` custom properties to create a brand theme.
+
+## FormErrorSummary
+
+`FormErrorSummary` accepts `errors`, `title` and a forwarded div ref. `FormItem controlId` connects summary links and accessible field associations. [Complete workflow](forms.md).

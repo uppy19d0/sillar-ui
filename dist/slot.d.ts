@@ -1,6 +1,6 @@
 import * as React from 'react';
 type PossibleRef<T> = React.Ref<T> | undefined;
-export declare function composeRefs<T>(...refs: PossibleRef<T>[]): (node: T | null) => void;
+export declare function composeRefs<T>(...refs: PossibleRef<T>[]): (node: T | null) => (() => void) | undefined;
 export interface SlotProps extends React.HTMLAttributes<HTMLElement> {
     children?: React.ReactNode;
 }

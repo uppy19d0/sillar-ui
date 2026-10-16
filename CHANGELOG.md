@@ -9,6 +9,12 @@
 
 ## Unreleased
 
+- Prevent disabled/loading `Button asChild` controls from executing child activation handlers; preserve enabled composition and support React 18/19 ref lifecycles.
+- Add `FormErrorSummary` with field links, localization and caller-controlled focus, plus stable form control/description/error associations.
+- Prevent duplicate asynchronous form submissions and keep same-tick edits/reset values current.
+- Batch overlay scroll/resize/observer updates into one animation frame and cancel pending work on cleanup.
+- Add real consumer-bundle budgets including runtime class utilities and bilingual form workflow examples.
+
 ## 1.3.0
 
 - Add LoadingIndicator with localized status text, three sizes, decorative mode and reduced-motion support.
