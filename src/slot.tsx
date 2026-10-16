@@ -5,11 +5,30 @@ type PossibleRef<T> = React.Ref<T> | undefined;
 
 export function composeRefs<T>(...refs: PossibleRef<T>[]) {
   return (node: T | null) => {
-    refs.forEach((ref) => {
-      if (typeof ref === 'function') ref(node);
+    const cleanups = refs.map((ref) => {
+      if (typeof ref === 'function') return ref(node);
       else if (ref) (ref as React.MutableRefObject<T | null>).current = node;
     });
+    if (cleanups.some((cleanup) => typeof cleanup === 'function')) {
+      return () => {
+        refs.forEach((ref, index) => {
+          const cleanup = cleanups[index];
+          if (typeof cleanup === 'function') cleanup();
+          else if (typeof ref === 'function') ref(null);
+          else if (ref) (ref as React.MutableRefObject<T | null>).current = null;
+        });
+      };
+    }
   };
+}
+
+function elementRef(element: React.ReactElement): PossibleRef<HTMLElement> {
+  // React 18 warns when reading props.ref; React 19 warns on element.ref.
+  // Their stored value descriptors let us avoid either warning getter.
+  const propsRef = Object.getOwnPropertyDescriptor(element.props, 'ref');
+  const legacyRef = Object.getOwnPropertyDescriptor(element, 'ref');
+  return (propsRef && 'value' in propsRef ? propsRef.value : undefined)
+    ?? (legacyRef && 'value' in legacyRef ? legacyRef.value : undefined);
 }
 
 function composeEventHandlers(
@@ -28,8 +47,8 @@ export interface SlotProps extends React.HTMLAttributes<HTMLElement> {
 
 export const Slot = React.forwardRef<HTMLElement, SlotProps>(
   ({ children, ...slotProps }, forwardedRef) => {
-    if (!React.isValidElement(children)) {
-      throw new Error('Sillar UI Slot expects exactly one valid React element.');
+    if (!React.isValidElement(children) || children.type === React.Fragment) {
+      throw new Error('Sillar UI Slot expects exactly one valid non-Fragment React element.');
     }
 
     const childProps = children.props as Record<string, unknown>;
@@ -50,8 +69,8 @@ export const Slot = React.forwardRef<HTMLElement, SlotProps>(
       ...(childProps.style as React.CSSProperties | undefined),
     };
 
-    const childRef = (childProps.ref ?? (children as React.ReactElement & { ref?: React.Ref<HTMLElement> }).ref) as PossibleRef<HTMLElement>;
-    mergedProps.ref = composeRefs(forwardedRef, childRef);
+    const childRef = elementRef(children);
+    mergedProps.ref = React.useMemo(() => composeRefs(forwardedRef, childRef), [forwardedRef, childRef]);
 
     return React.cloneElement(children, mergedProps);
   },

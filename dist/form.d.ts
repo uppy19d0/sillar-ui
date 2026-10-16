@@ -25,8 +25,10 @@ export declare const Form: React.ForwardRefExoticComponent<React.FormHTMLAttribu
 export interface FormItemProps extends React.HTMLAttributes<HTMLDivElement> {
     invalid?: boolean;
     required?: boolean;
+    /** Stable control ID for labels, descriptions, validation messages and summary links. */
+    controlId?: string;
 }
-export declare function FormItem({ invalid, required, className, children, ...props }: FormItemProps): React.JSX.Element;
+export declare function FormItem({ invalid, required, controlId, className, children, ...props }: FormItemProps): React.JSX.Element;
 export declare function FormLabel({ className, children, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>): React.JSX.Element;
 export interface FormControlProps extends React.ComponentPropsWithoutRef<typeof Slot> {
 }

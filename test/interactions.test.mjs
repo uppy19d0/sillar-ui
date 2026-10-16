@@ -282,6 +282,7 @@ test('DropdownMenu flips above its trigger when the viewport has no room below',
     offsetHeight: { configurable: true, value: 120 },
   });
   await act(async () => window.dispatchEvent(new Event('resize')));
+  await nextFrame();
   assert.equal(menu.dataset.side, 'top');
   assert.equal(menu.style.visibility, 'visible');
 });

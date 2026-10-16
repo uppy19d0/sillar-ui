@@ -1,63 +1,110 @@
-import { jsx as n, jsxs as v } from "react/jsx-runtime";
-import * as t from "react";
-import { Slot as N } from "./slot.js";
-import { cn as i } from "./utils.js";
-function j({ initialValues: e, validate: r, onSubmit: o }) {
-  const [a, m] = t.useState(e), [u, c] = t.useState({}), [h, F] = t.useState(!1), b = t.useCallback((s, l) => {
-    m((d) => ({ ...d, [s]: l })), c((d) => ({ ...d, [s]: void 0 }));
-  }, []), C = t.useCallback(async (s) => {
-    s == null || s.preventDefault();
-    const l = (r == null ? void 0 : r(a)) ?? {};
-    if (c(l), Object.values(l).some(Boolean)) return !1;
-    F(!0);
+import { jsx as l, jsxs as q } from "react/jsx-runtime";
+import * as n from "react";
+import { Slot as V } from "./slot.js";
+import { cn as C } from "./utils.js";
+const w = typeof window > "u" ? n.useEffect : n.useLayoutEffect;
+function D({ initialValues: r, validate: e, onSubmit: t }) {
+  const [o, i] = n.useState(r), [s, d] = n.useState({}), [c, f] = n.useState(!1), u = n.useRef(o), m = n.useRef({ initialValues: r, validate: e, onSubmit: t }), F = n.useRef(!1), v = n.useRef(!0);
+  w(() => {
+    m.current = { initialValues: r, validate: e, onSubmit: t };
+  }, [r, e, t]), w(() => (v.current = !0, () => {
+    v.current = !1;
+  }), []);
+  const p = n.useCallback((a, g) => {
+    const y = { ...u.current, [a]: g };
+    u.current = y, i(y), d((b) => ({ ...b, [a]: void 0 }));
+  }, []), I = n.useCallback(async (a) => {
+    var g;
+    if (a == null || a.preventDefault(), F.current) return !1;
+    F.current = !0;
     try {
-      return await o(a), !0;
+      const y = u.current, b = m.current, _ = ((g = b.validate) == null ? void 0 : g.call(b, y)) ?? {};
+      return d(_), Object.values(_).some(Boolean) ? !1 : (f(!0), await b.onSubmit(y), !0);
     } finally {
-      F(!1);
+      F.current = !1, v.current && f(!1);
     }
-  }, [o, r, a]), _ = t.useCallback(() => {
-    m(e), c({});
-  }, [e]);
-  return { values: a, errors: u, submitting: h, setValue: b, setErrors: c, handleSubmit: C, reset: _, field: (s) => ({ name: String(s), value: a[s], "aria-invalid": !!u[s], onChange: (l) => b(s, l.target.value) }) };
+  }, []), S = n.useCallback(() => {
+    const a = m.current.initialValues;
+    u.current = a, i(a), d({});
+  }, []);
+  return {
+    values: o,
+    errors: s,
+    submitting: c,
+    setValue: p,
+    setErrors: d,
+    handleSubmit: I,
+    reset: S,
+    field: (a) => ({
+      name: String(a),
+      value: o[a],
+      "aria-invalid": !!s[a],
+      onChange: (g) => p(a, g.target.value)
+    })
+  };
 }
-const p = t.forwardRef(({ className: e, ...r }, o) => /* @__PURE__ */ n("form", { ...r, ref: o, noValidate: r.noValidate ?? !0, className: i("slr-form", e) }));
-p.displayName = "Form";
-const g = t.createContext(null);
-function f(e) {
-  const r = t.useContext(g);
-  if (!r) throw new Error(`${e} must be rendered inside FormItem.`);
-  return r;
+const $ = n.forwardRef(
+  ({ className: r, ...e }, t) => /* @__PURE__ */ l("form", { ...e, ref: t, noValidate: e.noValidate ?? !0, className: C("slr-form", r) })
+);
+$.displayName = "Form";
+const R = n.createContext(null);
+function E(r) {
+  const e = n.useContext(R);
+  if (!e) throw new Error(`${r} must be rendered inside FormItem.`);
+  return e;
 }
-function k({ invalid: e = !1, required: r = !1, className: o, children: a, ...m }) {
-  const u = t.useId();
-  return /* @__PURE__ */ n(g.Provider, { value: { id: u, invalid: e, required: r }, children: /* @__PURE__ */ n("div", { ...m, "data-invalid": e || void 0, className: i("slr-form__item", o), children: a }) });
+function x(r, e, t = 0) {
+  if (t > 8) return;
+  const o = n.Children.toArray(r);
+  for (const i of o.slice(0, 128)) {
+    if (!n.isValidElement(i)) continue;
+    const s = i;
+    if (s.type === e) return s;
+    if (s.type === n.Fragment) {
+      const d = x(s.props.children, e, t + 1);
+      if (d) return d;
+    }
+  }
 }
-function E({ className: e, children: r, ...o }) {
-  const a = f("FormLabel");
-  return /* @__PURE__ */ v("label", { ...o, htmlFor: o.htmlFor ?? a.id, className: i("slr-form__label", e), children: [
-    r,
-    a.required && /* @__PURE__ */ n("span", { "aria-hidden": "true", className: "slr-form__required", children: "*" })
+function j(...r) {
+  return [...new Set(r.flatMap((e) => (e == null ? void 0 : e.split(/\s+/).filter(Boolean)) ?? []))].join(" ") || void 0;
+}
+function A({ invalid: r = !1, required: e = !1, controlId: t, className: o, children: i, ...s }) {
+  const d = n.useId(), c = x(i, N), f = n.isValidElement(c == null ? void 0 : c.props.children) ? c.props.children : void 0, u = (f == null ? void 0 : f.props.id) ?? (c == null ? void 0 : c.props.id) ?? t ?? d, m = x(i, M), F = x(i, k), v = m ? m.props.id ?? `${u}-description` : void 0, p = F ? F.props.id ?? `${u}-message` : void 0, I = n.useMemo(() => ({ id: u, invalid: r, required: e, descriptionId: v, messageId: p }), [u, r, e, v, p]);
+  return /* @__PURE__ */ l(R.Provider, { value: I, children: /* @__PURE__ */ l("div", { ...s, "data-invalid": r || void 0, className: C("slr-form__item", o), children: i }) });
+}
+function O({ className: r, children: e, ...t }) {
+  const o = E("FormLabel");
+  return /* @__PURE__ */ q("label", { ...t, htmlFor: t.htmlFor ?? o.id, className: C("slr-form__label", r), children: [
+    e,
+    o.required && /* @__PURE__ */ l("span", { "aria-hidden": "true", className: "slr-form__required", children: "*" })
   ] });
 }
-const x = t.forwardRef((e, r) => {
-  const o = f("FormControl");
-  return /* @__PURE__ */ n(N, { ...e, ref: r, id: o.id, "aria-invalid": o.invalid || void 0, "aria-describedby": o.invalid ? `${o.id}-message` : void 0 });
+const N = n.forwardRef(({ children: r, ...e }, t) => {
+  const o = E("FormControl"), i = n.isValidElement(r) ? r : void 0, s = i == null ? void 0 : i.props, d = {
+    id: (s == null ? void 0 : s.id) ?? e.id ?? o.id,
+    "aria-invalid": (s == null ? void 0 : s["aria-invalid"]) ?? e["aria-invalid"] ?? (o.invalid || void 0),
+    "aria-required": (s == null ? void 0 : s["aria-required"]) ?? e["aria-required"] ?? (o.required || void 0),
+    "aria-describedby": j(s == null ? void 0 : s["aria-describedby"], e["aria-describedby"], o.descriptionId, o.invalid ? o.messageId : void 0)
+  };
+  return /* @__PURE__ */ l(V, { ...e, ...d, ref: t, children: i ? n.cloneElement(i, d) : r });
 });
-x.displayName = "FormControl";
-function I({ className: e, ...r }) {
-  return /* @__PURE__ */ n("p", { ...r, className: i("slr-form__description", e) });
+N.displayName = "FormControl";
+function M({ className: r, ...e }) {
+  const t = n.useContext(R);
+  return /* @__PURE__ */ l("p", { ...e, id: e.id ?? (t == null ? void 0 : t.descriptionId) ?? (t ? `${t.id}-description` : void 0), className: C("slr-form__description", r) });
 }
-function R({ className: e, ...r }) {
-  const o = f("FormMessage");
-  return !o.invalid && !r.children ? null : /* @__PURE__ */ n("p", { ...r, id: `${o.id}-message`, role: "alert", className: i("slr-form__message", e) });
+function k({ className: r, ...e }) {
+  const t = E("FormMessage");
+  return !t.invalid && !e.children ? null : /* @__PURE__ */ l("p", { ...e, id: e.id ?? t.messageId ?? `${t.id}-message`, role: "alert", className: C("slr-form__message", r) });
 }
 export {
-  p as Form,
-  x as FormControl,
-  I as FormDescription,
-  k as FormItem,
-  E as FormLabel,
-  R as FormMessage,
-  j as useForm
+  $ as Form,
+  N as FormControl,
+  M as FormDescription,
+  A as FormItem,
+  O as FormLabel,
+  k as FormMessage,
+  D as useForm
 };
 //# sourceMappingURL=form.js.map

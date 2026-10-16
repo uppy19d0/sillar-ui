@@ -18,6 +18,7 @@ export { EmptyState, ErrorState, LoadingState, type EmptyStateAction, type Empty
 export { ExportActions, type ExportAction, type ExportActionKind, type ExportActionsProps } from './export-actions';
 export { Field, FieldDescription, FieldError, FieldLabel, type FieldLabelProps, type FieldProps, } from './field';
 export { Form, FormControl, FormDescription, FormItem, FormLabel, FormMessage, useForm, type FormControlProps, type FormErrors, type FormItemProps, type UseFormOptions } from './form';
+export { FormErrorSummary, type FormErrorSummaryProps, type FormErrorSummaryEntry } from './form-error-summary';
 export { FieldGroup, FormGrid, type FieldGroupProps, type FormGridProps } from './form-grid';
 export { IconButton, type IconButtonProps } from './icon-button';
 export { Input } from './input';

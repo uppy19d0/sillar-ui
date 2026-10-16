@@ -190,6 +190,10 @@
     "./loading-indicator": {
       "types": "./dist/loading-indicator.d.ts",
       "import": "./dist/loading-indicator.js"
+    },
+    "./form-error-summary": {
+      "types": "./dist/form-error-summary.d.ts",
+      "import": "./dist/form-error-summary.js"
     }
   },
   "scripts": {
@@ -205,8 +209,10 @@
     "test:cli": "node --test packages/cli/test/*.test.mjs",
     "test:snapshots:update": "npm run build && UPDATE_SNAPSHOTS=1 node --test test/snapshots.test.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "check": "npm run typecheck && npm run build && npm run size && npm test && npm run docs:build",
-    "prepublishOnly": "npm run check"
+    "check": "npm run typecheck && npm run typecheck:docs && npm run build && npm run size && npm run size:consumer && npm test && npm run docs:build",
+    "prepublishOnly": "npm run check",
+    "size:consumer": "node scripts/check-consumer-size.mjs",
+    "typecheck:docs": "tsc -p tsconfig.docs.json --noEmit"
   },
   "peerDependencies": {
     "react": ">=18.2.0",
