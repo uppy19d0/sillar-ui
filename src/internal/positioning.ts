@@ -90,16 +90,27 @@ export function calculatePosition(
 
 /** Keeps a floating element aligned during layout, resize, and nested scrolling changes. */
 export function autoUpdatePosition(anchor: HTMLElement, floating: HTMLElement, update: () => void) {
+  let frame: number | null = null;
+  let stopped = false;
+  const schedule = () => {
+    if (stopped || frame !== null) return;
+    frame = window.requestAnimationFrame(() => {
+      frame = null;
+      if (!stopped) update();
+    });
+  };
   update();
-  const resizeObserver = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
+  const resizeObserver = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(schedule);
   resizeObserver?.observe(anchor);
   resizeObserver?.observe(floating);
-  window.addEventListener('resize', update);
-  window.addEventListener('scroll', update, true);
+  window.addEventListener('resize', schedule);
+  window.addEventListener('scroll', schedule, { capture: true, passive: true });
   return () => {
+    stopped = true;
+    if (frame !== null) window.cancelAnimationFrame(frame);
     resizeObserver?.disconnect();
-    window.removeEventListener('resize', update);
-    window.removeEventListener('scroll', update, true);
+    window.removeEventListener('resize', schedule);
+    window.removeEventListener('scroll', schedule, true);
   };
 }
 import type { CSSProperties } from 'react';

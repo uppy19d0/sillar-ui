@@ -40,6 +40,12 @@ const {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
   Checkbox,
   Combobox,
   DatePicker,
@@ -49,10 +55,17 @@ const {
   DialogDescription,
   DialogTitle,
   DialogTrigger,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+  DrawerTrigger,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  Pagination,
   RadioGroup,
   RadioGroupItem,
   SelectContent,
@@ -63,6 +76,13 @@ const {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
   Tabs,
   TabsContent,
   TabsList,
@@ -282,6 +302,7 @@ test('DropdownMenu flips above its trigger when the viewport has no room below',
     offsetHeight: { configurable: true, value: 120 },
   });
   await act(async () => window.dispatchEvent(new Event('resize')));
+  await nextFrame();
   assert.equal(menu.dataset.side, 'top');
   assert.equal(menu.style.visibility, 'visible');
 });
@@ -478,4 +499,130 @@ test('interactive primitives have no detectable serious accessibility violations
   );
 
   await assertNoSeriousA11yViolations(container);
+});
+
+test('Drawer keeps the Dialog focus contract, exposes its edge, and restores the trigger', async () => {
+  const { container } = await render(
+    React.createElement(
+      Drawer,
+      null,
+      React.createElement(DrawerTrigger, null, 'Open filters'),
+      React.createElement(
+        DrawerContent,
+        { side: 'left' },
+        React.createElement(DrawerTitle, null, 'Filters'),
+        React.createElement(DrawerDescription, null, 'Narrow the results.'),
+        React.createElement('input', { 'aria-label': 'Keyword' }),
+        React.createElement(DrawerClose, null, 'Apply'),
+      ),
+    ),
+  );
+  const trigger = container.querySelector('button');
+  trigger.focus();
+  await act(async () => trigger.click());
+  await nextFrame();
+
+  const drawer = document.querySelector('[role="dialog"]');
+  assert.equal(drawer.getAttribute('data-side'), 'left');
+  assert.match(drawer.className, /slr-drawer__content/);
+  assert.equal(drawer.getAttribute('aria-modal'), 'true');
+  assert.equal(container.inert, true);
+  assert.equal(document.getElementById(drawer.getAttribute('aria-labelledby')).textContent, 'Filters');
+  await assertNoSeriousA11yViolations(document.body);
+
+  drawer.querySelector('input').focus();
+  await act(async () => keydown(document, 'Tab'));
+  assert.ok(drawer.contains(document.activeElement), 'focus stays inside the drawer');
+
+  await act(async () => keydown(document, 'Escape'));
+  assert.equal(document.querySelector('[role="dialog"]'), null);
+  assert.equal(document.activeElement, trigger);
+});
+
+test('Drawer defaults to the right edge', async () => {
+  await render(React.createElement(Drawer, { defaultOpen: true }, React.createElement(DrawerContent, { 'aria-label': 'Menu' }, 'Content')));
+  assert.equal(document.querySelector('[role="dialog"]').getAttribute('data-side'), 'right');
+});
+
+test('Pagination moves between pages, marks the current page and disables the ends', async () => {
+  const changes = [];
+  const { container } = await render(React.createElement(Pagination, {
+    defaultPage: 1, pageCount: 9, onPageChange: (page) => changes.push(page),
+    labels: { navigation: 'Paginación', previous: 'Anterior', next: 'Siguiente', page: (page) => `Página ${page}` },
+  }));
+  const nav = container.querySelector('nav');
+  const button = (label) => [...container.querySelectorAll('button')].find((item) => item.getAttribute('aria-label') === label);
+  assert.equal(nav.getAttribute('aria-label'), 'Paginación');
+  assert.equal(button('Anterior').disabled, true);
+  assert.equal(button('Página 1').getAttribute('aria-current'), 'page');
+
+  await act(async () => button('Siguiente').click());
+  await act(async () => button('Página 9').click());
+  assert.deepEqual(changes, [2, 9]);
+  assert.equal(button('Página 9').getAttribute('aria-current'), 'page');
+  assert.equal(button('Siguiente').disabled, true);
+  assert.equal(container.querySelectorAll('[aria-current="page"]').length, 1);
+  await assertNoSeriousA11yViolations(container);
+});
+
+test('Pagination renders links when getHref is provided and stays controlled', async () => {
+  const changes = [];
+  const { container } = await render(React.createElement(Pagination, { page: 2, pageCount: 4, getHref: (page) => `/results?page=${page}`, onPageChange: (page) => changes.push(page) }));
+  const link = container.querySelector('a[href="/results?page=3"]');
+  assert.ok(link);
+  await act(async () => link.click());
+  assert.deepEqual(changes, [3]);
+  assert.equal(container.querySelector('[aria-current="page"]').textContent, '2', 'controlled page does not change by itself');
+});
+
+test('Pagination renders nothing for a single page', async () => {
+  const { container } = await render(React.createElement(Pagination, { pageCount: 1 }));
+  assert.equal(container.querySelector('nav'), null);
+});
+
+test('Breadcrumb exposes a labelled landmark and marks only the current page', async () => {
+  const { container } = await render(React.createElement(Breadcrumb, { 'aria-label': 'Ruta de navegación' },
+    React.createElement(BreadcrumbList, null,
+      React.createElement(BreadcrumbItem, null, React.createElement(BreadcrumbLink, { href: '/' }, 'Inicio')),
+      React.createElement(BreadcrumbSeparator),
+      React.createElement(BreadcrumbItem, null, React.createElement(BreadcrumbLink, { href: '/docs' }, 'Docs')),
+      React.createElement(BreadcrumbSeparator),
+      React.createElement(BreadcrumbItem, null, React.createElement(BreadcrumbPage, null, 'Tabla')),
+    )));
+  assert.equal(container.querySelector('nav').getAttribute('aria-label'), 'Ruta de navegación');
+  assert.equal(container.querySelectorAll('[aria-current="page"]').length, 1);
+  assert.equal(container.querySelector('[aria-current="page"]').tagName, 'SPAN');
+  assert.equal(container.querySelectorAll('[role="presentation"][aria-hidden="true"]').length, 2);
+  await assertNoSeriousA11yViolations(container);
+});
+
+test('Table links headers to cells, announces sort state and names its scroll region', async () => {
+  const sorts = [];
+  const { container } = await render(React.createElement(Table, { label: 'Salarios', striped: true },
+    React.createElement(TableCaption, null, 'Resumen mensual'),
+    React.createElement(TableHeader, null, React.createElement(TableRow, null,
+      React.createElement(TableHead, { sort: 'ascending', onSort: () => sorts.push('name') }, 'Nombre'),
+      React.createElement(TableHead, { align: 'end', sort: 'none' }, 'Monto'))),
+    React.createElement(TableBody, null, React.createElement(TableRow, { selected: true },
+      React.createElement(TableCell, null, 'Ana'),
+      React.createElement(TableCell, { numeric: true }, '45,000')))));
+  const region = container.querySelector('[role="region"]');
+  assert.equal(region.getAttribute('aria-label'), 'Salarios');
+  assert.equal(region.getAttribute('tabindex'), '0');
+  const [name, amount] = container.querySelectorAll('th');
+  assert.equal(name.getAttribute('scope'), 'col');
+  assert.equal(name.getAttribute('aria-sort'), 'ascending');
+  assert.equal(amount.getAttribute('aria-sort'), 'none');
+  await act(async () => name.querySelector('button').click());
+  assert.deepEqual(sorts, ['name']);
+  assert.equal(container.querySelector('tbody tr').getAttribute('aria-selected'), 'true');
+  assert.equal(container.querySelector('td[data-numeric]').getAttribute('data-align'), 'end');
+  await assertNoSeriousA11yViolations(container);
+});
+
+test('Table without a label does not add an unnamed focusable region', async () => {
+  const { container } = await render(React.createElement(Table, null,
+    React.createElement(TableBody, null, React.createElement(TableRow, null, React.createElement(TableCell, null, 'Only cell')))));
+  assert.equal(container.querySelector('[role="region"]'), null);
+  assert.equal(container.querySelector('[tabindex]'), null);
 });

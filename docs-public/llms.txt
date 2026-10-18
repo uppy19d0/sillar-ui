@@ -18,6 +18,8 @@ Import `sillar-ui/styles.css` once. Import from `sillar-ui` for convenience or a
 - [Tutorial de inicio en español](./tutorial-es.md)
 - [Component reference](./components.md)
 - [Referencia de componentes en español](./componentes.md)
+- [Form workflow](./forms.md)
+- [Flujo de formularios](./formularios.md)
 - [Architecture](https://github.com/uppy19d0/sillar-ui/blob/main/ARCHITECTURE.md)
 - [Quality contract](https://github.com/uppy19d0/sillar-ui/blob/main/QUALITY.md)
 - [Stability policy](https://github.com/uppy19d0/sillar-ui/blob/main/STABILITY.md)
@@ -26,7 +28,7 @@ Import `sillar-ui/styles.css` once. Import from `sillar-ui` for convenience or a
 
 ## Public component families
 
-Accordion, Badge, Button, CalculatorShell, CalculatorPanel, Callout, Card, Checkbox, Collapsible, Combobox, ConfirmDialog, DatePicker, Dialog, DropdownMenu, EmptyState, ErrorState, ExportActions, Field, FieldGroup, Form, FormGrid, IconButton, Input, Label, LoadingState, MoneyInput, NavigationMenu, PercentageInput, Popover, Progress, RadioGroup, ResultSummary, Section, Select (native and composed), Separator, Skeleton, Slot, Switch, Tabs, Textarea, TextField, Toast, Tooltip, VisuallyHidden, and SkipLink.
+Accordion, Badge, Button, CalculatorShell, CalculatorPanel, Callout, Card, Checkbox, Collapsible, Combobox, ConfirmDialog, DatePicker, Dialog, DropdownMenu, EmptyState, ErrorState, ExportActions, Field, FieldGroup, Form, FormErrorSummary, FormGrid, IconButton, Input, Label, LoadingState, MoneyInput, NavigationMenu, PercentageInput, Popover, Progress, RadioGroup, ResultSummary, Section, Select (native and composed), Separator, Skeleton, Slot, Switch, Tabs, Textarea, TextField, Toast, Tooltip, VisuallyHidden, and SkipLink.
 
 ## Accessibility
 

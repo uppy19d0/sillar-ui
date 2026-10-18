@@ -40,7 +40,51 @@ const copy = {
   },
 } as const;
 
+const salaryRows = [['Ana Pérez', 'Backend', 85000], ['Luis Tavarez', 'Platform', 120000], ['María Gómez', 'Data', 98000]] as const;
+
+function TableDemo() {
+  const [direction, setDirection] = React.useState<'ascending' | 'descending'>('ascending');
+  const rows = [...salaryRows].sort((a, b) => (direction === 'ascending' ? 1 : -1) * (a[2] - b[2]));
+  return <Sillar.Table label="Monthly salaries" striped density="compact">
+    <Sillar.TableCaption>Gross monthly salary (DOP)</Sillar.TableCaption>
+    <Sillar.TableHeader><Sillar.TableRow>
+      <Sillar.TableHead>Name</Sillar.TableHead>
+      <Sillar.TableHead>Team</Sillar.TableHead>
+      <Sillar.TableHead align="end" sort={direction} onSort={() => setDirection(direction === 'ascending' ? 'descending' : 'ascending')}>Salary</Sillar.TableHead>
+    </Sillar.TableRow></Sillar.TableHeader>
+    <Sillar.TableBody>{rows.map((row) => <Sillar.TableRow key={row[0]}>
+      <Sillar.TableCell>{row[0]}</Sillar.TableCell><Sillar.TableCell>{row[1]}</Sillar.TableCell><Sillar.TableCell numeric>{row[2].toLocaleString('en-US')}</Sillar.TableCell>
+    </Sillar.TableRow>)}</Sillar.TableBody>
+  </Sillar.Table>;
+}
+
+function NavigationDemo() {
+  const [page, setPage] = React.useState(4);
+  return <div className="demo-stack">
+    <Sillar.Breadcrumb aria-label="Breadcrumb"><Sillar.BreadcrumbList>
+      <Sillar.BreadcrumbItem><Sillar.BreadcrumbLink href="#components">Components</Sillar.BreadcrumbLink></Sillar.BreadcrumbItem><Sillar.BreadcrumbSeparator />
+      <Sillar.BreadcrumbItem><Sillar.BreadcrumbPage>Pagination</Sillar.BreadcrumbPage></Sillar.BreadcrumbItem>
+    </Sillar.BreadcrumbList></Sillar.Breadcrumb>
+    <Sillar.Pagination page={page} pageCount={20} onPageChange={setPage} aria-label="Results pages" />
+    <p role="status" className="demo-label">Page {page} of 20</p>
+  </div>;
+}
+
+function DrawerDemo() {
+  return <div className="demo-row">{(['left', 'right', 'bottom'] as const).map((side) => <Sillar.Drawer key={side}>
+    <Sillar.DrawerTrigger asChild><Sillar.Button variant="outline">Open {side}</Sillar.Button></Sillar.DrawerTrigger>
+    <Sillar.DrawerContent side={side}>
+      <Sillar.DrawerHeader><Sillar.DrawerTitle>Filters ({side})</Sillar.DrawerTitle><Sillar.DrawerDescription>Narrow the results by team and salary range.</Sillar.DrawerDescription></Sillar.DrawerHeader>
+      <Sillar.TextField label="Team" description="Optional" />
+      <Sillar.DrawerFooter><Sillar.DrawerClose asChild><Sillar.Button variant="outline">Cancel</Sillar.Button></Sillar.DrawerClose><Sillar.DrawerClose asChild><Sillar.Button>Apply</Sillar.Button></Sillar.DrawerClose></Sillar.DrawerFooter>
+    </Sillar.DrawerContent>
+  </Sillar.Drawer>)}</div>;
+}
+
 const examples = [
+  { name: 'Table', node: <TableDemo /> },
+  { name: 'Pagination + Breadcrumb', node: <NavigationDemo /> },
+  { name: 'Drawer', node: <DrawerDemo /> },
   { name: 'Accordion', node: <Sillar.Accordion defaultValue="one" collapsible><Sillar.AccordionItem value="one"><Sillar.AccordionTrigger>Why Sillar?</Sillar.AccordionTrigger><Sillar.AccordionContent>Accessible behavior and polished visual defaults.</Sillar.AccordionContent></Sillar.AccordionItem><Sillar.AccordionItem value="two"><Sillar.AccordionTrigger>Can I theme it?</Sillar.AccordionTrigger><Sillar.AccordionContent>Every visual role is exposed as a semantic CSS token.</Sillar.AccordionContent></Sillar.AccordionItem></Sillar.Accordion> },
   { name: 'Popover + Tooltip', node: <div className="demo-row"><Sillar.Popover><Sillar.PopoverTrigger asChild><Sillar.Button variant="outline">Open popover</Sillar.Button></Sillar.PopoverTrigger><Sillar.PopoverContent><strong>Independent foundations</strong><p>Positioning, dismissal, portals, and focus are owned by Sillar.</p></Sillar.PopoverContent></Sillar.Popover><Sillar.Tooltip delayDuration={0}><Sillar.TooltipTrigger asChild><Sillar.Button size="icon" variant="secondary" aria-label="Information">?</Sillar.Button></Sillar.TooltipTrigger><Sillar.TooltipContent>Helpful context</Sillar.TooltipContent></Sillar.Tooltip></div> },
   { name: 'Choice controls', node: <div className="demo-stack"><label className="demo-label"><Sillar.Checkbox defaultChecked /> Receive product updates</label><Sillar.RadioGroup defaultValue="stable" aria-label="Release channel"><label className="demo-label"><Sillar.RadioGroupItem value="stable" /> Stable</label><label className="demo-label"><Sillar.RadioGroupItem value="next" /> Next</label></Sillar.RadioGroup></div> },
@@ -49,7 +93,7 @@ const examples = [
   { name: 'Loading indicator', node: <div className="demo-stack"><Sillar.LoadingIndicator label="Loading results…" /><Sillar.LoadingIndicator label="Refreshing results…" size="lg" /></div> },
   { name: 'Progress + Skeleton', node: <div className="demo-stack"><Sillar.Progress value={72} aria-label="Documentation progress" /><Sillar.Skeleton style={{ height: 72 }} /></div> },
   { name: 'DatePicker', node: <Sillar.DatePicker defaultValue={new Date()} /> },
-  { name: 'Collapsible + NavigationMenu', node: <div className="demo-stack"><Sillar.Collapsible><Sillar.CollapsibleTrigger asChild><Sillar.Button variant="outline">Show release notes</Sillar.Button></Sillar.CollapsibleTrigger><Sillar.CollapsibleContent><p>Focused entry points, typed APIs, and owned interaction foundations.</p></Sillar.CollapsibleContent></Sillar.Collapsible><Sillar.NavigationMenu defaultValue="learn"><Sillar.NavigationMenuList><Sillar.NavigationMenuItem><Sillar.NavigationMenuTrigger value="learn">Learn</Sillar.NavigationMenuTrigger><Sillar.NavigationMenuContent value="learn"><Sillar.NavigationMenuLink href="#playground">Playground</Sillar.NavigationMenuLink><Sillar.NavigationMenuLink href="#accessibility">Accessibility</Sillar.NavigationMenuLink></Sillar.NavigationMenuContent></Sillar.NavigationMenuItem></Sillar.NavigationMenuList></Sillar.NavigationMenu></div> },
+  { name: 'Collapsible + NavigationMenu', node: <div className="demo-stack"><Sillar.Collapsible><Sillar.CollapsibleTrigger className={Sillar.buttonVariants({ variant: 'outline' })}>Show release notes</Sillar.CollapsibleTrigger><Sillar.CollapsibleContent><p>Focused entry points, typed APIs, and owned interaction foundations.</p></Sillar.CollapsibleContent></Sillar.Collapsible><Sillar.NavigationMenu defaultValue="learn"><Sillar.NavigationMenuList><Sillar.NavigationMenuItem><Sillar.NavigationMenuTrigger value="learn">Learn</Sillar.NavigationMenuTrigger><Sillar.NavigationMenuContent value="learn"><Sillar.NavigationMenuLink href="#playground">Playground</Sillar.NavigationMenuLink><Sillar.NavigationMenuLink href="#accessibility">Accessibility</Sillar.NavigationMenuLink></Sillar.NavigationMenuContent></Sillar.NavigationMenuItem></Sillar.NavigationMenuList></Sillar.NavigationMenu></div> },
   { name: 'Toast', node: <ToastDemo /> },
   { name: 'Form + validation', node: <FormDemo /> },
 ];
@@ -95,9 +139,35 @@ function ToastDemo() {
   return <Sillar.Button onClick={() => toast({ title: 'Published successfully', description: 'Your release is available to everyone.', variant: 'success' })}>Create notification</Sillar.Button>;
 }
 
-function FormDemo() {
-  const form = Sillar.useForm({ initialValues: { email: '' }, validate: (values) => ({ email: /\S+@\S+/.test(values.email) ? undefined : 'Enter a valid email.' }), onSubmit: () => undefined });
-  return <Sillar.Form onSubmit={form.handleSubmit}><Sillar.FormItem invalid={Boolean(form.errors.email)} required><Sillar.FormLabel>Email</Sillar.FormLabel><Sillar.FormControl><Sillar.Input type="email" placeholder="you@example.com" {...form.field('email')} /></Sillar.FormControl><Sillar.FormMessage>{form.errors.email}</Sillar.FormMessage></Sillar.FormItem><Sillar.Button type="submit">Validate</Sillar.Button></Sillar.Form>;
+function FormDemo({ language = 'en' }: { language?: Language }) {
+  const es = language === 'es';
+  const controlId = `contact-email-${React.useId()}`;
+  const summary = React.useRef<HTMLDivElement>(null);
+  const focusSummary = React.useRef(false);
+  const [saved, setSaved] = React.useState(false);
+  const form = Sillar.useForm({
+    initialValues: { email: '' },
+    validate: values => ({ email: /\S+@\S+\.\S+/.test(values.email) ? undefined : es ? 'Escribe un correo válido.' : 'Enter a valid email.' }),
+    onSubmit: async () => { await new Promise(resolve => window.setTimeout(resolve, 600)); setSaved(true); },
+  });
+  React.useEffect(() => {
+    if (focusSummary.current && form.errors.email) { summary.current?.focus(); focusSummary.current = false; }
+  }, [form.errors]);
+  return <Sillar.Form onSubmit={async event => {
+    setSaved(false); focusSummary.current = true;
+    if (await form.handleSubmit(event)) focusSummary.current = false;
+  }}>
+    <Sillar.FormErrorSummary ref={summary} title={es ? 'Revisa el formulario' : 'Check the form'} errors={form.errors.email ? [{ id: controlId, message: form.errors.email }] : []} />
+    <Sillar.FormItem controlId={controlId} invalid={Boolean(form.errors.email)} required>
+      <Sillar.FormLabel>{es ? 'Correo electrónico' : 'Email'}</Sillar.FormLabel>
+      <Sillar.FormControl><Sillar.Input type="email" placeholder="you@example.com" {...form.field('email')} /></Sillar.FormControl>
+      <Sillar.FormDescription>{es ? 'Demostración local; el correo no se envía ni se guarda.' : 'Local demo; the email is not sent or saved.'}</Sillar.FormDescription>
+      <Sillar.FormMessage>{form.errors.email}</Sillar.FormMessage>
+    </Sillar.FormItem>
+    <Sillar.Button type="submit" loading={form.submitting}>{form.submitting ? es ? 'Validando…' : 'Validating…' : es ? 'Validar' : 'Validate'}</Sillar.Button>
+    {saved && <p role="status">{es ? 'Formulario válido. Demostración completada.' : 'Valid form. Demo complete.'}</p>}
+    <a href={`${import.meta.env.BASE_URL}${es ? 'formularios.md' : 'forms.md'}`}>{es ? 'Ver el ejemplo completo' : 'Read the full example'}</a>
+  </Sillar.Form>;
 }
 
 function App() {
@@ -121,15 +191,15 @@ function App() {
   };
   React.useEffect(() => { document.documentElement.lang = language; document.documentElement.classList.toggle('dark', dark); document.documentElement.dataset.theme = dark ? 'dark' : 'light'; }, [dark, language]);
   return <Sillar.ToastProvider><div className="docs-shell">
-    <header className="docs-header"><a className="brand" href="#overview"><img src={`${import.meta.env.BASE_URL}sillar-mark.svg`} alt="" /><span>Sillar UI</span><small><a href="https://github.com/uppy19d0/sillar-ui/blob/main/CHANGELOG.md">v1.1</a></small></a><nav aria-label="Documentation">{t.nav.map((item, index) => <a key={item} href={`#${['overview','tutorial','reference','playground','accessibility','migration'][index]}`}>{item}</a>)}</nav><div className="header-actions"><button onClick={() => setLanguage(language === 'en' ? 'es' : 'en')} aria-label="Change language">{language.toUpperCase()}</button><button onClick={() => setDark(!dark)} aria-label="Toggle color theme">{dark ? '☀' : '☾'}</button><a href="https://github.com/uppy19d0/sillar-ui">GitHub ↗</a></div></header>
+    <header className="docs-header"><a className="brand" href="#overview"><img src={`${import.meta.env.BASE_URL}sillar-mark.svg`} alt="" /><span>Sillar UI</span><small>v1.3.1</small></a><nav aria-label="Documentation">{t.nav.map((item, index) => <a key={item} href={`#${['overview','tutorial','reference','playground','accessibility','migration'][index]}`}>{item}</a>)}</nav><div className="header-actions"><button onClick={() => setLanguage(language === 'en' ? 'es' : 'en')} aria-label="Change language">{language.toUpperCase()}</button><button onClick={() => setDark(!dark)} aria-label="Toggle color theme">{dark ? '☀' : '☾'}</button><a href="https://github.com/uppy19d0/sillar-ui">GitHub ↗</a></div></header>
     <main>
       <section id="overview" className="hero"><div className="hero-copy"><span className="eyebrow">{t.eyebrow}</span><h1>{t.title}</h1><p>{t.lead}</p><div className="hero-actions"><code>{t.install}</code><a className="primary-action" href="#components">{t.explore}</a><a href="https://github.com/uppy19d0/sillar-ui">{t.github}</a></div></div><div className="hero-panel"><span>DESIGN SYSTEM / 01</span><div className="hero-card"><Sillar.Badge variant="success">Accessible by default</Sillar.Badge><h2>Craft product interfaces with confidence.</h2><p>Typed APIs, resilient interaction behavior, and a visual language that works in light and dark.</p><div className="demo-row"><Sillar.Button>Build now</Sillar.Button><Sillar.Button variant="outline">Read docs</Sillar.Button></div></div><footer>Made with love in the Dominican Republic by <a href="https://github.com/uppy19d0">@uppy19d0</a>.</footer></div></section>
       <section className="principles">{t.principles.map((item, index) => <article key={item}><span>0{index + 1}</span><strong>{item}</strong></article>)}</section>
       <section id="tutorial" className="section tutorial-section"><header className="section-heading"><span>GETTING STARTED</span><h2>{t.tutorial}</h2><p>{t.tutorialLead}</p></header><div className="tutorial-layout"><ol className="tutorial-steps">{t.tutorialSteps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{step}</h3><p>{t.tutorialNotes[index]}</p><pre><code>{tutorialCommands[index]}</code></pre></div></li>)}</ol><aside className="tutorial-result"><span>{t.tutorialResult}</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Active</Sillar.Badge><Sillar.CardTitle>Caribbean account</Sillar.CardTitle><Sillar.CardDescription>{t.tutorialResultText}</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><div className="tutorial-balance"><small>Available balance</small><strong>RD$ 84,250.00</strong></div><Sillar.Button>View activity</Sillar.Button></Sillar.CardContent></Sillar.Card><a href={`${import.meta.env.BASE_URL}${language === 'es' ? 'tutorial-es.md' : 'tutorial.md'}`}>Markdown tutorial ↗</a></aside></div></section>
-      <section id="components" className="section"><header className="section-heading"><span>COMPONENTS</span><h2>{t.catalog}</h2><p>{t.catalogLead}</p></header><div className="component-grid">{examples.map((example) => <article key={example.name} className="component-card"><header><strong>{example.name}</strong><code>import from 'sillar-ui'</code></header><div className="component-preview">{example.node}</div></article>)}</div></section>
+      <section id="components" className="section"><header className="section-heading"><span>COMPONENTS</span><h2>{t.catalog}</h2><p>{t.catalogLead}</p></header><div className="component-grid">{examples.map((example) => <article key={example.name} className="component-card"><header><strong>{example.name}</strong><code>import from 'sillar-ui'</code></header><div className="component-preview">{example.name === 'Form + validation' ? <FormDemo language={language} /> : example.node}</div></article>)}</div></section>
       <ComponentCatalog language={language} />
       <section id="playground" className="section playground-section"><header className="section-heading"><span>PLAYGROUND</span><h2>{t.playground}</h2><p>{t.playgroundLead}</p></header><LiveProvider code={playgroundCode} scope={Sillar}><div className="playground"><div><div className="panel-label">CODE / TSX</div><LiveEditor className="live-editor" /></div><div><div className="panel-label">PREVIEW</div><LivePreview className="live-preview" /><LiveError className="live-error" /></div></div></LiveProvider></section>
-      <section className="section"><header className="section-heading"><span>THEMES</span><h2>{localized.themes}</h2><p>{localized.themesLead}</p></header><div className="theme-comparison"><div className="theme-frame theme-light"><span>LIGHT</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Ready</Sillar.Badge><Sillar.CardTitle>Semantic by design</Sillar.CardTitle><Sillar.CardDescription>One component contract, adapted to its environment.</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><Sillar.Button>Continue</Sillar.Button></Sillar.CardContent></Sillar.Card></div><div className="theme-frame theme-dark" data-theme="dark"><span>DARK</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Ready</Sillar.Badge><Sillar.CardTitle>Semantic by design</Sillar.CardTitle><Sillar.CardDescription>One component contract, adapted to its environment.</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><Sillar.Button>Continue</Sillar.Button></Sillar.CardContent></Sillar.Card></div></div></section>
+      <section className="section"><header className="section-heading"><span>THEMES</span><h2>{localized.themes}</h2><p>{localized.themesLead}</p></header><div className="theme-comparison"><div className="theme-frame theme-light" data-theme="light"><span>LIGHT</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Ready</Sillar.Badge><Sillar.CardTitle>Semantic by design</Sillar.CardTitle><Sillar.CardDescription>One component contract, adapted to its environment.</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><Sillar.Button>Continue</Sillar.Button></Sillar.CardContent></Sillar.Card></div><div className="theme-frame theme-dark" data-theme="dark"><span>DARK</span><Sillar.Card variant="elevated"><Sillar.CardHeader><Sillar.Badge variant="success">Ready</Sillar.Badge><Sillar.CardTitle>Semantic by design</Sillar.CardTitle><Sillar.CardDescription>One component contract, adapted to its environment.</Sillar.CardDescription></Sillar.CardHeader><Sillar.CardContent><Sillar.Button>Continue</Sillar.Button></Sillar.CardContent></Sillar.Card></div></div></section>
       <section className="section"><header className="section-heading"><span>API REFERENCE</span><h2>{localized.api}</h2><p>{localized.apiLead}</p></header><div className="table-wrap"><table><thead><tr><th>{localized.component}</th><th>{localized.props}</th><th>{localized.states}</th><th>{localized.entry}</th></tr></thead><tbody>{apiRows.map((row) => <tr key={row[0]}><td><strong>{row[0]}</strong></td><td><code>{row[1]}</code></td><td>{row[2]}</td><td><code>sillar-ui/{row[3]}</code></td></tr>)}</tbody></table></div></section>
       <section id="accessibility" className="section split-section"><div><header className="section-heading"><span>ACCESSIBILITY</span><h2>{t.accessibility}</h2></header><p>{localized.accessibilityLead}</p></div><div className="table-wrap"><table><thead><tr><th>{localized.component}</th><th>{localized.keys}</th><th>{localized.behavior}</th></tr></thead><tbody>{keyboardRows.map((row) => <tr key={row[0]}>{row.map((cell) => <td key={cell}>{cell}</td>)}</tr>)}</tbody></table></div></section>
       <section className="section split-section"><div><header className="section-heading"><span>THEMING</span><h2>{t.tokens}</h2></header><p>{localized.tokensLead}</p></div><div className="table-wrap"><table><thead><tr><th>Token</th><th>{localized.role}</th></tr></thead><tbody>{tokenRows.map((row) => <tr key={row[0]}><td><code>{row[0]}</code></td><td>{row[1]}</td></tr>)}</tbody></table></div></section>

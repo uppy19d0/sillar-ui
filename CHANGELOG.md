@@ -1,13 +1,23 @@
 # Changelog
 
+## 1.4.0 — 2026-10-18
+
+- Add `Table`, `Pagination`, `Breadcrumb` and `Drawer` with focused `sillar-ui/table`, `sillar-ui/pagination`, `sillar-ui/breadcrumb` and `sillar-ui/drawer` entry points, `sillar-cli add` support and reference documentation.
+- Add `getPaginationRange` for headless pagination with a constant item count; `Table` names its scroll region only when a label is provided.
+- Keep keyboard focus inside Dialog (and Drawer) when the browser skips buttons while tabbing, as Safari does with default settings; focus that escapes is returned to the first or last control.
+- Add live Table, Pagination, Breadcrumb and Drawer demos to the documentation site and cross-browser Playwright coverage (Chromium, Firefox, WebKit, mobile).
+- Raise the aggregate size budgets (JavaScript 120→128 kB raw / 45→48.5 kB gzip, CSS 48→55.5 kB raw / 8→9.1 kB gzip, about 1–2% above the measured size) to cover the four new components; per-module and consumer-bundle budgets are unchanged.
+- Prevent disabled/loading `Button asChild` controls from executing child activation handlers; preserve enabled composition and support React 18/19 ref lifecycles.
+- Add `FormErrorSummary` with field links, localization and caller-controlled focus, plus stable form control/description/error associations.
+- Prevent duplicate asynchronous form submissions and keep same-tick edits/reset values current.
+- Batch overlay scroll/resize/observer updates into one animation frame and cancel pending work on cleanup.
+- Add real consumer-bundle budgets including runtime class utilities and bilingual form workflow examples.
+
 ## 1.3.1
 
 - Document package runtime permissions, supply-chain verification and scanner limitations.
 - Gate CI/publication on reviewed artifact contents and add regression checks for packaging risks.
 - Keep reviewed dependency update automation and preserve existing runtime APIs.
-
-
-## Unreleased
 
 ## 1.3.0
 

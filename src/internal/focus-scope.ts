@@ -41,6 +41,15 @@ export function activateFocusScope(container: HTMLElement, options: FocusScopeOp
     } else if (!event.shiftKey && document.activeElement === last) {
       event.preventDefault();
       first.focus();
+    } else {
+      // Some engines skip controls when tabbing (Safari with default settings skips buttons), so the
+      // wrap-around above may never run. After the browser moves focus, pull it back if it escaped.
+      const reverse = event.shiftKey;
+      window.setTimeout(() => {
+        if (!isTopLayer(container) || container.contains(document.activeElement)) return;
+        const current = getFocusableElements(container);
+        (reverse ? current[current.length - 1] : current[0] ?? container)?.focus({ preventScroll: true });
+      }, 0);
     }
   };
 

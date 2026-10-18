@@ -4,6 +4,16 @@ export { LoadingIndicator, type LoadingIndicatorProps } from './loading-indicato
 export { SkipLink, VisuallyHidden, type VisuallyHiddenProps } from './a11y';
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, type AccordionItemProps, type AccordionProps } from './accordion';
 export { Badge, badgeVariants, type BadgeProps } from './badge';
+export {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  type BreadcrumbLinkProps,
+  type BreadcrumbProps,
+} from './breadcrumb';
 export { Button, buttonVariants, type ButtonProps } from './button';
 export { CalculatorPanel, CalculatorShell, type CalculatorPanelProps, type CalculatorShellProps } from './calculator-shell';
 export {
@@ -46,6 +56,19 @@ export {
   type DialogProps,
 } from './dialog';
 export {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+  type DrawerContentProps,
+  type DrawerProps,
+  type DrawerSide,
+} from './drawer';
+export {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -70,12 +93,21 @@ export {
   type FieldProps,
 } from './field';
 export { Form, FormControl, FormDescription, FormItem, FormLabel, FormMessage, useForm, type FormControlProps, type FormErrors, type FormItemProps, type UseFormOptions } from './form';
+export { FormErrorSummary, type FormErrorSummaryProps, type FormErrorSummaryEntry } from './form-error-summary';
 export { FieldGroup, FormGrid, type FieldGroupProps, type FormGridProps } from './form-grid';
 export { IconButton, type IconButtonProps } from './icon-button';
 export { Input } from './input';
 export { Label } from './label';
 export { MoneyInput, PercentageInput, parseNumericInput, type MoneyInputProps, type PercentageInputProps } from './money-input';
 export { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, type NavigationMenuContentProps, type NavigationMenuProps, type NavigationMenuTriggerProps } from './navigation-menu';
+export {
+  Pagination,
+  getPaginationRange,
+  type PaginationItemKind,
+  type PaginationLabels,
+  type PaginationProps,
+  type PaginationRangeOptions,
+} from './pagination';
 export { Popover, PopoverClose, PopoverContent, PopoverTrigger, type PopoverContentProps, type PopoverProps, type PopoverTriggerProps } from './popover';
 export { Progress, Skeleton, type ProgressProps } from './progress';
 export { BreakdownList, ResultSummary, type BreakdownListProps, type ResultSummaryItem, type ResultSummaryProps, type ResultSummaryTone } from './result-summary';
@@ -101,6 +133,22 @@ export {
   type TabsProps,
   type TabsTriggerProps,
 } from './tabs';
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+  type TableCellProps,
+  type TableDensity,
+  type TableHeadProps,
+  type TableProps,
+  type TableRowProps,
+  type TableSortDirection,
+} from './table';
 export { TextField, type TextFieldProps, type TextFieldSize, type TextFieldTone, type TextFieldVariant } from './text-field';
 export { Textarea } from './textarea';
 export { ToastProvider, ToastViewport, useToast, type ToastInput, type ToastProviderProps, type ToastVariant, type ToastViewportProps } from './toast';
