@@ -9,6 +9,9 @@ import {
   AccordionItem,
   AccordionTrigger,
   Badge,
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbPage,
   BreakdownList,
   Button,
   Callout,
@@ -21,6 +24,8 @@ import {
   Dialog,
   DialogTrigger,
   DatePicker,
+  Drawer,
+  DrawerContent,
   DropdownMenu,
   DropdownMenuTrigger,
   EmptyState,
@@ -28,6 +33,7 @@ import {
   FieldLabel,
   FormControl,
   FormGrid,
+  getPaginationRange,
   FormItem,
   FormLabel,
   FormMessage,
@@ -350,6 +356,7 @@ test('published package and bundle have no Radix runtime dependency', async () =
 test('focused component entry points resolve through package exports', async () => {
   const entries = [
     'accordion',
+    'breadcrumb',
     'button',
     'calculator-shell',
     'choice',
@@ -357,15 +364,18 @@ test('focused component entry points resolve through package exports', async () 
     'confirm-dialog',
     'date-picker',
     'dialog',
+    'drawer',
     'empty-state',
     'export-actions',
     'form',
     'form-grid',
     'money-input',
     'navigation-menu',
+    'pagination',
     'popover',
     'result-summary',
     'select-root',
+    'table',
     'text-field',
     'toast',
     'tooltip',
@@ -393,4 +403,46 @@ test('theme stylesheet exposes layered light and dark semantic tokens', async ()
   assert.match(stylesheet, /color-scheme:light/);
   assert.match(stylesheet, /color-scheme:dark/);
   assert.match(stylesheet, /:is\(\.dark,\[data-theme=dark\]\)/);
+});
+
+test('getPaginationRange keeps a stable length and never repeats or skips a single page', () => {
+  const ellipsis = (item) => typeof item !== 'number';
+  assert.deepEqual(getPaginationRange({ page: 1, pageCount: 0 }), []);
+  assert.deepEqual(getPaginationRange({ page: 1, pageCount: 1 }), [1]);
+  assert.deepEqual(getPaginationRange({ page: 3, pageCount: 7 }), [1, 2, 3, 4, 5, 6, 7]);
+  assert.deepEqual(getPaginationRange({ page: 1, pageCount: 10 }), [1, 2, 3, 4, 5, 'ellipsis-end', 10]);
+  assert.deepEqual(getPaginationRange({ page: 5, pageCount: 10 }), [1, 'ellipsis-start', 4, 5, 6, 'ellipsis-end', 10]);
+  assert.deepEqual(getPaginationRange({ page: 10, pageCount: 10 }), [1, 'ellipsis-start', 6, 7, 8, 9, 10]);
+  assert.deepEqual(getPaginationRange({ page: 10, pageCount: 20, siblingCount: 2, boundaryCount: 2 }), [1, 2, 'ellipsis-start', 8, 9, 10, 11, 12, 'ellipsis-end', 19, 20]);
+  for (const pageCount of [8, 9, 12, 25, 100]) {
+    const lengths = new Set();
+    for (let page = 1; page <= pageCount; page++) {
+      const items = getPaginationRange({ page, pageCount });
+      const pages = items.filter((item) => !ellipsis(item));
+      lengths.add(items.length);
+      assert.equal(pages[0], 1);
+      assert.equal(pages.at(-1), pageCount);
+      assert.ok(pages.includes(page), `page ${page} of ${pageCount} is visible`);
+      assert.deepEqual(pages, [...new Set(pages)].sort((a, b) => a - b), 'pages are unique and ascending');
+      items.forEach((item, index) => {
+        if (!ellipsis(item)) return;
+        const before = items[index - 1], after = items[index + 1];
+        assert.ok(typeof before === 'number' && typeof after === 'number' && after - before > 2, 'an ellipsis hides at least two pages');
+      });
+    }
+    assert.equal(lengths.size, 1, `length stays constant for ${pageCount} pages`);
+  }
+  assert.deepEqual(getPaginationRange({ page: 99, pageCount: 10 }), getPaginationRange({ page: 10, pageCount: 10 }), 'out-of-range pages are clamped');
+  assert.deepEqual(getPaginationRange({ page: Number.NaN, pageCount: 10 }), getPaginationRange({ page: 1, pageCount: 10 }));
+});
+
+test('Breadcrumb renders an ordered list and a closed Drawer renders no panel on the server', () => {
+  const crumbs = renderToStaticMarkup(React.createElement(Breadcrumb, null,
+    React.createElement(BreadcrumbList, null, React.createElement('li', null, React.createElement(BreadcrumbPage, null, 'Now')))));
+  assert.match(crumbs, /<nav[^>]*aria-label="Breadcrumb"/);
+  assert.match(crumbs, /<ol[^>]*class="slr-breadcrumb__list"/);
+  assert.match(crumbs, /<span[^>]*aria-current="page"/);
+
+  const drawer = renderToStaticMarkup(React.createElement(Drawer, null, React.createElement(DrawerContent, { 'aria-label': 'Menu' }, 'Hidden')));
+  assert.equal(drawer, '');
 });

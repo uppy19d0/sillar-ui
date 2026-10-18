@@ -69,6 +69,9 @@ export function Example() {
 - Card primitives with default, elevated, subtle, and outline surfaces
 - Input, Textarea, TextField, and Field composition with premium states, help text, counters, adornments, and errors
 - Accessible Dialog primitives with focus trapping, Escape handling, and scroll locking
+- Drawer panels from any viewport edge, built on the Dialog focus and scroll contract
+- Table primitives with semantic headers, announced sort state, density and a named scroll region
+- Pagination with a stable-width range, localized labels and optional real links, plus Breadcrumb navigation
 - DropdownMenu with collision-aware positioning, typeahead, outside-click dismissal, and full keyboard navigation
 - Tabs with automatic or manual activation and horizontal or vertical keyboard navigation
 - Native Select, Label, and accessible controlled or uncontrolled Switch
@@ -242,3 +245,7 @@ npm audit signatures
 When the installed graph has no registry dependencies, npm may report that there are no dependency signatures to verify.
 
 Inspect the exact-version [Socket report](https://socket.dev/npm/package/sillar-ui/overview/1.3.1) and the npm provenance link. A successful CI check is not the same as a package score of 100. Socket also weighs dependency counts and real adoption; no score, download history or security guarantee is fabricated. Report suspected issues through SECURITY.md.
+
+## Visual foundations
+
+See [product design foundations](docs/decisions/0003-product-design-foundations.md) for spacing, typography, themes and component states. The complete stylesheet includes the tokens; `sillar-ui/tokens.css` is also exported for custom interfaces that only need the foundations.

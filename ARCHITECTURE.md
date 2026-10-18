@@ -56,3 +56,9 @@ Every public component has a focused package entry. Applications may import from
 Public APIs follow semantic versioning. In the 1.x line, removals require a deprecation cycle. Design tokens are public API and follow the same policy.
 
 Architecture decisions with lasting tradeoffs belong in `docs/decisions/`. Each decision records its context, chosen approach, consequences, and status so contributors can understand why the system works as it does.
+
+## Source language boundaries
+
+The React library uses TypeScript in `src/`; React views use `.tsx`, and contracts and behavior use `.ts`. JavaScript and declaration files in `dist/` are build outputs. Do not edit them as source or maintain a second JavaScript implementation alongside TypeScript.
+
+Node build/release scripts and tests use `.mjs`. The CLI in `packages/cli` is an independent JavaScript package with its own Node runtime and release contract; it does not share source directories with the TypeScript React library. The source-boundary test prevents JavaScript implementations from entering `src/`.

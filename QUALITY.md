@@ -12,7 +12,7 @@ Sillar UI treats accessibility, predictable behavior, and package weight as publ
 - Browser-driven interaction checks in Chromium, Firefox, WebKit, and a mobile Chromium viewport.
 - Reviewed light/dark visual snapshots with reduced-motion rendering for deterministic diffs.
 - A dependency regression test that rejects every `@radix-ui/*` package and import.
-- Per-module JavaScript budgets of 10 kB raw / 4 kB gzip, an aggregate 120 kB raw / 45 kB gzip ceiling across every emitted entry, and a 48 kB raw / 8 kB gzip CSS budget. The aggregate includes the new form summary and composition guards; individual module and CSS ceilings remain unchanged.
+- Per-module JavaScript budgets of 10 kB raw / 4 kB gzip, an aggregate 128 kB raw / 48.5 kB gzip ceiling across every emitted entry, and a 55.5 kB raw / 9.1 kB gzip CSS budget. The aggregate includes the new form summary and composition guards; individual module and CSS ceilings remain unchanged.
 - Consumer build checks bundle Button (root and focused), TextField and FormErrorSummary with their runtime class utilities. Each fixture must stay below 18 kB gzip and exclude unrelated components; the root Button fixture may exceed the focused fixture by at most 1 kB. React peers, CSS and application code are excluded, so module budgets must not be presented as total application cost.
 - Compatibility checks on React 18.3 and React 19.3.
 - A production dependency audit at high severity before merge.

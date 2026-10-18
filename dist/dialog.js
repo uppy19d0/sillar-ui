@@ -1,128 +1,140 @@
 import { jsx as g, jsxs as V } from "react/jsx-runtime";
 import * as i from "react";
-import { g as S, a as k, u as Y } from "./internal-D9EwPR7x.js";
+import { g as T, a as k, u as Y } from "./internal-D9EwPR7x.js";
 import { P as $ } from "./portal-DEB9SKy7.js";
 import { Slot as P, composeRefs as A } from "./slot.js";
-import { cn as D } from "./utils.js";
-const E = /* @__PURE__ */ new Map(), w = [];
-let h = 0, _ = "";
-function z(t) {
-  return w.push(t), () => {
-    const e = w.lastIndexOf(t);
-    e >= 0 && w.splice(e, 1);
+import { cn as b } from "./utils.js";
+const w = /* @__PURE__ */ new Map(), E = [];
+let R = 0, L = "";
+function z(e) {
+  return E.push(e), () => {
+    const t = E.lastIndexOf(e);
+    t >= 0 && E.splice(t, 1);
   };
 }
-function L(t) {
-  return w.at(-1) === t;
+function C(e) {
+  return E.at(-1) === e;
 }
 function G() {
-  return h === 0 && (_ = document.body.style.overflow, document.body.style.overflow = "hidden"), h += 1, () => {
-    h = Math.max(0, h - 1), h === 0 && (document.body.style.overflow = _);
+  return R === 0 && (L = document.body.style.overflow, document.body.style.overflow = "hidden"), R += 1, () => {
+    R = Math.max(0, R - 1), R === 0 && (document.body.style.overflow = L);
   };
 }
-function J(t) {
-  const e = /* @__PURE__ */ new Set();
-  let s = t, n = s.parentElement;
-  for (; n; ) {
-    for (const o of n.children)
-      o instanceof HTMLElement && o !== s && !["SCRIPT", "STYLE", "LINK"].includes(o.tagName) && e.add(o);
-    if (n === document.body) break;
-    s = n, n = s.parentElement;
+function J(e) {
+  const t = /* @__PURE__ */ new Set();
+  let s = e, a = s.parentElement;
+  for (; a; ) {
+    for (const o of a.children)
+      o instanceof HTMLElement && o !== s && !["SCRIPT", "STYLE", "LINK"].includes(o.tagName) && t.add(o);
+    if (a === document.body) break;
+    s = a, a = s.parentElement;
   }
-  const r = [...e];
+  const r = [...t];
   return r.forEach((o) => {
-    const l = E.get(o);
+    const l = w.get(o);
     if (l) {
       l.count += 1;
       return;
     }
-    E.set(o, {
+    w.set(o, {
       count: 1,
       inert: o.inert === !0,
       ariaHidden: o.getAttribute("aria-hidden")
     }), o.inert = !0, o.setAttribute("aria-hidden", "true");
   }), () => {
     r.forEach((o) => {
-      const l = E.get(o);
-      l && (l.count -= 1, !(l.count > 0) && (o.inert = l.inert, l.ariaHidden === null ? o.removeAttribute("aria-hidden") : o.setAttribute("aria-hidden", l.ariaHidden), E.delete(o)));
+      const l = w.get(o);
+      l && (l.count -= 1, !(l.count > 0) && (o.inert = l.inert, l.ariaHidden === null ? o.removeAttribute("aria-hidden") : o.setAttribute("aria-hidden", l.ariaHidden), w.delete(o)));
     });
   };
 }
-function Q(t, e) {
-  const s = document.activeElement, n = z(t), r = () => {
-    t.contains(document.activeElement) || (e.initialFocus ?? S(t)[0] ?? t).focus({ preventScroll: !0 });
-  }, o = window.requestAnimationFrame(r), l = (a) => {
-    var y, c;
-    if (!L(t)) return;
-    if (a.key === "Escape") {
-      (y = e.onEscapeKeyDown) == null || y.call(e, a), a.defaultPrevented || (c = e.onDismiss) == null || c.call(e);
+function Q(e, t) {
+  const s = document.activeElement, a = z(e), r = () => {
+    e.contains(document.activeElement) || (t.initialFocus ?? T(e)[0] ?? e).focus({ preventScroll: !0 });
+  }, o = window.requestAnimationFrame(r), l = (n) => {
+    var D, c;
+    if (!C(e)) return;
+    if (n.key === "Escape") {
+      (D = t.onEscapeKeyDown) == null || D.call(t, n), n.defaultPrevented || (c = t.onDismiss) == null || c.call(t);
       return;
     }
-    if (a.key !== "Tab") return;
-    const d = S(t);
-    if (d.length === 0) {
-      a.preventDefault(), t.focus();
+    if (n.key !== "Tab") return;
+    const f = T(e);
+    if (f.length === 0) {
+      n.preventDefault(), e.focus();
       return;
     }
-    const p = d[0], m = d[d.length - 1];
-    a.shiftKey && (document.activeElement === p || !t.contains(document.activeElement)) ? (a.preventDefault(), m.focus()) : !a.shiftKey && document.activeElement === m && (a.preventDefault(), p.focus());
-  }, u = (a) => {
-    !L(t) || t.contains(a.target) || r();
+    const p = f[0], y = f[f.length - 1];
+    if (n.shiftKey && (document.activeElement === p || !e.contains(document.activeElement)))
+      n.preventDefault(), y.focus();
+    else if (!n.shiftKey && document.activeElement === y)
+      n.preventDefault(), p.focus();
+    else {
+      const v = n.shiftKey;
+      window.setTimeout(() => {
+        var u;
+        if (!C(e) || e.contains(document.activeElement)) return;
+        const m = T(e);
+        (u = v ? m[m.length - 1] : m[0] ?? e) == null || u.focus({ preventScroll: !0 });
+      }, 0);
+    }
+  }, d = (n) => {
+    !C(e) || e.contains(n.target) || r();
   };
-  return document.addEventListener("keydown", l), document.addEventListener("focusin", u), () => {
-    var d;
-    window.cancelAnimationFrame(o), document.removeEventListener("keydown", l), document.removeEventListener("focusin", u), n();
-    const a = e.finalFocus ?? e.fallbackFocus ?? s;
-    (d = a == null ? void 0 : a.focus) == null || d.call(a, { preventScroll: !0 });
+  return document.addEventListener("keydown", l), document.addEventListener("focusin", d), () => {
+    var f;
+    window.cancelAnimationFrame(o), document.removeEventListener("keydown", l), document.removeEventListener("focusin", d), a();
+    const n = t.finalFocus ?? t.fallbackFocus ?? s;
+    (f = n == null ? void 0 : n.focus) == null || f.call(n, { preventScroll: !0 });
   };
 }
 const M = i.createContext(null);
-function b(t) {
-  const e = i.useContext(M);
-  if (!e) throw new Error(`${t} must be rendered inside Dialog.`);
-  return e;
+function h(e) {
+  const t = i.useContext(M);
+  if (!t) throw new Error(`${e} must be rendered inside Dialog.`);
+  return t;
 }
-function ie({ open: t, defaultOpen: e = !1, onOpenChange: s, children: n }) {
+function ie({ open: e, defaultOpen: t = !1, onOpenChange: s, children: a }) {
   const [r, o] = Y({
-    value: t,
-    defaultValue: e,
+    value: e,
+    defaultValue: t,
     onChange: s
-  }), l = i.useRef(null), u = i.useId(), a = i.useId(), [d, p] = i.useState(0), [m, y] = i.useState(0), c = i.useCallback(() => (p((f) => f + 1), () => p((f) => Math.max(0, f - 1))), []), v = i.useCallback(() => (y((f) => f + 1), () => y((f) => Math.max(0, f - 1))), []), R = i.useMemo(() => ({
+  }), l = i.useRef(null), d = i.useId(), n = i.useId(), [f, p] = i.useState(0), [y, D] = i.useState(0), c = i.useCallback(() => (p((u) => u + 1), () => p((u) => Math.max(0, u - 1))), []), v = i.useCallback(() => (D((u) => u + 1), () => D((u) => Math.max(0, u - 1))), []), m = i.useMemo(() => ({
     open: r,
     setOpen: o,
     triggerRef: l,
-    titleId: u,
-    descriptionId: a,
-    hasTitle: d > 0,
-    hasDescription: m > 0,
+    titleId: d,
+    descriptionId: n,
+    hasTitle: f > 0,
+    hasDescription: y > 0,
     registerTitle: c,
     registerDescription: v
   }), [
-    m,
-    a,
+    y,
+    n,
     v,
     c,
     r,
     o,
-    d,
-    u
+    f,
+    d
   ]);
-  return /* @__PURE__ */ g(M.Provider, { value: R, children: n });
+  return /* @__PURE__ */ g(M.Provider, { value: m, children: a });
 }
 const U = i.forwardRef(
-  ({ asChild: t = !1, onClick: e, type: s, ...n }, r) => {
-    const o = b("DialogTrigger");
+  ({ asChild: e = !1, onClick: t, type: s, ...a }, r) => {
+    const o = h("DialogTrigger");
     return /* @__PURE__ */ g(
-      t ? P : "button",
+      e ? P : "button",
       {
-        ...n,
+        ...a,
         ref: A(r, o.triggerRef),
-        type: t ? void 0 : s ?? "button",
+        type: e ? void 0 : s ?? "button",
         "aria-haspopup": "dialog",
         "aria-expanded": o.open,
         "data-state": o.open ? "open" : "closed",
-        onClick: (u) => {
-          e == null || e(u), u.defaultPrevented || o.setOpen(!0);
+        onClick: (d) => {
+          t == null || t(d), d.defaultPrevented || o.setOpen(!0);
         }
       }
     );
@@ -130,39 +142,39 @@ const U = i.forwardRef(
 );
 U.displayName = "DialogTrigger";
 const W = i.forwardRef(
-  ({ asChild: t = !1, onClick: e, type: s, ...n }, r) => {
-    const o = b("DialogClose");
+  ({ asChild: e = !1, onClick: t, type: s, ...a }, r) => {
+    const o = h("DialogClose");
     return /* @__PURE__ */ g(
-      t ? P : "button",
+      e ? P : "button",
       {
-        ...n,
+        ...a,
         ref: r,
-        type: t ? void 0 : s ?? "button",
-        onClick: (u) => {
-          e == null || e(u), u.defaultPrevented || o.setOpen(!1);
+        type: e ? void 0 : s ?? "button",
+        onClick: (d) => {
+          t == null || t(d), d.defaultPrevented || o.setOpen(!1);
         }
       }
     );
   }
 );
 W.displayName = "DialogClose";
-function X({ children: t, container: e, className: s, ...n }) {
-  const { open: r } = b("DialogPortal");
-  return !r || typeof document > "u" ? null : /* @__PURE__ */ g($, { container: e, children: /* @__PURE__ */ g("div", { ...n, "data-slot": "dialog-portal", className: D("slr-dialog__portal", s), children: t }) });
+function X({ children: e, container: t, className: s, ...a }) {
+  const { open: r } = h("DialogPortal");
+  return !r || typeof document > "u" ? null : /* @__PURE__ */ g($, { container: t, children: /* @__PURE__ */ g("div", { ...a, "data-slot": "dialog-portal", className: b("slr-dialog__portal", s), children: e }) });
 }
 const H = i.forwardRef(
-  ({ className: t, onPointerDown: e, ...s }, n) => {
-    const r = b("DialogOverlay");
+  ({ className: e, onPointerDown: t, ...s }, a) => {
+    const r = h("DialogOverlay");
     return /* @__PURE__ */ g(
       "div",
       {
         ...s,
-        ref: n,
+        ref: a,
         "data-slot": "dialog-overlay",
         "data-state": r.open ? "open" : "closed",
-        className: D("slr-dialog__overlay", t),
+        className: b("slr-dialog__overlay", e),
         onPointerDown: (o) => {
-          e == null || e(o), !o.defaultPrevented && o.target === o.currentTarget && r.setOpen(!1);
+          t == null || t(o), !o.defaultPrevented && o.target === o.currentTarget && r.setOpen(!1);
         }
       }
     );
@@ -171,55 +183,55 @@ const H = i.forwardRef(
 H.displayName = "DialogOverlay";
 const Z = i.forwardRef(
   ({
-    className: t,
-    overlayClassName: e,
+    className: e,
+    overlayClassName: t,
     children: s,
-    portalContainer: n,
+    portalContainer: a,
     initialFocusRef: r,
     finalFocusRef: o,
     onEscapeKeyDown: l,
-    role: u = "dialog",
-    "aria-label": a,
-    "aria-labelledby": d,
+    role: d = "dialog",
+    "aria-label": n,
+    "aria-labelledby": f,
     "aria-describedby": p,
-    ...m
-  }, y) => {
-    const c = b("DialogContent"), v = i.useRef(null), R = i.useRef(c.setOpen), f = i.useRef(l), T = i.useRef(r), C = i.useRef(o);
-    return R.current = c.setOpen, f.current = l, T.current = r, C.current = o, i.useEffect(() => {
-      var N, O;
+    ...y
+  }, D) => {
+    const c = h("DialogContent"), v = i.useRef(null), m = i.useRef(c.setOpen), u = i.useRef(l), I = i.useRef(r), N = i.useRef(o);
+    return m.current = c.setOpen, u.current = l, I.current = r, N.current = o, i.useEffect(() => {
+      var S, F;
       if (!c.open) return;
       const x = v.current;
       if (!x) return;
-      const I = x.closest('[data-slot="dialog-portal"]'), K = G(), j = I ? J(I) : () => {
+      const O = x.closest('[data-slot="dialog-portal"]'), K = G(), j = O ? J(O) : () => {
       }, B = Q(x, {
-        initialFocus: (N = T.current) == null ? void 0 : N.current,
-        finalFocus: (O = C.current) == null ? void 0 : O.current,
+        initialFocus: (S = I.current) == null ? void 0 : S.current,
+        finalFocus: (F = N.current) == null ? void 0 : F.current,
         fallbackFocus: c.triggerRef.current,
         onEscapeKeyDown: (q) => {
-          var F;
-          return (F = f.current) == null ? void 0 : F.call(f, q);
+          var _;
+          return (_ = u.current) == null ? void 0 : _.call(u, q);
         },
-        onDismiss: () => R.current(!1)
+        onDismiss: () => m.current(!1)
       });
       return () => {
         j(), K(), B();
       };
-    }, [c.open, c.triggerRef]), /* @__PURE__ */ V(X, { container: n, children: [
-      /* @__PURE__ */ g(H, { className: e }),
+    }, [c.open, c.triggerRef]), /* @__PURE__ */ V(X, { container: a, children: [
+      /* @__PURE__ */ g(H, { className: t }),
       /* @__PURE__ */ g(
         "div",
         {
-          ...m,
-          ref: A(v, y),
+          ...y,
+          ref: A(v, D),
           "data-slot": "dialog-content",
           "data-state": c.open ? "open" : "closed",
-          role: u,
+          role: d,
           "aria-modal": "true",
-          "aria-label": a,
-          "aria-labelledby": d ?? (!a && c.hasTitle ? c.titleId : void 0),
+          "aria-label": n,
+          "aria-labelledby": f ?? (!n && c.hasTitle ? c.titleId : void 0),
           "aria-describedby": p ?? (c.hasDescription ? c.descriptionId : void 0),
           tabIndex: -1,
-          className: D("slr-dialog__content", t),
+          className: b("slr-dialog__content", e),
           children: s
         }
       )
@@ -227,17 +239,17 @@ const Z = i.forwardRef(
   }
 );
 Z.displayName = "DialogContent";
-const le = ({ className: t, ...e }) => /* @__PURE__ */ g("div", { "data-slot": "dialog-header", className: D("slr-dialog__header", t), ...e }), ce = ({ className: t, ...e }) => /* @__PURE__ */ g("div", { "data-slot": "dialog-footer", className: D("slr-dialog__footer", t), ...e }), ee = i.forwardRef(
-  ({ className: t, ...e }, s) => {
-    const { titleId: n, registerTitle: r } = b("DialogTitle");
-    return k(() => r(), [r]), /* @__PURE__ */ g("h2", { ...e, ref: s, id: n, className: D("slr-dialog__title", t) });
+const le = ({ className: e, ...t }) => /* @__PURE__ */ g("div", { "data-slot": "dialog-header", className: b("slr-dialog__header", e), ...t }), ce = ({ className: e, ...t }) => /* @__PURE__ */ g("div", { "data-slot": "dialog-footer", className: b("slr-dialog__footer", e), ...t }), ee = i.forwardRef(
+  ({ className: e, ...t }, s) => {
+    const { titleId: a, registerTitle: r } = h("DialogTitle");
+    return k(() => r(), [r]), /* @__PURE__ */ g("h2", { ...t, ref: s, id: a, className: b("slr-dialog__title", e) });
   }
 );
 ee.displayName = "DialogTitle";
 const te = i.forwardRef(
-  ({ className: t, ...e }, s) => {
-    const { descriptionId: n, registerDescription: r } = b("DialogDescription");
-    return k(() => r(), [r]), /* @__PURE__ */ g("p", { ...e, ref: s, id: n, className: D("slr-dialog__description", t) });
+  ({ className: e, ...t }, s) => {
+    const { descriptionId: a, registerDescription: r } = h("DialogDescription");
+    return k(() => r(), [r]), /* @__PURE__ */ g("p", { ...t, ref: s, id: a, className: b("slr-dialog__description", e) });
   }
 );
 te.displayName = "DialogDescription";

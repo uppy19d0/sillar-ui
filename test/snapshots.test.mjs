@@ -5,6 +5,12 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import {
   Badge,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
   BreakdownList,
   Button,
   Callout,
@@ -25,11 +31,19 @@ import {
   FormGrid,
   Input,
   MoneyInput,
+  Pagination,
   PercentageInput,
   ResultSummary,
   Select,
   Separator,
   Switch,
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
   Tabs,
   TabsContent,
   TabsList,
@@ -148,6 +162,24 @@ function componentGallery() {
       React.createElement(TabsContent, { value: 'preview' }, 'Rendered component'),
       React.createElement(TabsContent, { value: 'code' }, 'Component source'),
     ),
+    React.createElement(
+      'section',
+      { 'aria-label': 'Navigation and data' },
+      React.createElement(Breadcrumb, null,
+        React.createElement(BreadcrumbList, null,
+          React.createElement(BreadcrumbItem, null, React.createElement(BreadcrumbLink, { href: '/' }, 'Home')),
+          React.createElement(BreadcrumbSeparator),
+          React.createElement(BreadcrumbItem, null, React.createElement(BreadcrumbPage, null, 'Reports')))),
+      React.createElement(Table, { label: 'Monthly totals', striped: true },
+        React.createElement(TableCaption, null, 'Totals by month'),
+        React.createElement(TableHeader, null, React.createElement(TableRow, null,
+          React.createElement(TableHead, { sort: 'ascending', onSort: undefined }, 'Month'),
+          React.createElement(TableHead, { align: 'end' }, 'Amount'))),
+        React.createElement(TableBody, null, React.createElement(TableRow, { selected: true },
+          React.createElement(TableCell, null, 'January'),
+          React.createElement(TableCell, { numeric: true }, '45,000')))),
+      React.createElement(Pagination, { page: 5, pageCount: 10 }),
+    ),
   );
 }
 
@@ -178,7 +210,7 @@ test('public component markup and theme tokens match the reviewed snapshot', asy
   const markup = normalizeReactIds(renderToStaticMarkup(componentGallery())).replaceAll('><', '>\n<');
   const snapshot = JSON.stringify({
     markup,
-    light: extractTokens(stylesheet, ':root'),
+    light: extractTokens(stylesheet, ':root,[data-theme=light]'),
     dark: extractTokens(stylesheet, ':is(.dark,[data-theme=dark])'),
   }, null, 2) + '\n';
 
